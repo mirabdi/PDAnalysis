@@ -1,91 +1,81 @@
 import numpy as np
-from pathlib import PosixPath
+from pathlib import Path
 from Bio.PDB import PDBParser
 
 
 class Protein:
-    def __init__(self, **kwargs):
-        self.name = kwargs.get('name', '') 
-        self.dtype = kwargs.get('name', '')
-        self.sequence = kwargs.get('sequence', '')
-        self.coord = np.array(kwargs.get('coord', []), dtype=float)
+    def __init__(self, inp_obj, **kwargs):
         self.max_bfactor = kwargs.get('max_bfactor', 0.0)
-        self.min_plddt = kwargs.get('min_plddt', 0.0)
-        self.idx = np.array(kwargs.get('idx', []), dtype=int)
-        self.plddt = np.array(kwargs.get('plddt', []), dtype=float)
-        self.bfactor = np.array(kwargs.get('bfactor', []), dtype=float)
-        self.path = PosixPath(kwargs.get('path', ''))
+        self.min_plddt = kwargs.get('min_plddt', 70.0)
+        self.neigh_cut = kwargs.get('neigh_cut', 13.0)
+        self.chain = kwargs.get('chain', '')
+
+        self.parse_input(inp_obj)
+        self.name = kwargs.get('name', '') 
+
+        self.sequence = None
+        self.plddt = None
+        self.bfactor = None
+        self.path = Path(kwargs.get('path', ''))
         self.neigh_idx = []
         self.neigh_tensor = []
-        self.neigh_cut = kwargs.get('neigh_cut', 0.0)
 
-    
+
+    def parse_input(self, inp_obj):
+        if isinstance(inp_obj, (str, Path)):
+            self.load_data_from_path(inp_obj)
+        elif isinstance(inp_obj, np.ndarray):
+            self.coord = inp_obj
+            self.idx = np.arange(len(inp_obj))
+        else:
+            raise Exception(f"Input object type {type(inp_obj)} is not supported.")
 
     def load_data_from_path(self, path):
         data = _read_alpha_carbon(path)
-        # [xyz, idx, seq, bfac]
-        self.coord = data[0]
+        # [coord, idx, seq, bfac]
+        self.coord_raw = data[0]
         self.idx = data[1]
         self.sequence = data[2]
         self.bfactor = data[3]
-        self.max_bfactor = np.max(self.bfactor)
-        self.min_plddt = np.min(self.plddt)
-    
-    
-    def load_coordinates(self, coordinates):
-        self.coord = coordinates
+        self.plddt = data[3].copy()
+
+        self.coord = self.coord_raw.copy()
+        if self.max_bfactor > 0.0:
+            self.coord[self.bfactor > self.max_bfactor] = np.nan
+        elif self.min_plddt > 0.0:
+            self.coord[self.plddt <= self.min_plddt] = np.nan
     
 
     def get_local_neighborhood(self):
-        xyz = self.coord
-        dist = cdist(xyz, xyz)
-        # I added dtype property, code is from get_local_structure in average_structure.py
-        if self.dtype in ['af', 'dmp']:            
-            plddt = self.plddt
-
-            # Get the indices of neighbours
-            # If plddt[j] (neighbour) is less than min_conf, then don't include that index
-            # If plddt[i] is less than min_conf, then don't calculate anything
-            idx_list = [np.where((d > 0) & (d <= cut) & (plddt >= min_conf) & (p >= min_conf))[0] for d, p in zip(dist, plddt)]
-        elif self.dtype == 'pdb':
-            # In the case of PDB data, disordered residues will show up as NAN,
-            # so we ignore these
-            idx_list = [np.where((d > 0) & (d <= cut) & (np.isfinite(d)))[0] for d in dist]
-
-
-        self.neigh_idx = idx_list
-        self.neigh_tensor = self._get_ldt()
+        self.dist_mat = cdist(self.coord, self.coord)
+        self.neigh_idx = [np.where((d > 0) & (d <= self.neigh_cut) & (np.isfinite(d)))[0] for d in dist]
+        self._calculate_neighbor_tensor()
 
     # From average_struct.py:
-    def _get_ldt():  
-        l, dim = self.coord.shape
-        # There is probabily a faster way of doing this!
-        dist = np.zeros((l, l, dim), float)
-        # if idx is not provided, then run through
-        # all positions -1 < i < j < l
-        if isinstance(self.neigh_idx, str):
-            for i in range(l - 1):
-                for j in range(i + 1, l):
-                    d = self.coord[i] - self.coord[j]
-                    dist[i,j] = d
-                    dist[j,i] = - d
+    def _calculate_neighbor_tensor():  
+        #### CHECK WHICH IS FASTER!
+        #### TRY SCALING UP TO N = 10000
+        if isinstance(self.neigh_idx, None):
+            x, y = np.meshgrid(self.coord, self.coord)
+            distance_tensor = np.array([x[i::3,i::3] - y[i::3,i::3] for i in range(3)]).T
+            self.neigh_tensor = [distance_tensor[idx] for idx in self.neigh_idx]
         else:
             # If the neighbourhood is provided (idx),
             # then only calculate distance vectors between
             # neighbouring alpha carbons
-            for i in range(l):
-                for j in self.neigh_idx[i]:
-                    dist[i,j] = self.coord[i] - self.coord[j]
-        return dist
+            self.neigh_tensor = []
+            for i, idx in enumerate(self.neigh_idx):
+                self.neigh_tensor.append(self.coord[j] - self.coord[[i]])
+        
     
     # From pdb_parser.py: 
-    def _read_alpha_carbon(path, chain='', model=0, all_atom=False):
+    def _read_alpha_carbon(path, model=0, all_atom=False):
         parser = PDBParser(QUIET=True)
         chains = list(parser.get_structure('', path)[model])
-        xyz, idx, seq, bfac = [], [], [], []
+        coord, idx, seq, bfac = [], [], [], []
 
         for ch in chains:
-            if ch.get_id() == chain or chain == '':
+            if (ch.get_id() == self.chain) or (self.chain == ''):
                 for residue in ch:
                     try:
                         h, i, _ = residue.get_id()
@@ -95,7 +85,7 @@ class Protein:
                         aa = residue.resname
                         if all_atom:
                             for atom in residue:
-                                xyz.append(atom.coord)
+                                coord.append(atom.coord)
                                 idx.append(i)
                                 seq.append(parse_3letter(aa))
                                 bfac.append(atom.bfactor)
@@ -103,61 +93,54 @@ class Protein:
                             if 'CA' not in residue:
                                 continue
                             ca = residue['CA'].coord
-                            xyz.append(ca)
+                            coord.append(ca)
                             idx.append(i)
                             seq.append(parse_3letter(aa))
                             bfac.append(residue['CA'].bfactor)
                     except Exception as e:
                         print(f"{path}\n{e}")
                         continue
-        return [np.array(x) for x in [xyz, idx, seq, bfac]]
+        return [np.array(x) for x in [coord, idx, seq, bfac]]
 
 
 
 class AverageProtein:
     def __init__(self, proteins, **kwargs):
-        self.proteins = proteins    
-        self.dtype = proteins[0].dtype
-        self.idx = np.array(kwargs.get('idx', []), dtype=int)
-        self.plddt = np.array(kwargs.get('plddt', []), dtype=float)
-        self.bfactor = np.array(kwargs.get('bfactor', []), dtype=float)
+        self.max_bfactor = kwargs.get('max_bfactor', 0.0)
+        self.min_plddt = kwargs.get('min_plddt', 70.0)
+        self.neigh_cut = kwargs.get('neigh_cut', 13.0)
+        self.chain = kwargs.get('chain', '')
+        self.average_plddt.get('average_plddt', False)
+        self.average_bfactor.get('average_bfactor', False)
+
+        #self.proteins = proteins    
+        #self.idx = np.array(kwargs.get('idx', []), dtype=int)
+        #self.plddt = np.array(kwargs.get('plddt', []), dtype=float)
+        #self.bfactor = np.array(kwargs.get('bfactor', []), dtype=float)
         self.name = kwargs.get('name', '')
         self.neigh_idx = []
         self.neigh_tensor = []
-        self.neigh_cut = kwargs.get('neigh_cut', 0.0)
-        self.max_bfactor = kwargs.get('max_bfactor', 0.0)
-        self.min_plddt = kwargs.get('min_plddt', 0.0)
+
+        # parse input
+        # if neigh_tensor not calculated, then calc
+        # get average
+
+
+
+    def parse_input(self, inp_obj):
+        pass
+        # Read a list or np.array of str or Path (load Protein objects for each)
+        # Read a list of Protein objects
+        # Else raise exception
+
+        # plddt is plddt of first protein, or else average over all proteins
     
     def get_average_local_neighborhood(self):
-        # adapted from average_local_structure in average_structure.py 
-        L = self.proteins[0].coord.shape[0]
-        if self.dtype in ['af', 'dmp']:
-            xyz_list = [protein.coord for protein in self.proteins]
-        elif self.dtype == 'pdb':
-            coord_list = [protein.coord for protein in self.proteins]
-
         # Get the average distance matrix
-        ca_dist = np.mean([cdist(x, x) for x in coord_list], axis=0)
-
-        if self.dtype in ['af', 'dmp']:
-            # Get the average pLDDT values
-            plddt = np.mean([protein.plddt for protein in self.proteins.coord], axis=0)
-
-            # Get the indices of neighbours
-            # If plddt[j] (neighbour) is less than min_conf, then don't include that index
-            # If plddt[i] is less than min_conf, then don't calculate anything
-            idx_list = [np.where((d > 0) & (d <= cut) & (plddt >= min_conf) & (p >= min_conf))[0] for d, p in zip(ca_dist, plddt)]
-        elif self.dtype == 'pdb':
-            # In the case of PDB data, disordered residues will show up as NAN
-            idx_list = [np.where((d > 0) & (d <= cut) & (np.isfinite(d)))[0] for d in ca_dist]
-
-        self.neigh_idx = idx_list
-        # Get the local distance tensors for each structure
-        ldt = np.array([self._get_ldt(coord) for coord in coord_list])
-
+        ca_dist = np.mean([p.dist_mat for p in self.proteins], axis=0)
         # Rotate local distance tensors,
         # and arrange by residue
-        ldt_list = _rotate_all_ldt(ldt, idx_list)
+        rotated_neighborhood_tensors = _rotate_all_ldt(ldt, idx_list)
 
         # Get the average local distance tensor
         ave_ldt = _average_all_ldt(ldt_list, idx_list)
@@ -227,13 +210,13 @@ class AverageProtein:
 
 class Deformation:
     def __init__(self, protein_1, protein_2, method, **kwargs):
-        if isinstance(protein_1, str) or isinstance(protein_1, PosixPath) or isinstance(protein_1, list):
+        if isinstance(protein_1, str) or isinstance(protein_1, Path) or isinstance(protein_1, list):
             self.prot1 = Protein()
             self.prot1.load_data_from_path(protein_1)
         else:
             self.prot1 = protein_1
         
-        if isinstance(protein_2, str) or isinstance(protein_2, PosixPath) or isinstance(protein_2, list):
+        if isinstance(protein_2, str) or isinstance(protein_2, Path) or isinstance(protein_2, list):
             self.prot2 = Protein()
             self.prot2.load_data_from_path(protein_2)
         else:
