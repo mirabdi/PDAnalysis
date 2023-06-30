@@ -22,6 +22,9 @@ class Protein:
         self.bfactor = None
         self.dist_mat = None
         self.name = kwargs.get('name', '') 
+        self.file_fmt = kwargs.get('file_fmt', '') 
+        self.delimiter = kwargs.get('delimiter', ' ')
+        self.skip_rows = kwargs.get('skip_rows', 0)
         self.neigh_idx = []
         self.neigh_tensor = []
 
@@ -31,11 +34,32 @@ class Protein:
 
     def parse_input(self, inp_obj):
         if isinstance(inp_obj, (str, Path)):
-            self.load_data_from_path(inp_obj)
+            ext = Path(inp_obj).suffix
+            ### Read PDB file
+            if (ext == '.pdb') or (self.file_fmt == 'pdb'):
+                self.load_data_from_path(inp_obj)
+
+            ### Read mmCIF file
+            elif (ext == '.cif') or (self.filt_fmt in ['mmcif', 'cif']):
+                pass ### Add mmCIF parser
+
+            ### Read text coordinate file
+            elif (ext in ['.txt', '.dat']):
+                try:
+                    print(f"WARNING! Ambiguity in file format {ext}. Attempting to read coordinates.")
+                    self.coord = np.loadtxt(inp_obd, delimiter=self.delimiter, skip_rows=self.skip_rows)
+                    self.idx = np.arange(len(self.coord))
+                except:
+                    raise Exception("Could not read coordinates from input file!")
+
+            ### Read nump binary coordinate file
+            elif (ext == '.npy'):
+                self.coord = np.load(inp_obd)
+                self.idx = np.arange(len(self.coord))
 
         elif isinstance(inp_obj, np.ndarray):
             self.coord = inp_obj
-            self.idx = np.arange(len(inp_obj))
+            self.idx = np.arange(len(self.coord))
 
         else:
             raise Exception(f"Input object type {type(inp_obj)} is not supported.")
@@ -584,7 +608,7 @@ class Deformation:
             # Cannot calculate RMSD with averaged neighborhoods,
             # so if an AverageProtein object is passsed, we simply
             # take the first Protein object 
-            coords = 
+            coords = []
             for prot in self.proteins:
                 if isinstance(prot, Protein):
                     coords.append(prot.coords)
