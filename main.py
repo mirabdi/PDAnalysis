@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from Bio.SVDSuperimposer import SVDSuperimposer
 import numpy as np
 
 from pdb_parser import parse_pdb_coordinates, load_and_fix_pdb_data
@@ -259,7 +260,7 @@ class Deformation:
         self.proteins = [self.prot1, self.prot2]
         
         self.default_method = ["strain"]
-        self.all_methods = ["mut_dist", "strain", "shear", "non-affine", "ldd", "lddt", "neighborhood_dist"]
+        self.all_methods = ["mut_dist", "strain", "shear", "non-affine", "ldd", "lddt", "neighborhood_dist", "rmsd"]
         self.lddt_cutoffs = kwargs.get("lddt_cutoffs", [0.5, 1, 2, 4])
         self.method = kwargs.get('method', self.default_method.copy())
         self.neigh_cut = kwargs.get('neigh_cut', 13.0)
@@ -425,7 +426,7 @@ class Deformation:
         self.mut_dist = np.nanmin(0.5 * (mut_dist1 + mut_dist2), axis=1)
 
 
-    def calculate_lddt():
+    def calculate_lddt(self):
         lddt = np.zeros(self.prot1.seq_len, float) * np.nan
         for i in range(self.prot1.seq_len):
             # If no data for residue, leave np.nan
@@ -484,7 +485,7 @@ class Deformation:
         self.ldd = ldd
 
 
-    def calculate_neighborhood_distance():
+    def calculate_neighborhood_distance(self):
         nd = np.zeros(self.prot1.seq_len, float) * np.nan
         for i in range(self.prot1.seq_len):
             # If no data for residue, leave np.nan
@@ -511,7 +512,7 @@ class Deformation:
         self.neighbor_distance = nd
 
 
-    def calculate_shear():
+    def calculate_shear(self):
         shear = np.zeros(self.prot1.seq_len, float) * np.nan
         for i in range(self.prot1.seq_len):
             # If no data for residue, leave np.nan
@@ -539,7 +540,7 @@ class Deformation:
         self.shear = shear
 
 
-    def calculate_strain():
+    def calculate_strain(self):
         strain = np.zeros(self.prot1.seq_len, float) * np.nan
         for i in range(self.prot1.seq_len):
             # If no data for residue, leave np.nan
@@ -574,4 +575,30 @@ class Deformation:
             strain[i] = s
 
         return np.array(strain)
+
+
+        #######################################################
+        ### Root-Mean-Square Deviation
+        ### Superimpose structures and calculate RMSD
+        def calc_rmsd(self):
+            # Cannot calculate RMSD with averaged neighborhoods,
+            # so if an AverageProtein object is passsed, we simply
+            # take the first Protein object 
+            coords = 
+            for prot in self.proteins:
+                if isinstance(prot, Protein):
+                    coords.append(prot.coords)
+                elif isinstance(prot, AverageProtein):
+                    coords.append(prot.proteins[0].coords)
+            c1, c2 = coords
+
+            # Remove NAN values
+            idx = ~np.any(np.isnan(c1) | np.isnan(c2), axis=1)
+            c1, c2 = c1[idx], c2[idx]
+
+            sup = SVDSuperimposer()
+            sup.set(c1, c2) 
+            sup.run()
+            self.rmsd = sup.get_rms()
+
 

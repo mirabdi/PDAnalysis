@@ -1,9 +1,15 @@
 import numpy as np
-from Bio.PDB import PDBParser
+from Bio import Seq, SeqIO, SeqRecord, pairwise2
+from Bio.PDB import PDBParser, MMCIF2Dict
 
 
 #############################################################
 ### Load coordinates from file
+
+
+### Read 3-letter code in title case
+def parse_3letter(x):
+    return IUPACData.protein_letters_3to1.get(x[0].upper() + x[1:].lower(), 'X')
 
 
 ### Load data corresponding to rows starting with ATOM
