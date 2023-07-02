@@ -29,7 +29,7 @@ Calculates global deformation:
 
 ### Installing
 
-* pip install DeltaProt
+* pip install PDAnalysis
 
 ### Executing program
 
