@@ -1,10 +1,13 @@
-import numpy as np
+from collections import defaultdict
+
 from Bio import Seq, SeqIO, SeqRecord, pairwise2
 from Bio.PDB import PDBParser, MMCIF2Dict
+import numpy as np
+import pandas as pd
 
 
 #############################################################
-### Load coordinates from file
+### Load coordinates from PDB file
 
 
 ### Read 3-letter code in title case
@@ -50,12 +53,61 @@ def parse_pdb_coordinates(path, chain='', model=0, all_atom=False):
 
 
 #############################################################
-### Load SEQRES
+### Load coordinates from mmCIF file
 
-def load_pdb_seqres(pdb_id, chain=''):
-    for record in SeqIO.parse(PATH_PDB.joinpath(pdb_id[1:3], f"pdb{pdb_id}.ent"), "pdb-seqres"):
-        if record.annotations['chain'] == chain:
+
+def parse_mmcif_coordinates(path, chain=''):
+    mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
+    df = pd.DataFrame(data=mmcif['_atom_site'])
+
+    # Extract CA atoms, and model '1' 
+    df = df.loc[(df.label_atom_id=='CA')&(df.pdbx_PDB_model_num=='1')]
+
+    # Extract specific CHAIN if arg is provided
+    if len(chain):
+        df = df.loc[(df.label_asym_id==chain)]
+
+    coord = np.array([df[x].values for x in ['Cartn_x', 'Cartn_y', 'Cartn_z']]).T
+    idx = df['label_seq_id'].values
+    seq = np.array([parse_3letter(aa) for aa in df.label_comp_id])
+    bfac = df["B_iso_or_equiv"].values
+    return coord, idx, seq, bfac
+
+
+def reformat_mmcif_dict(mmcif):
+    new_dict = defaultdict(dict)
+    for k, v in mmcif.items():
+        if '.' not in k:
+            new_dict[k] = v 
+            continue
+        k1 = k.split('.')[0]
+        k2 = '.'.join(k.split('.')[1:])
+        new_dict[k1][k2] = v 
+    return new_dict
+
+
+
+#############################################################
+### Load SEQRES 
+
+def load_pdb_seqres(path, chain=''):
+    for record in SeqIO.parse(path, "pdb-seqres"):
+        if not len(chain):
             return str(record.seq)
+        elif record.annotations['chain'] == chain:
+            return str(record.seq)
+
+
+def load_mmcif_seqres(path, chain=''):
+    mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
+    df = pd.DataFrame(data=mmcif['_pdbx_poly_seq_scheme'])
+
+    # Extract specific CHAIN if arg is provided
+    if len(chain):
+        df = df.loc[(df.asym_id==chain)]
+
+    seq = np.array([parse_3letter(aa) for aa in df.mon_id])
+    return seq
 
 
 #############################################################
@@ -68,18 +120,25 @@ def load_pdb_seqres(pdb_id, chain=''):
 ### that are missing atoms.
 ### Doesn't work for some rare weird cases that you get in the PDB:
 ###     e.g. microheterogeneity??? (multiple amino acids for one site, somehow; eg. 1eis)
-def load_and_fix_pdb_data(path, chain='', model=0):
-    # Load the sequence from the SEQRES part
-    seqres = PP.load_pdb_seqres(pdb_id, chain)
+def load_and_fix_pdb_data(path, chain=''):
+    ext = Path(path).suffix
 
+    # Load the sequence from the SEQRES part
     # Load the coords, sequence, etc., from the ATOM part
-    xyz, idx, seq, bfac = read_alpha_carbon_pdb(pdb_id, chain, model=model)
+    if ext == '.pdb':
+        seqres = load_pdb_seqres(path, chain)
+        xyz, idx, seq, bfac = parse_pdb_coordinates(pdb_id, chain)
+
+    elif ext == '.cif':
+        seqres = load_mmcif_seqres(path, chain)
+        xyz, idx, seq, bfac = parse_mmcif_coordinates(pdb_id, chain)
+
 
     # If the ATOM sequence is longer than the SEQRES sequence,
     # then there is a problem
     if len(seqres) < len(seq):
-        print("Preposterous! Where have the extra residues come from???")
-        print(pdb_id, chain, len(seqres), len(seq))
+        raise Exception("ERROR: the number of alpha-carbons exceeds the number of SEQRES residues!" + \
+                        "\n\tPlease check your input files for errors." + )
 
     # If there are no missing atoms, the two sequences will be equal.
     # In this case, the indices will be an integer series starting at 0

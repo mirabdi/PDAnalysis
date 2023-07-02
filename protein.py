@@ -21,6 +21,9 @@ class Protein:
         self.bfactor = None
         self.dist_mat = None
         self.name = kwargs.get('name', '') 
+        self.file_fmt = kwargs.get('file_fmt', '') 
+        self.delimiter = kwargs.get('delimiter', ' ')
+        self.skip_rows = kwargs.get('skip_rows', 0)
         self.neigh_idx = []
         self.neigh_tensor = []
 
@@ -30,27 +33,50 @@ class Protein:
 
     def parse_input(self, inp_obj):
         if isinstance(inp_obj, (str, Path)):
-            self.load_data_from_path(inp_obj)
+            ext = Path(inp_obj).suffix
+
+            ### Read PDB / mmCIF file
+            if (ext in ['.pdb', '.cif']) or (self.file_fmt == ['pdb', 'mmcif', 'cif']):
+                self.load_data_from_path(inp_obj, ext)
+
+            ### Read text coordinate file
+            elif (ext in ['.txt', '.dat']):
+                try:
+                    print(f"WARNING! Ambiguity in file format {ext}. Attempting to read coordinates.")
+                    self.coord = np.loadtxt(inp_obd, delimiter=self.delimiter, skip_rows=self.skip_rows)
+                    self.idx = np.arange(len(self.coord))
+                except:
+                    raise Exception("Could not read coordinates from input file!")
+
+            ### Read nump binary coordinate file
+            elif (ext == '.npy'):
+                self.coord = np.load(inp_obd)
+                self.idx = np.arange(len(self.coord))
 
         elif isinstance(inp_obj, np.ndarray):
             self.coord = inp_obj
-            self.idx = np.arange(len(inp_obj))
+            self.idx = np.arange(len(self.coord))
 
         else:
             raise Exception(f"Input object type {type(inp_obj)} is not supported.")
 
 
-    def load_data_from_path(self, path):
+    def load_data_from_path(self, path, ext):
         if self.pdb_fill_missing_nan:
             data = load_and_fix_pdb_data(path, self.chain)
             # (indices in PDB files are inconsistent, so we reorder
             #  the indices so that they start from zero)
 
         else:
-            data = parse_pdb_coordinates(path, self.chain)
+            if ext == ".pdb":
+                data = parse_pdb_coordinates(path, self.chain)
+            elif ext == ".cif":
+                data = parse_mmcif_coordinates(path, self.chain)
+
             # Reorder indices so that they start from zero
             # (by default, AF-predicted structures start counting at one)
-            data[1] = data[1] - 1
+            if data[1][0] != 0:
+                data[1] = data[1] - data[1][0]
 
         self.coord_raw = data[0]
         self.idx = data[1]
