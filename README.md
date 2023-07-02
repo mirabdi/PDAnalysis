@@ -1,4 +1,4 @@
-# Protein Deformation Analysis (PDAnalysis) / DeltaProt
+# Protein Deformation Analysis (PDAnalysis)
 
 Python package for calculating deformation between protein structures.
 
@@ -24,6 +24,7 @@ Calculates global deformation:
 
 * python 3.7<=
 * numpy
+* pandas
 * Biopython
 
 ### Installing
@@ -33,7 +34,7 @@ Calculates global deformation:
 ### Executing program
 
 ```
-deltaprot --protA [path(s) to protein A] --protB [path(s) to protein B]
+pdanalysis --protA [path(s) to protein A] --protB [path(s) to protein B]
 ```
 
 ## Help
