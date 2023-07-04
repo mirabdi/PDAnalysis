@@ -19,6 +19,7 @@ class Protein:
 
         # Defaults
         self.sequence = None
+        self.idx = None
         self.plddt = None
         self.bfactor = None
         self.dist_mat = None
@@ -139,6 +140,7 @@ class AverageProtein:
         # Defaults
         self.plddt = None
         self.bfactor = None
+        self.idx = None
         self.sequence = None
         self.dist_mat = None
         self.name = kwargs.get('name', '')

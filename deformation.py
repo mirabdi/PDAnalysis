@@ -2,6 +2,7 @@ from pathlib import Path
 
 from Bio.SVDSuperimposer import SVDSuperimposer
 import numpy as np
+import pandas as pd
 
 from protein import Protein, AverageProtein
 from utils import rotate_points, get_shared_indices, get_mutation_position
@@ -18,7 +19,8 @@ class Deformation:
         self.lddt_cutoffs = kwargs.get("lddt_cutoffs", [0.5, 1, 2, 4])
         self.method = kwargs.get('method', self.default_method.copy())
         self.neigh_cut = kwargs.get('neigh_cut', 13.0)
-        self.force_cutoff =  kwargs.get('force_cutoff', False) # Recalculate
+
+        self.force_cutoff =  kwargs.get('force_cutoff', False)
         self.force_norm =  kwargs.get('force_norm', False)
         self.force_nonorm =  kwargs.get('force_nonorm', False)
         self.force_relative =  kwargs.get('force_relative', False)
@@ -40,8 +42,15 @@ class Deformation:
             if not isinstance(prot, (AverageProtein, Protein)):
                 raise Exception(f"Input object type {type(self.prot)} is not supported.")
             
-        # Check that neighbor cutoff definitions are consistent
+        # Check that neighbor cutoff definitions are consistent.
+        # This method also loads neighborhoods if they are not loaded already.
         self._check_neighborhoods()
+
+        # Check that proteins are the same length
+        if self.prot1.seq_len != self.prot2.seq_len:
+            print("WARNING! Protein sequences are not the same length: " + \
+                  f"Protein A has {self.prot1.seq_len} residues, while " + \
+                  f"Protein B has {self.prot2.seq_len} residues.")
 
 
     def _update_protein_neighborhood(self, prot, neigh_cut):
@@ -114,18 +123,19 @@ class Deformation:
     
     # Parse method, and ensure methods are acceptable
     def parse_method(self):
-        if isinstance(self.method, str):
-            if self.method == 'all':
-                self.method = self.all_methods.copy()
+        if isinstance(self.method, (list, np.ndarray, set, tuple)):
+            if len(self.method) == 1:
+                if self.method[0] == 'all':
+                    self.method = self.all_methods.copy()
 
-        elif isinstance(self.method, (list, np.ndarray, set, tuple)):
-            method_list = []
-            for method in self.method:
-                if method in self.all_methods:
-                    method_list.append(method)
-                else:
-                    print(f"WARNING! {method} is not an accepted method")
-            self.method = method_list
+            else:
+                method_list = []
+                for method in self.method:
+                    if method in self.all_methods:
+                        method_list.append(method)
+                    else:
+                        print(f"WARNING! {method} is not an accepted method")
+                self.method = method_list
         else:
             self.method = []
 
@@ -137,6 +147,35 @@ class Deformation:
     def set_method(self, value):
         self.method = value
         self.parse_method()
+
+
+    def save_output(self, path_out):
+        # Load any deformation that was calculated
+        deform = {}
+        for m in self.all_methods:
+            if hasattr(self, m):
+                if m != 'rmsd':
+                    deform[m] = getattr(self, m)
+                else:
+                    # Since RMSD is a scalar, we create a list to match the output format
+                    deform[m] = [getattr(self, m)] * self.prot1.seq_len
+
+        # Only save output if deformation was calculated
+        if not len(deform):
+            raise Exception("ERROR! Cannot save output if there is none!")
+
+        # Add sequence indices, residue names
+        else:
+            type_names = ['residue_index', 'protA_resname', 'protB_resname']
+            res_data = [self.prot1.idx, self.prot1.sequence, self.prot2.sequence]
+            output = {k: d for k, d in zip(type_names, res_data) if not isinstance(d, type(None))}
+            ########################################
+            ### NEED TO ADD NUMBER OF NEIGHBORS
+            ########################################
+
+            output.update(deform)
+    
+            pd.DataFrame(output).to_csv(path_out, index=False)
 
             
     def calculate_deformation(self):
@@ -153,7 +192,8 @@ class Deformation:
                     'non-affine': self.calculate_non_affine,
                     'ldd': self.calculate_ldd,
                     'lddt': self.calculate_lddt,
-                    'neighborhood_dist': self.calculate_neighborhood_dist}
+                    'neighborhood_dist': self.calculate_neighborhood_dist,
+                    'rmsd': self.calculate_rmsd}
         analyses[method]()
 
 
@@ -199,7 +239,7 @@ class Deformation:
             # Get local distance difference vector
             dv = v2 - v1
 
-            lddt[i] = np.sum([np.sum(dv<=cut) for cut in self.lddt_cutoffs]) / (len(lddt_cutoffs) * len(dv))
+            lddt[i] = np.sum([np.sum(dv<=cut) for cut in self.lddt_cutoffs]) / (len(self.lddt_cutoffs) * len(dv))
 
         self.lddt = lddt
 
@@ -230,9 +270,9 @@ class Deformation:
 
             # Calculate local distance difference 
             if self.force_norm:
-                ldd[i] = np.linalg.norm(ld1 - ld2) / len(i1)
+                ldd[i] = np.linalg.norm(dv) / len(i1)
             else:
-                ldd[i] = np.linalg.norm(ld1 - ld2)
+                ldd[i] = np.linalg.norm(dv)
 
         self.ldd = ldd
 
@@ -332,16 +372,18 @@ class Deformation:
     #######################################################
     ### Root-Mean-Square Deviation
     ### Superimpose structures and calculate RMSD
-    def calc_rmsd(self):
+    def calculate_rmsd(self):
         # Cannot calculate RMSD with averaged neighborhoods,
         # so if an AverageProtein object is passsed, we simply
         # take the first Protein object 
         coords = []
         for prot in self.proteins:
             if isinstance(prot, Protein):
-                coords.append(prot.coords)
+                coords.append(prot.coord)
             elif isinstance(prot, AverageProtein):
-                coords.append(prot.proteins[0].coords)
+                coords.append(prot.proteins[0].coord)
+                print("WARNING! Trying to calculate RMSD with an AverageProtein object. " + \
+                      "Since this is not possible, an embedded Protein object is used instead.")
         c1, c2 = coords
 
         # Remove NAN values
