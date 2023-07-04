@@ -1,8 +1,10 @@
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
+from scipy.spatial.distance import cdist
 
-from pdb_parser import parse_pdb_coordinates, load_and_fix_pdb_data
+from pdb_parser import parse_pdb_coordinates, parse_mmcif_coordinates, load_and_fix_pdb_data
 from utils import rotate_points
 
 
@@ -10,7 +12,7 @@ class Protein:
     def __init__(self, inp_obj, **kwargs):
         # Parameters
         self.max_bfactor = kwargs.get('max_bfactor', 0.0)
-        self.min_plddt = kwargs.get('min_plddt', 70.0)
+        self.min_plddt = kwargs.get('min_plddt', 0.0)
         self.neigh_cut = kwargs.get('neigh_cut', 13.0)
         self.chain = kwargs.get('chain', '')
         self.pdb_fill_missing_nan =  kwargs.get('pdb_fill_missing_nan', False)
@@ -26,9 +28,11 @@ class Protein:
         self.skip_rows = kwargs.get('skip_rows', 0)
         self.neigh_idx = []
         self.neigh_tensor = []
+        self.seq_len = None         # Number of residues
 
         # Load data
         self.parse_input(inp_obj)
+        self.get_local_neighborhood()
 
 
     def parse_input(self, inp_obj):
@@ -43,14 +47,14 @@ class Protein:
             elif (ext in ['.txt', '.dat']):
                 try:
                     print(f"WARNING! Ambiguity in file format {ext}. Attempting to read coordinates.")
-                    self.coord = np.loadtxt(inp_obd, delimiter=self.delimiter, skip_rows=self.skip_rows)
+                    self.coord = np.loadtxt(inp_obj, delimiter=self.delimiter, skip_rows=self.skip_rows)
                     self.idx = np.arange(len(self.coord))
                 except:
                     raise Exception("Could not read coordinates from input file!")
 
             ### Read nump binary coordinate file
             elif (ext == '.npy'):
-                self.coord = np.load(inp_obd)
+                self.coord = np.load(inp_obj)
                 self.idx = np.arange(len(self.coord))
 
         elif isinstance(inp_obj, np.ndarray):
@@ -59,6 +63,8 @@ class Protein:
 
         else:
             raise Exception(f"Input object type {type(inp_obj)} is not supported.")
+
+        self.seq_len = len(self.idx)
 
 
     def load_data_from_path(self, path, ext):
@@ -118,7 +124,7 @@ class Protein:
 
 
 class AverageProtein:
-    def __init__(self, proteins, **kwargs):
+    def __init__(self, inp_obj, **kwargs):
         # Parameters
         self.max_bfactor =      kwargs.get('max_bfactor', 0.0)
         self.min_plddt =        kwargs.get('min_plddt', 70.0)
@@ -159,10 +165,10 @@ class AverageProtein:
         # Parse inputs to get a list of Protein objects
         for item in inp_obj:
             if isinstance(item, Protein):
-                self.proteins.append(inp_obj)
+                self.proteins.append(item)
 
             elif isinstance(item, (str, Path, np.ndarray)):
-                self.proteins.append(Protein(inp_obj, **kwargs))
+                self.proteins.append(Protein(item, **kwargs))
 
             else:
                 raise Exception(f"Input object type {type(item)} is not supported.")
@@ -174,7 +180,7 @@ class AverageProtein:
             except TypeError:
                 self.plddt = None
         else:
-            self.plddt = proteins[0].plddt
+            self.plddt = self.proteins[0].plddt
 
         # Set Bfactor
         if self.average_bfactor:
@@ -183,26 +189,26 @@ class AverageProtein:
             except TypeError:
                 self.bfactor = None
         else:
-            self.bfactor = proteins[0].bfactor
+            self.bfactor = self.proteins[0].bfactor
 
         # Set Distance Matrix
         if self.average_dist_mat:
             self.dist_mat = np.mean([protein.dist_mat for protein in self.proteins], axis=0)
         else:
-            self.dist_mat = proteins[0].dist_mat.copy()
+            self.dist_mat = self.proteins[0].dist_mat.copy()
 
 
         # Set index
-        self.idx = proteins[0].idx
+        self.idx = self.proteins[0].idx
         #    Check that indices are the same, and print a warning if not.
         if self.check_idx_equiv:
-            for protein in proteins[1:]:
+            for protein in self.proteins[1:]:
                 if not np.all(self.idx == protein.idx):
                     print("WARNING! Indices are not the same in different proteins." + \
                           "\n\tAre you sure the input list is correct?")
 
-        self.sequence = proteins[0].sequence
-        self.seq_len = len(self.idx)
+        self.sequence = self.proteins[0].sequence
+        self.seq_len = self.proteins[0].seq_len
         self.num_repeat = len(self.proteins)
 
 
@@ -214,7 +220,7 @@ class AverageProtein:
         
         # Rotate neighborhood tensors to arbitrary reference neighborhoods,
         # then average over repeat structures
-        _rotate_and_average_neighbor_tensors()
+        self._rotate_and_average_neighbor_tensors()
 
 
     def _get_local_neighborhood(self):
@@ -222,7 +228,9 @@ class AverageProtein:
             # If not yet calculated, get the local neighborhood
             if len(self.neigh_idx) == 0:
                 kwargs = {a:getattr(self, a) for a in ['min_plddt', 'max_bfactor', 'neigh_cut']}
-                protein.get_local_neighborhood(**kwargs)
+                for k, v in kwargs.items():
+                    setattr(protein, k, v)
+                protein.get_local_neighborhood()
 
 
     def recalculate_average_structure(self):
@@ -261,12 +269,17 @@ class AverageProtein:
     def _rotate_and_average_neighbor_tensors(self):
         self.neigh_tensor = []
         for i in range(self.seq_len):
+            # If no neighbors..
+            if not len(self.neigh_idx[i]):
+                self.neigh_tensor.append(np.empty((0,3)))
+                continue
+
             for j in range(self.num_repeat):
                 # Only include the rows of the tensor that correspond to
                 # the consolidated neighbor list
-                idx = [i0 for i0, j0 in enumerate(self.proteins[j].neigh_idx[i]) if j0 in self.neigh_idx[j]]
+                idx = [i0 for i0, j0 in enumerate(self.proteins[j].neigh_idx[i]) if j0 in self.neigh_idx[i]]
 
-                if not i:
+                if not j:
                     # Do not rotate the first example for residue j
                     # Initialize the list
                     tensor = [self.proteins[j].neigh_tensor[i][idx]]

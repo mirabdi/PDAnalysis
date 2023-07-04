@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from Bio import Seq, SeqIO, SeqRecord, pairwise2
+from Bio.Data import IUPACData
 from Bio.PDB import PDBParser, MMCIF2Dict
 import numpy as np
 import pandas as pd
@@ -67,11 +68,11 @@ def parse_mmcif_coordinates(path, chain=''):
     if len(chain):
         df = df.loc[(df.label_asym_id==chain)]
 
-    coord = np.array([df[x].values for x in ['Cartn_x', 'Cartn_y', 'Cartn_z']]).T
-    idx = df['label_seq_id'].values
+    coord = np.array([df[x].values for x in ['Cartn_x', 'Cartn_y', 'Cartn_z']]).T.astype(float)
+    idx = df['label_seq_id'].values.astype(int)
     seq = np.array([parse_3letter(aa) for aa in df.label_comp_id])
-    bfac = df["B_iso_or_equiv"].values
-    return coord, idx, seq, bfac
+    bfac = df["B_iso_or_equiv"].values.astype(float)
+    return [coord, idx, seq, bfac]
 
 
 def reformat_mmcif_dict(mmcif):
@@ -138,7 +139,7 @@ def load_and_fix_pdb_data(path, chain=''):
     # then there is a problem
     if len(seqres) < len(seq):
         raise Exception("ERROR: the number of alpha-carbons exceeds the number of SEQRES residues!" + \
-                        "\n\tPlease check your input files for errors." + )
+                        "\n\tPlease check your input files for errors.")
 
     # If there are no missing atoms, the two sequences will be equal.
     # In this case, the indices will be an integer series starting at 0
