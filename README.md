@@ -54,7 +54,7 @@ Optional Arguments:
 * "--lddt\_cutoffs" :: Specify the distance cutoffs used in LDDT calculation. Default = (0.5, 1, 2, 4).
 
 
-Examples:
+Examples:  
 Calculates "Effective Strain" between two PDB conformations, and ignore residues with pLDDT < 70:
 ```
 python main.py --protA test_data/Lysozyme/AF-P61626-F1-model_v4.pdb --protB test_data/Lysozyme/AF-P79180-F1-model_v4.pdb --min_plddt 70
@@ -84,9 +84,9 @@ python main.py --help
 
 ## Authors
 
-[John M. McBride](https://github.com/jomimc)
-[Amirbek Abdirasulov](https://github.com/amirbek)
-[Tsvi Tlusty](http://www.sns.ias.edu/~tlusty/index.html)
+* [John M. McBride](https://github.com/jomimc)
+* [Amirbek Abdirasulov](https://github.com/amirbek)
+* [Tsvi Tlusty](http://www.sns.ias.edu/~tlusty/index.html)
 
 ## Version History
 
