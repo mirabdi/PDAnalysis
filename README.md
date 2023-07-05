@@ -1,6 +1,8 @@
 # Protein Deformation Analysis (PDAnalysis)
 
-Python package for calculating deformation between protein structures.
+Python package for calculating deformation between protein structures.  
+  
+Code is still being developed, but this version has been released early for the purpose of peer review and testing. If you encounter any problems, either post an [Issue](https://github.com/mirabdi/af2-analysis-code/issues) or send an email to [John McBride](mailto:jmmcbride@protonmail.com).
 
 ## Description
 
