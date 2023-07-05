@@ -210,8 +210,8 @@ class Deformation:
             return np.zeros(self.prot1.seq_len) * np.nan
         
         # Calculate mindist using the full array (inc. nan)
-        mut_dist1 = self.prot1.dist_mat[:,sub_pos]
-        mut_dist2 = self.prot2.dist_mat[:,sub_pos]
+        mut_dist1 = self.prot1.dist_mat[:,self.sub_pos]
+        mut_dist2 = self.prot2.dist_mat[:,self.sub_pos]
 
         # Average the distance across both structures,
         # and get the minimum distance per residue to a mutated position

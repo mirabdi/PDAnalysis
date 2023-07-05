@@ -62,19 +62,19 @@ Calculates "Effective Strain" between two PDB conformations, and ignore residues
 python main.py --protA test_data/Lysozyme/AF-P61626-F1-model_v4.pdb --protB test_data/Lysozyme/AF-P79180-F1-model_v4.pdb --min_plddt 70
 ```
 
-Calculates "LDDT" using one PDB file and two PDB files (an averaged configuration) and use a neighbor cutoff distance of 10 Angstroms.
+Calculates "LDDT" using one PDB file and two PDB files (an averaged configuration) and use a neighbor cutoff distance of 10 Angstroms:
 ```
 python main.py --protA test_data/GFP/GFP_mutant.pdb --protB test_data/GFP/GFP_WT.pdb test_data/GFP/GFP_WT_ver2.pdb --neigh_cut 10 --method lddt
 ```
 
-Calculates "Effective Strain" and "Shear Strain" using two lists of PDB files (averaging over all proteins in each list), use a neighbor cutoff distance of 12 Angstroms, and ignore residues with pLDDT < 70.
+Calculates "Effective Strain" and "Shear Strain" using two lists of PDB files (averaging over all proteins in each list), use a neighbor cutoff distance of 12 Angstroms, and ignore residues with pLDDT < 70:
 ```
-python main.py --protA test_data/GFP/mut_all.txt --protB test_data/GFP/wt_all.txt --neigh_cut 12 --min_plddt 70 --method strain shear
+python main.py --prot_listA test_data/GFP/mut_all.txt --prot_listB test_data/GFP/wt_all.txt --neigh_cut 12 --min_plddt 70 --method strain shear
 ```
 
 Calculates all measures between two PDB conformations, and uses alternative LDDT cutoff values:
 ```
-python main.py --protA test_data/Lysozyme/AF-P61626-F1-model_v4.pdb --protB test_data/Lysozyme/AF-P79180-F1-model_v4.pdb --lddt_cutoffs 0.125 0.25 0.5 1
+python main.py --protA test_data/Lysozyme/AF-P61626-F1-model_v4.pdb --protB test_data/Lysozyme/AF-P79180-F1-model_v4.pdb --method all --lddt_cutoffs 0.125 0.25 0.5 1
 ```
 
 ## Help

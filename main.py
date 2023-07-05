@@ -50,7 +50,7 @@ def parse_args():
 
     ### Other
 
-    parser.add_argument("-m", "--method", nargs="+", type=str, default='',
+    parser.add_argument("-m", "--method", nargs="+", type=str, default=['strain'],
         help="Deformation method: 'all' will automatically calculate everything. Multiple methods may be provided separated by spaces. Accepted methods:" + \
              "\n\t'mut_dist' :: Distance from nearest mutated residue" + \
              "\n\t'strain' :: Effective Strain" + \
