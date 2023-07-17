@@ -129,11 +129,11 @@ def load_and_fix_pdb_data(path, chain=''):
     # Load the coords, sequence, etc., from the ATOM part
     if ext == '.pdb':
         seqres = load_pdb_seqres(path, chain)
-        xyz, idx, seq, bfac = parse_pdb_coordinates(pdb_id, chain)
+        xyz, idx, seq, bfac = parse_pdb_coordinates(path, chain)
 
     elif ext == '.cif':
         seqres = load_mmcif_seqres(path, chain)
-        xyz, idx, seq, bfac = parse_mmcif_coordinates(pdb_id, chain)
+        xyz, idx, seq, bfac = parse_mmcif_coordinates(path, chain)
 
 
     # If the ATOM sequence is longer than the SEQRES sequence,
@@ -162,7 +162,6 @@ def load_and_fix_pdb_data(path, chain=''):
     xyz_nan = np.zeros((len(seqres), 3), float) * np.nan
     xyz_nan[idx] = xyz 
 
-    pickle.dump([xyz, idx, seq, bfac, xyz_nan], open(path_out, 'wb'))
     return [np.array(x) for x in [xyz, idx, seq, bfac, xyz_nan]]
 
 
