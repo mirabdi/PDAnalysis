@@ -1,4 +1,5 @@
 from collections import defaultdict
+from pathlib import Path
 
 from Bio import Seq, SeqIO, SeqRecord, pairwise2
 from Bio.Data import IUPACData
