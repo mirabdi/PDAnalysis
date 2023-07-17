@@ -162,7 +162,7 @@ def load_and_fix_pdb_data(path, chain=''):
     xyz_nan = np.zeros((len(seqres), 3), float) * np.nan
     xyz_nan[idx] = xyz 
 
-    return [np.array(x) for x in [xyz, idx, seq, bfac, xyz_nan]]
+    return [np.array(x) for x in [xyz, idx, list(seqres), bfac, xyz_nan]]
 
 
 ### Match SEQRES sequence to the sequence obtained from 

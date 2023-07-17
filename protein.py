@@ -98,7 +98,8 @@ class Protein:
 
     # Fill in 'disordered' (high bfactor, low plddt) with NaN values
     def _update_nan_coords(self):
-        self.coord = self.coord_raw.copy()
+        self.coord = np.zeros((len(self.sequence), 3)) * np.nan
+        self.coord[self.idx] = self.coord_raw.copy()
         if self.max_bfactor > 0.0:
             self.coord[(self.bfactor > self.max_bfactor)|(np.isnan(bfactor))] = np.nan
         elif self.min_plddt > 0.0:
