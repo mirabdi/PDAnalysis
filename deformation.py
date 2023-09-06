@@ -40,7 +40,7 @@ class Deformation:
         # Check input types
         for prot in self.proteins:
             if not isinstance(prot, (AverageProtein, Protein)):
-                raise Exception(f"Input object type {type(self.prot)} is not supported.")
+                raise Exception(f"Input object type {type(prot)} is not supported.")
             
         # Check that neighbor cutoff definitions are consistent.
         # This method also loads neighborhoods if they are not loaded already.
@@ -104,7 +104,7 @@ class Deformation:
         if not self.force_cutoff:
             if self.neigh_cut != neigh_cut[0]:
                 self.neigh_cut = neigh_cut[0]
-                print(f"WARNING! Resetting neighbour cutoff to {self.neigh_cut}, since this" + \
+                print(f"WARNING! Resetting neighbour cutoff to {self.neigh_cut}, since this " + \
                        "value was used for the AverageProtein structure." + \
                        "\n\tTo override this, use Deformation(..., force_cutoff=True)")
 

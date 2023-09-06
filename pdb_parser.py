@@ -62,8 +62,11 @@ def parse_mmcif_coordinates(path, chain=''):
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif['_atom_site'])
 
-    # Extract CA atoms, and model '1' 
-    df = df.loc[(df.label_atom_id=='CA')&(df.pdbx_PDB_model_num=='1')]
+    # Extract CA atoms
+    # model '1'
+    # ignore entires with incorrect sequence IDs
+    # if there are multiple configurations, only choose 'A'
+    df = df.loc[(df.label_atom_id=='CA')&(df.pdbx_PDB_model_num=='1')&(df.label_seq_id!='.')&(df.label_alt_id!='B')]
 
     # Extract specific CHAIN if arg is provided
     if len(chain):
@@ -109,7 +112,7 @@ def load_mmcif_seqres(path, chain=''):
         df = df.loc[(df.asym_id==chain)]
 
     seq = np.array([parse_3letter(aa) for aa in df.mon_id])
-    return seq
+    return ''.join(seq)
 
 
 #############################################################
@@ -134,7 +137,6 @@ def load_and_fix_pdb_data(path, chain=''):
     elif ext == '.cif':
         seqres = load_mmcif_seqres(path, chain)
         xyz, idx, seq, bfac = parse_mmcif_coordinates(path, chain)
-
 
     # If the ATOM sequence is longer than the SEQRES sequence,
     # then there is a problem

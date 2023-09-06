@@ -12,7 +12,7 @@ from deformation import Deformation
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="python main.py",
-        description="Protein Deformation Analysis v0.0: software for analysing deformation between protein structures.")
+        description="Protein Deformation Analysis v0.0.0: software for analysing deformation between protein structures.")
 
     ### Protein input files
 

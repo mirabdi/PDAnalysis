@@ -240,7 +240,7 @@ class AverageProtein:
     def recalculate_average_structure(self):
         for protein in self.proteins:
             changed = np.zeros(3, bool)
-            for i, attr in ['min_plddt', 'max_bfactor', 'neigh_cut']:
+            for i, attr in enumerate(['min_plddt', 'max_bfactor', 'neigh_cut']):
                 old, new = getattr(protein, attr), getattr(self, attr)
                 if old != new:
                     setattr(protein, attr, new)
@@ -254,9 +254,13 @@ class AverageProtein:
             # recalculate the coords as NaN values may be different
             if np.any(changed[:2] == True):
                 protein._update_nan_coords()
+                protein._get_dist_mat()
 
             # Recalculate neighborhoods with updated neighbor cutoff
             protein.get_local_neighborhood()
+
+        self._consolidate_neighbor_lists()
+        self._rotate_and_average_neighbor_tensors()
 
     
     def _consolidate_neighbor_lists(self):
