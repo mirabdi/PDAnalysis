@@ -101,12 +101,10 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Acknowledgments
 
-* If you use PDAnalysis in your work, please cite [McBride, J. M., Polev, A. Abdirasulov, K., Reinharz, V., Grzybowski, B. A., & Tlusty, T. AlphaFold2 can predict single-mutation effects]{https://www.biorxiv.org/content/10.1101/2022.04.14.488301v5}.
+* If you use PDAnalysis in your work, please cite [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A., & Tlusty, T. AlphaFold2 can predict single-mutation effects](https://www.biorxiv.org/content/10.1101/2022.04.14.488301v5).
 * If using LDDT, please cite [Mariani, Valerio, Marco Biasini, Alessandro Barbato, and
 Torsten Schwede (2013), “lDDT: a local superposition-free score for comparing protein structures and models
-using distance difference tests,” Bioinformatics 29 (21),
-2722–2728]{https://arxiv.org/abs/https://academic.oup.com/bioinformatics/article-pdf/29/21/2722/18533347/btt473.pdf}.
-* The code for Shear Strain was provided by Jacques Rougemont. If using this method, please cite [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), “Colloquium: Proteins: The physics of amorphous evolving matter,” Rev. Mod. Phys. 91, 031001]{https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.91.031001}.
-* If using Non-affine Strain, please cite [Falk, M L, and J. S. Langer (1998), “Dynamics of viscoplastic de-
-formation in amorphous solids,” Phys. Rev. E 57, 7192–7205]{https://journals.aps.org/pre/abstract/10.1103/PhysRevE.57.7192}. We also give credit to [matscipy]{https://github.com/libAtoms/matscipy} for an earlier implementation.
+using distance difference tests,” Bioinformatics 29 (21), 2722–2728](https://arxiv.org/abs/https://academic.oup.com/bioinformatics/article-pdf/29/21/2722/18533347/btt473.pdf).
+* The code for Shear Strain was provided by Jacques Rougemont. If using this method, please cite [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), “Colloquium: Proteins: The physics of amorphous evolving matter,” Rev. Mod. Phys. 91, 031001](https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.91.031001).
+* If using Non-affine Strain, please cite [Falk, M L, and J. S. Langer (1998), “Dynamics of viscoplastic deformation in amorphous solids,” Phys. Rev. E 57, 7192–7205](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.57.7192). We also give credit to [matscipy](https://github.com/libAtoms/matscipy) for an earlier implementation.
 
