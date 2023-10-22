@@ -8,7 +8,7 @@ def rotate_points(P, Q):
     D = np.linalg.det(V @ U.T)
     E = np.array([[1, 0, 0], [0, 1, 0], [0, 0, D]])
     R = V @ E @ U.T
-    Pnew = np.array([R @ p for p in P])
+    Pnew = (R @ P.T).T
     return Pnew
 
 
@@ -18,8 +18,8 @@ def get_mutation_position(s1, s2):
 
 
 def get_shared_indices(idx1, idx2):
-    i1 = [j for j, k in enumerate(idx1) if k in idx2]
-    i2 = [j for j, k in enumerate(idx2) if k in idx1]
+    i1 = np.where(np.in1d(idx1, idx2))[0]
+    i2 = np.where(np.in1d(idx2, idx1))[0]
     return i1, i2
 
 

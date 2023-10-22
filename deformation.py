@@ -171,7 +171,8 @@ class Deformation:
             self.method = []
 
         if len(self.method) == 0:
-            raise Exception("No acceptable method found!")
+            raise Exception("No acceptable method found!" + \
+            f"\nChoose one out of: all, {', '.join(self.all_methods)}")
             
 
     # Set method, and run through parse to check method validity
@@ -228,6 +229,16 @@ class Deformation:
         analyses[method]()
 
 
+    def _get_shared_indices(self):
+        self.shared_indices = []
+        for i in range(self.prot1.seq_len):
+            # If no data for residue, shared indices is empty
+            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
+                self.shared_indices.append(([], []))
+            else:
+                self.shared_indices.append(get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i]))
+
+
     # Calculate distance from closest mutation
     def calculate_dist_from_mutation(self):
         # If none differ, then return np.nan
@@ -246,13 +257,13 @@ class Deformation:
 
     def calculate_lddt(self):
         lddt = np.zeros(self.prot1.seq_len, float) * np.nan
-        for i in range(self.prot1.seq_len):
-            # If no data for residue, leave np.nan
-            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
-                continue
 
+        if not hasattr(self, "shared_indices"):
+            self._get_shared_indices()
+
+        for i in range(self.prot1.seq_len):
             # Get shared indices
-            i1, i2 = get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i])
+            i1, i2 = self.shared_indices[i]
 
             # If no shared indices, leave np.nan
             if not len(i1):
@@ -272,13 +283,13 @@ class Deformation:
 
     def calculate_ldd(self):
         ldd = np.zeros(self.prot1.seq_len, float) * np.nan
-        for i in range(self.prot1.seq_len):
-            # If no data for residue, leave np.nan
-            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
-                continue
 
+        if not hasattr(self, "shared_indices"):
+            self._get_shared_indices()
+
+        for i in range(self.prot1.seq_len):
             # Get shared indices
-            i1, i2 = get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i])
+            i1, i2 = self.shared_indices[i]
 
             # If no shared indices, leave np.nan
             if not len(i1):
@@ -305,13 +316,13 @@ class Deformation:
 
     def calculate_neighborhood_dist(self):
         nd = np.zeros(self.prot1.seq_len, float) * np.nan
-        for i in range(self.prot1.seq_len):
-            # If no data for residue, leave np.nan
-            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
-                continue
 
+        if not hasattr(self, "shared_indices"):
+            self._get_shared_indices()
+
+        for i in range(self.prot1.seq_len):
             # Get shared indices
-            i1, i2 = get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i])
+            i1, i2 = self.shared_indices[i]
 
             # If no shared indices, leave np.nan
             if not len(i1):
@@ -332,13 +343,13 @@ class Deformation:
 
     def calculate_shear(self):
         shear = np.zeros(self.prot1.seq_len, float) * np.nan
-        for i in range(self.prot1.seq_len):
-            # If no data for residue, leave np.nan
-            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
-                continue
 
+        if not hasattr(self, "shared_indices"):
+            self._get_shared_indices()
+
+        for i in range(self.prot1.seq_len):
             # Get shared indices
-            i1, i2 = get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i])
+            i1, i2 = self.shared_indices[i]
 
             # If no shared indices, leave np.nan
             if not len(i1):
@@ -360,13 +371,13 @@ class Deformation:
 
     def calculate_strain(self):
         strain = np.zeros(self.prot1.seq_len, float) * np.nan
-        for i in range(self.prot1.seq_len):
-            # If no data for residue, leave np.nan
-            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
-                continue
 
+        if not hasattr(self, "shared_indices"):
+            self._get_shared_indices()
+
+        for i in range(self.prot1.seq_len):
             # Get shared indices
-            i1, i2 = get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i])
+            i1, i2 = self.shared_indices[i]
 
             # If no shared indices, leave np.nan
             if not len(i1):
@@ -378,12 +389,10 @@ class Deformation:
 
             # Rotate neighbourhood tensor and calculate Euclidean distance
             c3 = rotate_points(c2, c1)
-            s = 0.0
-            for j in range(len(c1)):
-                if self.force_absolute:
-                    s += np.linalg.norm(c3[j] - c1[j])
-                else:
-                    s += np.linalg.norm(c3[j] - c1[j]) / np.linalg.norm(c1[j])
+            if self.force_absolute:
+                s = np.sum(np.linalg.norm(c3 - c1, axis=1))
+            else:
+                s = np.sum(np.linalg.norm(c3 - c1, axis=1) / np.linalg.norm(c1, axis=1))
 
             if not self.force_nonorm:
                 s /= len(i1)
