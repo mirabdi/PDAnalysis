@@ -1,7 +1,7 @@
 from collections import defaultdict
 from pathlib import Path
 
-from Bio import Seq, SeqIO, SeqRecord, pairwise2
+from Bio import Seq, SeqIO, SeqRecord, Align
 from Bio.Data import IUPACData
 from Bio.PDB import PDBParser, MMCIF2Dict
 import numpy as np
@@ -223,17 +223,20 @@ def find_neighbours(seq, xyz, cut=4.3):
 
 
 def align_sequences(seqres, seq, seq_clusters=''):
-    # Set mismatch penalty to negative infinity,
-    # since no mismatches are not allowed
-    ni = -np.inf
     candidates = []
+
     # Convert sequence clusters to set
     if not isinstance(seq_clusters, str):
         seqA = set(seq_clusters)
 
     # Loop through candidate alignments
-    for align in pairwise2.align.globalmd(seqres, seq, 0, ni, ni, ni, -1, -0.5):
-        s1, s2 = align[:2]
+    aligner = Align.PairwiseAligner()
+    aligner.mode = 'global'
+    # Set mismatch penalty to negative infinity,
+    # since no mismatches are not allowed
+    aligner.mismatch_score = -np.inf
+    for align in aligner.align(seqres, seq):
+        s1, s2 = align.sequences
         # If sequence clusters are provided, only allow candidates that
         # include all sequence clusters as unbroken sequences
         if not isinstance(seq_clusters, str):
