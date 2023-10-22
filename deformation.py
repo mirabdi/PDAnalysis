@@ -28,12 +28,30 @@ class Deformation:
         self.force_l1norm =  kwargs.get('force_l1norm', False)
         self.force_l2norm =  kwargs.get('force_l2norm', False)
 
+        self.verbose = kwargs.get('verbose', False)
+
         self.deformation = {}
         self.mutations = []
         self.mutation_idx = []
 
         self.parse_input()
         self.parse_method()
+
+        if self.verbose:
+            self.print_inputs_summary()
+
+
+    def print_inputs_summary(self):
+        print(f"Comparing {self.prot1} with {self.prot2}.")
+        print(f"Sequence length :: {self.prot1.seq_len}")
+
+        nmiss1 = sum([len(i) == 0 for i in self.prot1.neigh_idx])
+        nmiss2 = sum([len(i) == 0 for i in self.prot2.neigh_idx])
+        print(f"Number of residues excluded due to missing coordinates, or due to low pLDDT" + \
+              f" / high B-factor ::\n\tProtA, {nmiss1}\n\tProtB, {nmiss2}")
+
+        print(f"Amino acid substitutions :: {' '.join(self.sub_str)}")
+        print(f"Methods to run :: {' '.join(self.method)}")
 
 
     def parse_input(self):
@@ -46,11 +64,24 @@ class Deformation:
         # This method also loads neighborhoods if they are not loaded already.
         self._check_neighborhoods()
 
-        # Check that proteins are the same length
-        if self.prot1.seq_len != self.prot2.seq_len:
-            print("WARNING! Protein sequences are not the same length: " + \
-                  f"Protein A has {self.prot1.seq_len} residues, while " + \
-                  f"Protein B has {self.prot2.seq_len} residues.")
+        # Check that protein coordinate arrays are the same length
+        l1 = len(self.prot1.neigh_idx)
+        l2 = len(self.prot2.neigh_idx)
+        if l1 != l2:
+            raise Exception("Protein coordinate arrays are not the same length: " + \
+                  f"Protein A has {l1} residues, while " + \
+                  f"Protein B has {l2} residues.\n" + \
+                  "If using PDB files with missing coordinates, use the --pdb_fill_missing_nan option.")
+
+        try:
+            self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
+            self.sub_str = self.get_substitution_strings()
+        except AttributeError as E:
+            raise AttributeError("Sequence is not defined for Protein object")
+
+
+    def get_substitution_strings(self):
+        return [f"{self.prot1.sequence[i]}{i+1}{self.prot2.sequence[i]}" for i in self.sub_pos]
 
 
     def _update_protein_neighborhood(self, prot, neigh_cut):
@@ -167,7 +198,7 @@ class Deformation:
         # Add sequence indices, residue names
         else:
             type_names = ['residue_index', 'protA_resname', 'protB_resname']
-            res_data = [self.prot1.idx, self.prot1.sequence, self.prot2.sequence]
+            res_data = [np.arange(len(self.prot1.sequence)) + 1, self.prot1.sequence, self.prot2.sequence]
             output = {k: d for k, d in zip(type_names, res_data) if not isinstance(d, type(None))}
             ########################################
             ### NEED TO ADD NUMBER OF NEIGHBORS
@@ -199,11 +230,6 @@ class Deformation:
 
     # Calculate distance from closest mutation
     def calculate_dist_from_mutation(self):
-        try:
-            self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
-        except AttributeError as E:
-            raise AttributeError("Sequence is not defined for Protein object")
-
         # If none differ, then return np.nan
         if not len(self.sub_pos):
             print("WARNING! Trying to calculate distance from mutation, while comparing identical sequences")

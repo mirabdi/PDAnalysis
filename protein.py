@@ -66,7 +66,7 @@ class Protein:
         else:
             raise Exception(f"Input object type {type(inp_obj)} is not supported.")
 
-        self.seq_len = len(self.idx)
+        self.seq_len = len(self.sequence)
 
 
     def load_data_from_path(self, path, ext):
@@ -100,8 +100,13 @@ class Protein:
     def _update_nan_coords(self):
         self.coord = np.zeros((len(self.sequence), 3)) * np.nan
         self.coord[self.idx] = self.coord_raw.copy()
+
+        bfactor = np.zeros(len(self.sequence)) * np.nan
+        bfactor[self.idx] = self.bfactor.copy()
+        self.bfactor = bfactor
+
         if self.max_bfactor > 0.0:
-            self.coord[(self.bfactor > self.max_bfactor)|(np.isnan(bfactor))] = np.nan
+            self.coord[(self.bfactor / np.nanmin(self.bfactor) > self.max_bfactor)|(np.isnan(self.bfactor))] = np.nan
         elif self.min_plddt > 0.0:
             self.coord[self.plddt <= self.min_plddt] = np.nan
 
@@ -202,14 +207,15 @@ class AverageProtein:
             self.dist_mat = self.proteins[0].dist_mat.copy()
 
 
+        ### NOTE - this is not used anywhere - remove?
         # Set index
-        self.idx = self.proteins[0].idx
-        #    Check that indices are the same, and print a warning if not.
-        if self.check_idx_equiv:
-            for protein in self.proteins[1:]:
-                if not np.all(self.idx == protein.idx):
-                    print("WARNING! Indices are not the same in different proteins." + \
-                          "\n\tAre you sure the input list is correct?")
+#       self.idx = self.proteins[0].idx
+#       #    Check that indices are the same, and print a warning if not.
+#       if self.check_idx_equiv:
+#           for protein in self.proteins[1:]:
+#               if not np.all(self.idx == protein.idx):
+#                   print("WARNING! Indices are not the same in different proteins." + \
+#                         "\n\tAre you sure the input list is correct?")
 
         self.sequence = self.proteins[0].sequence
         self.seq_len = self.proteins[0].seq_len
