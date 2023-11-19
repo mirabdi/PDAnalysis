@@ -1,6 +1,5 @@
 from pathlib import Path
 
-from Bio.SVDSuperimposer import SVDSuperimposer
 import numpy as np
 import pandas as pd
 
@@ -210,7 +209,7 @@ class Deformation:
             pd.DataFrame(output).to_csv(path_out, index=False)
 
             
-    def calculate_deformation(self):
+    def run(self):
         # Calculate deformation based on the specified method
         self.deformation = {}
         for method in self.method:
@@ -255,12 +254,12 @@ class Deformation:
         self.mut_dist = np.nanmin(0.5 * (mut_dist1 + mut_dist2), axis=1)
 
 
-    def calculate_lddt(self):
-        lddt = np.zeros(self.prot1.seq_len, float) * np.nan
-
+    def _calculate_deformation(self, deformation_method):
+        deformation = np.zeros(self.prot1.seq_len, float) * np.nan
         if not hasattr(self, "shared_indices"):
             self._get_shared_indices()
 
+        kwargs = {arg: getattr(self, arg) for arg in ["force_relative", "force_norm", "force_absolute", "force_nonorm"]}
         for i in range(self.prot1.seq_len):
             # Get shared indices
             i1, i2 = self.shared_indices[i]
@@ -269,140 +268,111 @@ class Deformation:
             if not len(i1):
                 continue
 
-            # Get local distance vectors
-            v1 = np.linalg.norm(self.prot1.neigh_tensor[i][i1], axis=1)
-            v2 = np.linalg.norm(self.prot2.neigh_tensor[i][i2], axis=1)
+            deformation[i] = deformation_method(self.prot1.neigh_tensor[i][i1], self.prot2.neigh_tensor[i][i2], **kwargs)
 
-            # Get local distance difference vector
-            dv = v2 - v1
+        return deformation
 
-            lddt[i] = np.sum([np.sum(dv<=cut) for cut in self.lddt_cutoffs]) / (len(self.lddt_cutoffs) * len(dv))
 
-        self.lddt = lddt
+    def _calculate_lddt_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        # Get local distance vectors
+        v1 = np.linalg.norm(neigh_tensor1, axis=1)
+        v2 = np.linalg.norm(neigh_tensor2, axis=1)
+
+        # Get local distance difference vector
+        dv = v2 - v1
+
+        return np.sum([np.sum(dv<=cut) for cut in self.lddt_cutoffs]) / (len(self.lddt_cutoffs) * len(dv))
+
+    def calculate_lddt(self):
+        self.lddt = self._calculate_deformation(self._calculate_lddt_residue)
+
+
+    def _calculate_ldd_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        # Get local distance vectors
+        v1 = np.linalg.norm(neigh_tensor1, axis=1)
+        v2 = np.linalg.norm(neigh_tensor2, axis=1)
+
+        # Get local distance difference vector
+        dv = v2 - v1
+
+        if force_relative:
+            # Normalize LDD by distance
+            dv = dv / v1
+
+        # Calculate local distance difference 
+        if force_norm:
+            # Normalize LDD by number of neighbors
+            return np.linalg.norm(dv) / len(i1)
+        else:
+            return np.linalg.norm(dv)
 
 
     def calculate_ldd(self):
-        ldd = np.zeros(self.prot1.seq_len, float) * np.nan
+        self.ldd = self._calculate_deformation(self._calculate_ldd_residue)
 
-        if not hasattr(self, "shared_indices"):
-            self._get_shared_indices()
 
-        for i in range(self.prot1.seq_len):
-            # Get shared indices
-            i1, i2 = self.shared_indices[i]
-
-            # If no shared indices, leave np.nan
-            if not len(i1):
-                continue
-
-            # Get local distance vectors
-            v1 = np.linalg.norm(self.prot1.neigh_tensor[i][i1], axis=1)
-            v2 = np.linalg.norm(self.prot2.neigh_tensor[i][i2], axis=1)
-
-            # Get local distance difference vector
-            dv = v2 - v1
-
-            if self.force_relative:
-                dv = dv / v1
-
-            # Calculate local distance difference 
-            if self.force_norm:
-                ldd[i] = np.linalg.norm(dv) / len(i1)
-            else:
-                ldd[i] = np.linalg.norm(dv)
-
-        self.ldd = ldd
+    def _calculate_nd_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        # Rotate neighbourhood tensor and calculate Euclidean distance
+        nd = np.linalg.norm(rotate_points(neigh_tensor2, neigh_tensor1) - neigh_tensor1)
+        if self.force_norm:
+            return nd / len(i1)
+        else:
+            return nd
 
 
     def calculate_neighborhood_dist(self):
-        nd = np.zeros(self.prot1.seq_len, float) * np.nan
+        self.neighbor_distance = self._calculate_deformation(self._calculate_nd_residue)
 
-        if not hasattr(self, "shared_indices"):
-            self._get_shared_indices()
 
-        for i in range(self.prot1.seq_len):
-            # Get shared indices
-            i1, i2 = self.shared_indices[i]
-
-            # If no shared indices, leave np.nan
-            if not len(i1):
-                continue
-
-            # Get neighbourhood tensors
-            c1 = self.prot1.neigh_tensor[i][i1]
-            c2 = self.prot2.neigh_tensor[i][i2]
-
-            # Rotate neighbourhood tensor and calculate Euclidean distance
-            if self.force_norm:
-                nd[i] = np.linalg.norm(rotate_points(c2, c1) - c1) / len(i1)
-            else:
-                nd[i] = np.linalg.norm(rotate_points(c2, c1) - c1)
-
-        self.neighbor_distance = nd
+    def _calculate_shear_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        u1 = neigh_tensor1
+        u2 = neigh_tensor2
+        try:
+            duu = u2 @ u2.T - u1 @ u1.T
+            uu = np.linalg.inv(u1.T @ u1) 
+            C = 0.5 * (uu @ u1.T @ duu @ u1 @ uu)
+            return 0.5 * np.sum(np.diag(C@C) - np.diag(C)**2)
+        except Exception as e:
+            print(e)
+            return np.nan
 
 
     def calculate_shear(self):
-        shear = np.zeros(self.prot1.seq_len, float) * np.nan
+        self.shear = self._calculate_deformation(self._calculate_shear_residue)
 
-        if not hasattr(self, "shared_indices"):
-            self._get_shared_indices()
 
-        for i in range(self.prot1.seq_len):
-            # Get shared indices
-            i1, i2 = self.shared_indices[i]
+    def _calculate_strain_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        # Rotate neighbourhood tensor and calculate Euclidean distance
+        nt3 = rotate_points(neigh_tensor2, neigh_tensor1)
+        if not self.force_absolute:
+            # Divide by length to get strain
+            es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1) / np.linalg.norm(neigh_tensor1, axis=1))
+        else:
+            es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1))
 
-            # If no shared indices, leave np.nan
-            if not len(i1):
-                continue
+        if not self.force_nonorm:
+            # Normalize ES by number of neighbors
+            es /= len(neigh_tensor1)
 
-            # Get neighbourhood tensors
-            u1 = self.prot1.neigh_tensor[i][i1]
-            u2 = self.prot2.neigh_tensor[i][i2]
-            try:
-                duu = u2 @ u2.T - u1 @ u1.T
-                uu = np.linalg.inv(u1.T @ u1) 
-                C = 0.5 * (uu @ u1.T @ duu @ u1 @ uu)
-                shear[i] = 0.5 * np.sum(np.diag(C@C) - np.diag(C)**2)
-            except Exception as e:
-                continue
-
-        self.shear = shear
+        return es
 
 
     def calculate_strain(self):
-        strain = np.zeros(self.prot1.seq_len, float) * np.nan
+        self.strain = self._calculate_deformation(self._calculate_strain_residue)
 
-        if not hasattr(self, "shared_indices"):
-            self._get_shared_indices()
 
-        for i in range(self.prot1.seq_len):
-            # Get shared indices
-            i1, i2 = self.shared_indices[i]
+    def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        # Find the deformation gradient tensor, F
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)
+        if not self.force_nonorm:
+            return np.nansum(residuals)
+        else:
+            return np.nansum(residuals) / len(neigh_tensor1)
 
-            # If no shared indices, leave np.nan
-            if not len(i1):
-                continue
-
-            # Get neighbourhood tensors
-            c1 = self.prot1.neigh_tensor[i][i1]
-            c2 = self.prot2.neigh_tensor[i][i2]
-
-            # Rotate neighbourhood tensor and calculate Euclidean distance
-            c3 = rotate_points(c2, c1)
-            if self.force_absolute:
-                s = np.sum(np.linalg.norm(c3 - c1, axis=1))
-            else:
-                s = np.sum(np.linalg.norm(c3 - c1, axis=1) / np.linalg.norm(c1, axis=1))
-
-            if not self.force_nonorm:
-                s /= len(i1)
-
-            strain[i] = s
-
-        self.strain = strain
 
     def calculate_non_affine(self):
-        pass
+        self.non_affine = self._calculate_deformation(self._calculate_non_affine_residue)
+
 
     #######################################################
     ### Root-Mean-Square Deviation
@@ -425,9 +395,9 @@ class Deformation:
         idx = ~np.any(np.isnan(c1) | np.isnan(c2), axis=1)
         c1, c2 = c1[idx], c2[idx]
 
-        sup = SVDSuperimposer()
-        sup.set(c1, c2) 
-        sup.run()
-        self.rmsd = sup.get_rms()
+        c1 = c1 - np.mean(c1, axis=0).reshape(1, 3)
+        c2 = c2 - np.mean(c2, axis=0).reshape(1, 3)
+        c3 = rotate_points(c2, c1)
+        self.rmsd = np.sqrt(np.sum((c1 - c3)**2) / len(c1))
 
 

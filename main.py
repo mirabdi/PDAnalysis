@@ -157,7 +157,7 @@ def main():
         protA = load_protein_object(pathA, **protein_kwargs)
         protB = load_protein_object(pathB, **protein_kwargs)
         deform = Deformation(protA, protB, **deform_kwargs)
-        deform.calculate_deformation()
+        deform.run()
         deform.save_output(args.output)
 
     else:

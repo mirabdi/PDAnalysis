@@ -66,7 +66,10 @@ class Protein:
         else:
             raise Exception(f"Input object type {type(inp_obj)} is not supported.")
 
-        self.seq_len = len(self.sequence)
+        if not isinstance(self.sequence, type(None)):
+            self.seq_len = len(self.sequence)
+        else:
+            self.seq_len = len(self.coord)
 
 
     def load_data_from_path(self, path, ext):
