@@ -1,0 +1,2 @@
+[console_scripts]
+pdanalysis = PDAnalysis.main:main

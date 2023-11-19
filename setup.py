@@ -42,7 +42,7 @@ if __name__ == "__main__":
     CLASSIFIERS = [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: The MIT License (MIT)',
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     ]
 
     ENTRY_POINTS = {
-        "consol_scripts": [
+        "console_scripts": [
             "pdanalysis=PDAnalysis.main:main"
         ]
     }

@@ -1,0 +1,15 @@
+LICENSE.txt
+README.md
+setup.py
+PDAnalysis/__init__.py
+PDAnalysis/deformation.py
+PDAnalysis/main.py
+PDAnalysis/pdb_parser.py
+PDAnalysis/protein.py
+PDAnalysis/utils.py
+PDAnalysis.egg-info/PKG-INFO
+PDAnalysis.egg-info/SOURCES.txt
+PDAnalysis.egg-info/dependency_links.txt
+PDAnalysis.egg-info/entry_points.txt
+PDAnalysis.egg-info/requires.txt
+PDAnalysis.egg-info/top_level.txt
