@@ -17,8 +17,6 @@ def parse_3letter(x):
     return IUPACData.protein_letters_3to1.get(x[0].upper() + x[1:].lower(), 'X')
 
 
-### Load data corresponding to rows starting with ATOM
-###     (coordinates, residue index, sequence,  
 def parse_pdb_coordinates(path, chain='', model=0, all_atom=False):
     parser = PDBParser(QUIET=True)
     chains = list(parser.get_structure('', path)[model])
@@ -51,6 +49,7 @@ def parse_pdb_coordinates(path, chain='', model=0, all_atom=False):
                     print(f"{path}\n{e}")
                     continue
     return [np.array(x) for x in [coord, idx, seq, bfac]]
+
 
 
 
@@ -130,7 +129,7 @@ def load_and_fix_pdb_data(path, chain=''):
 
     # Load the sequence from the SEQRES part
     # Load the coords, sequence, etc., from the ATOM part
-    if ext == '.pdb':
+    if ext in ['.pdb', '.ent']:
         seqres = load_pdb_seqres(path, chain)
         xyz, idx, seq, bfac = parse_pdb_coordinates(path, chain)
 

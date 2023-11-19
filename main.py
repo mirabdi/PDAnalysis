@@ -47,7 +47,7 @@ def parse_args():
     parser.add_argument("--neigh_cut", type=float, default=13.0,
         help="Neighbor distance cutoff: distance in Angstroms within which residues are considered neighbors.")
     
-    parser.add_argument("--pdb_fill_missing_nan", action="store_true", default=False,
+    parser.add_argument("--fix_pdb", action="store_true", default=False,
         help="If PDB files have missing coordinates, it is advisable to use this option. This option reads" + \
              " the SEQRES entry of the PDB file, and reshapes the coordinate matrix to include the gaps as nan values. " + \
              "This allows comparison of PDB files with different sets of missing coordinates.")
@@ -60,7 +60,7 @@ def parse_args():
              "\n\t'mut_dist' :: Distance from nearest mutated residue" + \
              "\n\t'strain' :: Effective Strain" + \
              "\n\t'shear' :: Shear Strain" + \
-             "\n\t'non-affine' :: Non-Affine Strain" + \
+             "\n\t'non_affine' :: Non-Affine Strain" + \
              "\n\t'ldd' :: Local Distance Difference (LDD)" + \
              "\n\t'lddt' :: Local Distance Difference Test (LDDT)" + \
              "\n\t'neighborhood_dist' :: Neighborhood Distance" + \
@@ -138,7 +138,7 @@ def load_protein_object(path_list, **kwargs):
 
 
 def load_protein_kwargs(args):
-    kwargs_list = ["max_bfactor", "min_plddt", "neigh_cut", "pdb_fill_missing_nan"]
+    kwargs_list = ["max_bfactor", "min_plddt", "neigh_cut", "fix_pdb"]
     return {k: getattr(args, k) for k in kwargs_list}
 
 
