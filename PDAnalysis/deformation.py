@@ -334,7 +334,9 @@ class Deformation:
                 if m != 'rmsd':
                     deform[m] = getattr(self, m)
                 else:
-                    deform[m] = self.rmsd_per_residue
+                    deform["rmsd_per_residue"] = self.rmsd_per_residue
+                    deform["rmsd_overall"] = [self.rmsd] * len(self.rmsd_per_residue)
+                    print(deform["rmsd_per_residue"].shape)
 
         # Only save output if deformation was calculated
         if not len(deform):
@@ -453,12 +455,12 @@ class Deformation:
         # Get local distance difference vector
         dv = v2 - v1
 
-        if force_relative:
+        if kwargs["force_relative"]:
             # Normalize LDD by distance
             dv = dv / v1
 
         # Calculate local distance difference 
-        if force_norm:
+        if kwargs["force_norm"]:
             # Normalize LDD by number of neighbors
             return np.linalg.norm(dv) / len(i1)
         else:
@@ -474,7 +476,7 @@ class Deformation:
         """Calculate neighborhood distance given a pair of neighborhood tensors"""
         # Rotate neighbourhood tensor and calculate Euclidean distance
         nd = np.linalg.norm(rotate_points(neigh_tensor2, neigh_tensor1) - neigh_tensor1)
-        if self.force_norm:
+        if kwargs["force_norm"]:
             return nd / len(i1)
         else:
             return nd
@@ -508,13 +510,13 @@ class Deformation:
         """Calculate effective strain given a pair of neighborhood tensors"""
         # Rotate neighbourhood tensor and calculate Euclidean distance
         nt3 = rotate_points(neigh_tensor2, neigh_tensor1)
-        if not self.force_absolute:
+        if not kwargs["force_absolute"]:
             # Divide by length to get strain
             es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1) / np.linalg.norm(neigh_tensor1, axis=1))
         else:
             es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1))
 
-        if not self.force_nonorm:
+        if not kwargs["force_nonorm"]:
             # Normalize ES by number of neighbors
             es /= len(neigh_tensor1)
 
@@ -529,8 +531,8 @@ class Deformation:
     def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
         """Calculate non-affine strain given a pair of neighborhood tensors"""
         # Find the deformation gradient tensor, F
-        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)[:2]
-        if not self.force_nonorm:
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2, rcond=None)[:2]
+        if not kwargs["force_nonorm"]:
             return np.nansum(residuals)
         else:
             return np.nansum(residuals) / len(neigh_tensor1)
@@ -571,7 +573,10 @@ class Deformation:
         c3 = rotate_points(c2, c1)
 
         sd = np.sum((c1 - c3)**2, axis=1)
-        self.rmsd_per_residue = np.sqrt(sd)
+
+        self.rmsd_per_residue = np.zeros(len(idx)) * np.nan
+        self.rmsd_per_residue[idx] = np.sqrt(sd)
+
         self.rmsd = np.sqrt(np.mean(sd))
 
 
