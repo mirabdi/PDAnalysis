@@ -30,6 +30,7 @@
 
 ### &#34;P&#34; is the set of points to be mapped to &#34;Q&#34;
 def rotate_points(P, Q):
+    &#34;&#34;&#34;Rotates a set of of points using the Kabsch algorithm&#34;&#34;&#34;
     H = P.T @ Q
     U, S, Vt = np.linalg.svd(H)
     V = Vt.T
@@ -42,10 +43,12 @@ def rotate_points(P, Q):
 
 ### Returns a np.ndarray of positions where two sequences differ
 def get_mutation_position(s1, s2):
+    &#34;&#34;&#34;Get the position of mutations between two sequences&#34;&#34;&#34;
     return np.where(np.array(list(s1)) != np.array(list(s2)))[0]
 
 
 def get_shared_indices(idx1, idx2):
+    &#34;&#34;&#34;Get the intersection between two sets of indices&#34;&#34;&#34;
     i1 = np.where(np.in1d(idx1, idx2))[0]
     i2 = np.where(np.in1d(idx2, idx1))[0]
     return i1, i2</code></pre>
@@ -62,12 +65,13 @@ def get_shared_indices(idx1, idx2):
 <span>def <span class="ident">get_mutation_position</span></span>(<span>s1, s2)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get the position of mutations between two sequences</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_mutation_position(s1, s2):
+    &#34;&#34;&#34;Get the position of mutations between two sequences&#34;&#34;&#34;
     return np.where(np.array(list(s1)) != np.array(list(s2)))[0]</code></pre>
 </details>
 </dd>
@@ -75,12 +79,13 @@ def get_shared_indices(idx1, idx2):
 <span>def <span class="ident">get_shared_indices</span></span>(<span>idx1, idx2)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get the intersection between two sets of indices</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_shared_indices(idx1, idx2):
+    &#34;&#34;&#34;Get the intersection between two sets of indices&#34;&#34;&#34;
     i1 = np.where(np.in1d(idx1, idx2))[0]
     i2 = np.where(np.in1d(idx2, idx1))[0]
     return i1, i2</code></pre>
@@ -90,12 +95,13 @@ def get_shared_indices(idx1, idx2):
 <span>def <span class="ident">rotate_points</span></span>(<span>P, Q)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Rotates a set of of points using the Kabsch algorithm</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def rotate_points(P, Q):
+    &#34;&#34;&#34;Rotates a set of of points using the Kabsch algorithm&#34;&#34;&#34;
     H = P.T @ Q
     U, S, Vt = np.linalg.svd(H)
     V = Vt.T

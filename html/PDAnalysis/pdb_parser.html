@@ -42,10 +42,12 @@ import pandas as pd
 
 ### Read 3-letter code in title case
 def parse_3letter(x):
+    &#34;&#34;&#34;Convert 3-letter amino acid code to a single-letter&#34;&#34;&#34;
     return IUPACData.protein_letters_3to1.get(x[0].upper() + x[1:].lower(), &#39;X&#39;)
 
 
 def parse_pdb_coordinates(path, chain=&#39;&#39;, model=0, all_atom=False):
+    &#34;&#34;&#34;Parse coordinates, residue indices, sequence, and bfactor/plddt from a PDB file&#34;&#34;&#34;
     parser = PDBParser(QUIET=True)
     chains = list(parser.get_structure(&#39;&#39;, path)[model])
     coord, idx, seq, bfac = [], [], [], []
@@ -86,6 +88,7 @@ def parse_pdb_coordinates(path, chain=&#39;&#39;, model=0, all_atom=False):
 
 
 def parse_mmcif_coordinates(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;Parse coordinates, residue indices, sequence, and bfactor/plddt from a mmCIF file&#34;&#34;&#34;
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif[&#39;_atom_site&#39;])
 
@@ -107,6 +110,7 @@ def parse_mmcif_coordinates(path, chain=&#39;&#39;):
 
 
 def reformat_mmcif_dict(mmcif):
+    &#34;&#34;&#34;Reformat mmCIF dictionary to a nested dictionary&#34;&#34;&#34;
     new_dict = defaultdict(dict)
     for k, v in mmcif.items():
         if &#39;.&#39; not in k:
@@ -123,6 +127,7 @@ def reformat_mmcif_dict(mmcif):
 ### Load SEQRES 
 
 def load_pdb_seqres(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;Load SEQRES sequence from PDB file&#34;&#34;&#34;
     for record in SeqIO.parse(path, &#34;pdb-seqres&#34;):
         if not len(chain):
             return str(record.seq)
@@ -131,6 +136,7 @@ def load_pdb_seqres(path, chain=&#39;&#39;):
 
 
 def load_mmcif_seqres(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;Load SEQRES sequence from mmCIF file&#34;&#34;&#34;
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif[&#39;_pdbx_poly_seq_scheme&#39;])
 
@@ -153,6 +159,12 @@ def load_mmcif_seqres(path, chain=&#39;&#39;):
 ### Doesn&#39;t work for some rare weird cases that you get in the PDB:
 ###     e.g. microheterogeneity??? (multiple amino acids for one site, somehow; eg. 1eis)
 def load_and_fix_pdb_data(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;
+    Read PDB / mmCIF file
+
+    Load the SEQRES sequence, and match the atomic coordinates to
+    indices based on the SEQRES sequence.
+    &#34;&#34;&#34;
     ext = Path(path).suffix
 
     # Load the sequence from the SEQRES part
@@ -197,6 +209,7 @@ def load_and_fix_pdb_data(path, chain=&#39;&#39;):
 ### Match SEQRES sequence to the sequence obtained from 
 ### the atomic coordinates. Do NOT allow any mismatches, only gaps.
 def match_xyz_indices_to_seqres(seqres, xyz, seq):
+    &#34;&#34;&#34;Match the SEQRES sequence to the sequence obtained from ATOM entries&#34;&#34;&#34;
     # Find all residues that are connected along the backbone,
     # and cluster them into unbroken stretches of amino acids
     seq_clusters = find_neighbours(seq, xyz)
@@ -236,6 +249,7 @@ def match_xyz_indices_to_seqres(seqres, xyz, seq):
 ### are missing, yet the amino acids bookending the missing residues are indexed beside
 ### each other; not actually that rare (e.g., 4s34_A)
 def find_neighbours(seq, xyz, cut=4.3):
+    &#34;&#34;&#34;Find backbone neighbors based on their Alpha-carbon distances&#34;&#34;&#34;
     D = np.linalg.norm(xyz[:-1] - xyz[1:], axis=1)
     seq_clusters = []
     cluster = seq[0]
@@ -250,6 +264,7 @@ def find_neighbours(seq, xyz, cut=4.3):
 
 
 def align_sequences(seqres, seq, seq_clusters=&#39;&#39;):
+    &#34;&#34;&#34;Align SEQRES sequences to ATOM sequences&#34;&#34;&#34;
     candidates = []
 
     # Convert sequence clusters to set
@@ -285,6 +300,7 @@ def align_sequences(seqres, seq, seq_clusters=&#39;&#39;):
 # account for the indices
 # These cases are rare: the algorithm is only called for 3 PDB entries out of ~4000.
 def resolve_ambiguity(cand):
+    &#34;&#34;&#34;Resolve ambiguous cases where there is more than one alignment between SEQRES and ATOM sequences&#34;&#34;&#34;
     cand = np.array([list(x) for x in cand])
     N = len(cand)
     idx = []
@@ -315,12 +331,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">align_sequences</span></span>(<span>seqres, seq, seq_clusters='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Align SEQRES sequences to ATOM sequences</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def align_sequences(seqres, seq, seq_clusters=&#39;&#39;):
+    &#34;&#34;&#34;Align SEQRES sequences to ATOM sequences&#34;&#34;&#34;
     candidates = []
 
     # Convert sequence clusters to set
@@ -354,12 +371,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">find_neighbours</span></span>(<span>seq, xyz, cut=4.3)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Find backbone neighbors based on their Alpha-carbon distances</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def find_neighbours(seq, xyz, cut=4.3):
+    &#34;&#34;&#34;Find backbone neighbors based on their Alpha-carbon distances&#34;&#34;&#34;
     D = np.linalg.norm(xyz[:-1] - xyz[1:], axis=1)
     seq_clusters = []
     cluster = seq[0]
@@ -377,12 +395,20 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">load_and_fix_pdb_data</span></span>(<span>path, chain='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Read PDB / mmCIF file</p>
+<p>Load the SEQRES sequence, and match the atomic coordinates to
+indices based on the SEQRES sequence.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_and_fix_pdb_data(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;
+    Read PDB / mmCIF file
+
+    Load the SEQRES sequence, and match the atomic coordinates to
+    indices based on the SEQRES sequence.
+    &#34;&#34;&#34;
     ext = Path(path).suffix
 
     # Load the sequence from the SEQRES part
@@ -428,12 +454,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">load_mmcif_seqres</span></span>(<span>path, chain='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load SEQRES sequence from mmCIF file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_mmcif_seqres(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;Load SEQRES sequence from mmCIF file&#34;&#34;&#34;
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif[&#39;_pdbx_poly_seq_scheme&#39;])
 
@@ -449,12 +476,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">load_pdb_seqres</span></span>(<span>path, chain='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Load SEQRES sequence from PDB file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load_pdb_seqres(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;Load SEQRES sequence from PDB file&#34;&#34;&#34;
     for record in SeqIO.parse(path, &#34;pdb-seqres&#34;):
         if not len(chain):
             return str(record.seq)
@@ -466,12 +494,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">match_xyz_indices_to_seqres</span></span>(<span>seqres, xyz, seq)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Match the SEQRES sequence to the sequence obtained from ATOM entries</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def match_xyz_indices_to_seqres(seqres, xyz, seq):
+    &#34;&#34;&#34;Match the SEQRES sequence to the sequence obtained from ATOM entries&#34;&#34;&#34;
     # Find all residues that are connected along the backbone,
     # and cluster them into unbroken stretches of amino acids
     seq_clusters = find_neighbours(seq, xyz)
@@ -507,12 +536,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">parse_3letter</span></span>(<span>x)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Convert 3-letter amino acid code to a single-letter</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parse_3letter(x):
+    &#34;&#34;&#34;Convert 3-letter amino acid code to a single-letter&#34;&#34;&#34;
     return IUPACData.protein_letters_3to1.get(x[0].upper() + x[1:].lower(), &#39;X&#39;)</code></pre>
 </details>
 </dd>
@@ -520,12 +550,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">parse_mmcif_coordinates</span></span>(<span>path, chain='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse coordinates, residue indices, sequence, and bfactor/plddt from a mmCIF file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parse_mmcif_coordinates(path, chain=&#39;&#39;):
+    &#34;&#34;&#34;Parse coordinates, residue indices, sequence, and bfactor/plddt from a mmCIF file&#34;&#34;&#34;
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif[&#39;_atom_site&#39;])
 
@@ -550,12 +581,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">parse_pdb_coordinates</span></span>(<span>path, chain='', model=0, all_atom=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parse coordinates, residue indices, sequence, and bfactor/plddt from a PDB file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parse_pdb_coordinates(path, chain=&#39;&#39;, model=0, all_atom=False):
+    &#34;&#34;&#34;Parse coordinates, residue indices, sequence, and bfactor/plddt from a PDB file&#34;&#34;&#34;
     parser = PDBParser(QUIET=True)
     chains = list(parser.get_structure(&#39;&#39;, path)[model])
     coord, idx, seq, bfac = [], [], [], []
@@ -593,12 +625,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">reformat_mmcif_dict</span></span>(<span>mmcif)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Reformat mmCIF dictionary to a nested dictionary</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def reformat_mmcif_dict(mmcif):
+    &#34;&#34;&#34;Reformat mmCIF dictionary to a nested dictionary&#34;&#34;&#34;
     new_dict = defaultdict(dict)
     for k, v in mmcif.items():
         if &#39;.&#39; not in k:
@@ -614,12 +647,13 @@ def resolve_ambiguity(cand):
 <span>def <span class="ident">resolve_ambiguity</span></span>(<span>cand)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Resolve ambiguous cases where there is more than one alignment between SEQRES and ATOM sequences</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def resolve_ambiguity(cand):
+    &#34;&#34;&#34;Resolve ambiguous cases where there is more than one alignment between SEQRES and ATOM sequences&#34;&#34;&#34;
     cand = np.array([list(x) for x in cand])
     N = len(cand)
     idx = []

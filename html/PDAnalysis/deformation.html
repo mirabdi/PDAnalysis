@@ -217,7 +217,7 @@ class Deformation:
             raise Exception(&#34;Protein coordinate arrays are not the same length: &#34; + \
                   f&#34;Protein A has {l1} residues, while &#34; + \
                   f&#34;Protein B has {l2} residues.\n&#34; + \
-                  &#34;If using PDB files with missing coordinates, use the --pdb_fill_missing_nan option.&#34;)
+                  &#34;If using PDB files with missing coordinates, use the --fix_pdb option.&#34;)
 
         try:
             self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
@@ -557,7 +557,7 @@ class Deformation:
     def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
         &#34;&#34;&#34;Calculate non-affine strain given a pair of neighborhood tensors&#34;&#34;&#34;
         # Find the deformation gradient tensor, F
-        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)[:2]
         if not self.force_nonorm:
             return np.nansum(residuals)
         else:
@@ -888,7 +888,7 @@ print a summary of the deformation calculation</p></div>
             raise Exception(&#34;Protein coordinate arrays are not the same length: &#34; + \
                   f&#34;Protein A has {l1} residues, while &#34; + \
                   f&#34;Protein B has {l2} residues.\n&#34; + \
-                  &#34;If using PDB files with missing coordinates, use the --pdb_fill_missing_nan option.&#34;)
+                  &#34;If using PDB files with missing coordinates, use the --fix_pdb option.&#34;)
 
         try:
             self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
@@ -1228,7 +1228,7 @@ print a summary of the deformation calculation</p></div>
     def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
         &#34;&#34;&#34;Calculate non-affine strain given a pair of neighborhood tensors&#34;&#34;&#34;
         # Find the deformation gradient tensor, F
-        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)[:2]
         if not self.force_nonorm:
             return np.nansum(residuals)
         else:

@@ -14,10 +14,12 @@ import pandas as pd
 
 ### Read 3-letter code in title case
 def parse_3letter(x):
+    """Convert 3-letter amino acid code to a single-letter"""
     return IUPACData.protein_letters_3to1.get(x[0].upper() + x[1:].lower(), 'X')
 
 
 def parse_pdb_coordinates(path, chain='', model=0, all_atom=False):
+    """Parse coordinates, residue indices, sequence, and bfactor/plddt from a PDB file"""
     parser = PDBParser(QUIET=True)
     chains = list(parser.get_structure('', path)[model])
     coord, idx, seq, bfac = [], [], [], []
@@ -58,6 +60,7 @@ def parse_pdb_coordinates(path, chain='', model=0, all_atom=False):
 
 
 def parse_mmcif_coordinates(path, chain=''):
+    """Parse coordinates, residue indices, sequence, and bfactor/plddt from a mmCIF file"""
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif['_atom_site'])
 
@@ -79,6 +82,7 @@ def parse_mmcif_coordinates(path, chain=''):
 
 
 def reformat_mmcif_dict(mmcif):
+    """Reformat mmCIF dictionary to a nested dictionary"""
     new_dict = defaultdict(dict)
     for k, v in mmcif.items():
         if '.' not in k:
@@ -95,6 +99,7 @@ def reformat_mmcif_dict(mmcif):
 ### Load SEQRES 
 
 def load_pdb_seqres(path, chain=''):
+    """Load SEQRES sequence from PDB file"""
     for record in SeqIO.parse(path, "pdb-seqres"):
         if not len(chain):
             return str(record.seq)
@@ -103,6 +108,7 @@ def load_pdb_seqres(path, chain=''):
 
 
 def load_mmcif_seqres(path, chain=''):
+    """Load SEQRES sequence from mmCIF file"""
     mmcif = reformat_mmcif_dict(MMCIF2Dict.MMCIF2Dict(path))
     df = pd.DataFrame(data=mmcif['_pdbx_poly_seq_scheme'])
 
@@ -125,6 +131,12 @@ def load_mmcif_seqres(path, chain=''):
 ### Doesn't work for some rare weird cases that you get in the PDB:
 ###     e.g. microheterogeneity??? (multiple amino acids for one site, somehow; eg. 1eis)
 def load_and_fix_pdb_data(path, chain=''):
+    """
+    Read PDB / mmCIF file
+
+    Load the SEQRES sequence, and match the atomic coordinates to
+    indices based on the SEQRES sequence.
+    """
     ext = Path(path).suffix
 
     # Load the sequence from the SEQRES part
@@ -169,6 +181,7 @@ def load_and_fix_pdb_data(path, chain=''):
 ### Match SEQRES sequence to the sequence obtained from 
 ### the atomic coordinates. Do NOT allow any mismatches, only gaps.
 def match_xyz_indices_to_seqres(seqres, xyz, seq):
+    """Match the SEQRES sequence to the sequence obtained from ATOM entries"""
     # Find all residues that are connected along the backbone,
     # and cluster them into unbroken stretches of amino acids
     seq_clusters = find_neighbours(seq, xyz)
@@ -208,6 +221,7 @@ def match_xyz_indices_to_seqres(seqres, xyz, seq):
 ### are missing, yet the amino acids bookending the missing residues are indexed beside
 ### each other; not actually that rare (e.g., 4s34_A)
 def find_neighbours(seq, xyz, cut=4.3):
+    """Find backbone neighbors based on their Alpha-carbon distances"""
     D = np.linalg.norm(xyz[:-1] - xyz[1:], axis=1)
     seq_clusters = []
     cluster = seq[0]
@@ -222,6 +236,7 @@ def find_neighbours(seq, xyz, cut=4.3):
 
 
 def align_sequences(seqres, seq, seq_clusters=''):
+    """Align SEQRES sequences to ATOM sequences"""
     candidates = []
 
     # Convert sequence clusters to set
@@ -257,6 +272,7 @@ def align_sequences(seqres, seq, seq_clusters=''):
 # account for the indices
 # These cases are rare: the algorithm is only called for 3 PDB entries out of ~4000.
 def resolve_ambiguity(cand):
+    """Resolve ambiguous cases where there is more than one alignment between SEQRES and ATOM sequences"""
     cand = np.array([list(x) for x in cand])
     N = len(cand)
     idx = []
