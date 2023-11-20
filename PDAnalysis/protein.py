@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 from scipy.spatial.distance import cdist
 
-from pdb_parser import parse_pdb_coordinates, parse_mmcif_coordinates, load_and_fix_pdb_data
-from utils import rotate_points
+from .pdb_parser import parse_pdb_coordinates, parse_mmcif_coordinates, load_and_fix_pdb_data
+from .utils import rotate_points
 
 
 class Protein:

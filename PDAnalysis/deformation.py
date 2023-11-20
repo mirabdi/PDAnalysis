@@ -3,8 +3,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from protein import Protein, AverageProtein
-from utils import rotate_points, get_shared_indices, get_mutation_position
+from .protein import Protein, AverageProtein
+from .utils import rotate_points, get_shared_indices, get_mutation_position
 
 
 class Deformation:

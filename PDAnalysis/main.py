@@ -5,8 +5,8 @@ from pathlib import Path
 from Bio.SVDSuperimposer import SVDSuperimposer
 import numpy as np
 
-from protein import Protein, AverageProtein
-from deformation import Deformation
+from .protein import Protein, AverageProtein
+from .deformation import Deformation
 
 
 def parse_args():
