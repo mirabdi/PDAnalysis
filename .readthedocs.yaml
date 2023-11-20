@@ -5,5 +5,5 @@ build:
       python: "3.9"
     commands: 
       - mkdir --parents _readthedocs/html/
-      - cp --recursive   html/PDAnalysis/* _readthedocs/html/
+      - cp --recursive   html/PDAnalysis  _readthedocs/html/
 
