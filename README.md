@@ -2,7 +2,10 @@
 
 Python package for calculating deformation between protein structures.  
   
-Code is still being developed, but this version has been released early for the purpose of peer review and testing. If you encounter any problems, either post an [Issue](https://github.com/mirabdi/af2-analysis-code/issues) or send an email to [John McBride](mailto:jmmcbride@protonmail.com).
+Code is still actively being developed, but should work for most cases. If you encounter any problems, either post an [Issue](https://github.com/mirabdi/af2-analysis-code/issues) or send an email to [John McBride](mailto:jmmcbride@protonmail.com).
+
+
+Documentation for PDAnalysis can be found [here](https://pdanalysis.readthedocs.io/en/latest/)
 
 ## Description
 
@@ -24,7 +27,7 @@ Calculates global deformation:
 
 ### Dependencies
 
-* python 3.7<=
+* python>=3.7
 * numpy
 * scipy
 * pandas
@@ -33,8 +36,13 @@ Calculates global deformation:
 
 ### Installing
 
-* Download this repository
-* pip install PDAnalysis (in development - not yet ready)
+Using PDAnalysis as a module
+* pip install PDAnalysis
+
+Using PDAnalysis from the command line
+* Clone this repository ``git clone https://github.com/mirabdi/PDAnalysis.git''
+* Run  ``python setup.py install''
+* From inside the cloned repository run ``python main.py''
 
 ### Executing program
 
@@ -92,8 +100,10 @@ python main.py --help
 
 ## Version History
 
-* 0.0
-    * Pre-Release
+* 0.0.0
+    * Pre-release
+* 0.0.1
+    * First working release
 
 ## License
 
@@ -103,8 +113,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 * If you use PDAnalysis in your work, please cite [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A., & Tlusty, T. AlphaFold2 can predict single-mutation effects](https://www.biorxiv.org/content/10.1101/2022.04.14.488301v5).
 * If using LDDT, please cite [Mariani, Valerio, Marco Biasini, Alessandro Barbato, and
-Torsten Schwede (2013), “lDDT: a local superposition-free score for comparing protein structures and models
-using distance difference tests,” Bioinformatics 29 (21), 2722–2728](https://arxiv.org/abs/https://academic.oup.com/bioinformatics/article-pdf/29/21/2722/18533347/btt473.pdf).
-* The code for Shear Strain was provided by Jacques Rougemont. If using this method, please cite [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), “Colloquium: Proteins: The physics of amorphous evolving matter,” Rev. Mod. Phys. 91, 031001](https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.91.031001).
-* If using Non-affine Strain, please cite [Falk, M L, and J. S. Langer (1998), “Dynamics of viscoplastic deformation in amorphous solids,” Phys. Rev. E 57, 7192–7205](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.57.7192). We also give credit to [matscipy](https://github.com/libAtoms/matscipy) for an earlier implementation.
+Torsten Schwede (2013), lDDT: a local superposition-free score for comparing protein structures and models using distance difference tests, Bioinformatics 29 (21), 2722–2728](https://arxiv.org/abs/https://academic.oup.com/bioinformatics/article-pdf/29/21/2722/18533347/btt473.pdf).
+* The code for Shear Strain was provided by Jacques Rougemont. If using this method, please cite [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), Colloquium: Proteins: The physics of amorphous evolving matter, Rev. Mod. Phys. 91, 031001](https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.91.031001).
+* If using Non-affine Strain, please cite [Falk, M L, and J. S. Langer (1998), Dynamics of viscoplastic deformation in amorphous solids, Phys. Rev. E 57, 7192–7205](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.57.7192). We also give credit to [matscipy](https://github.com/libAtoms/matscipy) for an earlier implementation.
 

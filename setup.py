@@ -76,7 +76,7 @@ if __name__ == "__main__":
           long_description_content_type='text/markdown',
           author='John M. McBride',
           author_email='jmmcbride@protonmail.com',
-          url='https://www.mdanalysis.org',
+          url='https://github.com/mirabdi/PDAnalysis',
           classifiers=CLASSIFIERS,
           provides=['PDAnalysis'],
           packages=find_packages(),
