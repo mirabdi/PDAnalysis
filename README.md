@@ -40,9 +40,9 @@ Using PDAnalysis as a module
 * pip install PDAnalysis
 
 Using PDAnalysis from the command line
-* Clone this repository ``git clone https://github.com/mirabdi/PDAnalysis.git''
-* Run  ``python setup.py install''
-* From inside the cloned repository run ``python main.py''
+* Clone this repository <code>git clone https://github.com/mirabdi/PDAnalysis.git</code>
+* Run  <code>python setup.py install</code>
+* From inside the cloned repository run <code>python main.py</code>
 
 ### Executing program
 
