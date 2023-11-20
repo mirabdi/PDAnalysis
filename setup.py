@@ -11,7 +11,7 @@
 # AlphaFold2 can predict single mutation effects, PRL (2023)
 #
 
-"""Setuptools-based setup script for MDAnalysis.
+"""Setuptools-based setup script for PDAnalysis.
 
 See ./requirements.txt for a list of dependencies.
 
@@ -28,7 +28,7 @@ import sys
 
 # Check Python version
 if sys.version_info[:2] < (3, 7):
-    print('MDAnalysis requires Python 3.7+. Python {0:d}.{1:d} detected'.format(*
+    print('PDAnalysis requires Python 3.7+. Python {0:d}.{1:d} detected'.format(*
           sys.version_info[:2]))
     print('Please upgrade your version of Python.')
     sys.exit(-1)
