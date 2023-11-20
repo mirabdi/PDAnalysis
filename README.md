@@ -57,7 +57,7 @@ Protein Input Types:
 * "--prot\_listB"   :: Path to a simple text file with a list of paths to proteins.
 
 Optional Arguments:
-* "--method"        :: Deformation method to use. Default is "strain". "all" calculates everything. Multiple methods can be used if separated by spaces. Allowed methods: "mut\_dist", "strain", "shear", "non-affine", "ldd", "lddt", "rmsd". Note that "rmsd" only works for comparisons between single structures (no averaging); running "rmsd" with multple input structures will only use one protein from A and one protein from B.
+* "--method"        :: Deformation method to use. Default is "strain". "all" calculates everything. Multiple methods can be used if separated by spaces. Allowed methods: "mut\_dist", "strain", "shear", "non_affine", "ldd", "lddt", "rmsd". Note that "rmsd" only works for comparisons between single structures (no averaging); running "rmsd" with multple input structures will only use one protein from A and one protein from B.
 * "--min\_plddt"    :: Minimum pLDDT cutoff: exclude from calculations any atoms with pLDDT lower than the cutoff. Recommended value = 70.
 * "--max\_bfactor"  :: Maximum bfactor cutoff: exclude from calculations any atoms with B-factor higher than the cutoff.
 * "--neigh\_cut"    :: Neighbor cutoff distance in Angstroms.
