@@ -529,7 +529,7 @@ class Deformation:
     def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
         """Calculate non-affine strain given a pair of neighborhood tensors"""
         # Find the deformation gradient tensor, F
-        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)[:2]
         if not self.force_nonorm:
             return np.nansum(residuals)
         else:
