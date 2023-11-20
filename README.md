@@ -44,7 +44,15 @@ Using PDAnalysis from the command line
 * Run  <code>python setup.py install</code>
 * From inside the cloned repository run <code>python main.py</code>
 
-### Executing program
+### Executing program using Google Colab
+
+The following tutorials show examples of using PDAnalysis:
+* [Calculating different deformation metrics](https://colab.research.google.com/drive/1hLdz7TFfNB8adCWflvvAKGWUFKuNuu6z?usp=sharing)
+* [Averaging over multiple structures](https://colab.research.google.com/drive/14SSvTnLry7YMEJcNTv-5FR6zOq6MNaiM#scrollTo=_jVEZhJNHBDM)
+* [Calculating deformation using experimental structures](https://colab.research.google.com/drive/1KLD9SXFsCt9bTsjnJhTP6oX-hH9WQZHp?usp=sharing)
+
+
+### Executing program via command line
 
 ```
 python main.py --protA [path(s) to protein A] --protB [path(s) to protein B]
