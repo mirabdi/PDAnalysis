@@ -1,12 +1,7 @@
 import argparse
 import os
-from pathlib import Path
 
-from Bio.SVDSuperimposer import SVDSuperimposer
-import numpy as np
-
-from .protein import Protein, AverageProtein
-from .deformation import Deformation
+from PDAnalysis import Protein, AverageProtein, Deformation
 
 
 def parse_args():

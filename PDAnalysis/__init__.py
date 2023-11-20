@@ -1,13 +1,13 @@
-# """Protein Deformation Analysis (PDAnalysis)
+"""Protein Deformation Analysis (PDAnalysis)
 
-# This package reads coordinates of two proteins (or two sets of proteins) A and B,
-# and calculates deformation between them.
+This package reads coordinates of two proteins (or two sets of proteins) A and B,
+and calculates deformation between them.
 
-# """
+"""
 
-# from .main import main
+from .protein import Protein, AverageProtein
+from .deformation import Deformation
+from . import pdb_parser, utils
 
 
-# if __name__ == "__main__":
-#     main()
 
