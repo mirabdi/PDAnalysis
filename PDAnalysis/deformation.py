@@ -189,7 +189,7 @@ class Deformation:
             raise Exception("Protein coordinate arrays are not the same length: " + \
                   f"Protein A has {l1} residues, while " + \
                   f"Protein B has {l2} residues.\n" + \
-                  "If using PDB files with missing coordinates, use the --pdb_fill_missing_nan option.")
+                  "If using PDB files with missing coordinates, use the --fix_pdb option.")
 
         try:
             self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
