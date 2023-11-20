@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>PDAnalysis.protein API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>PDAnalysis.protein</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from collections import Counter
+from pathlib import Path
+
+from pathlib import Path
+import numpy as np
+from scipy.spatial.distance import cdist
+
+from .pdb_parser import parse_pdb_coordinates, parse_mmcif_coordinates, load_and_fix_pdb_data
+from .utils import rotate_points
+
+
+class Protein:
+    &#34;&#34;&#34; Protein object description:
+
+    The Protein object accepts a protein structure as input (PDB file, CIF file, atomic coordinates),
+    and represents the protein conformation as a list of local neighborhoods per residue.
+
+    Attributes
+    ----------
+    seq_len : int
+        length of the protein sequence
+
+    sequence : np.ndarray(seq_len)
+        single-letter amino-acid sequence
+
+    coord : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, with nan values for missing residues
+        and for residues excluded based on bfactor/pLDDT
+        
+    coord_raw : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, exactly as read from file
+
+    idx : np.ndarray(seq_len)
+        residue indices
+
+    bfactor : np.ndarray(seq_len)
+        Bfactor (temperature factor); mirrors plddt
+
+    plddt : np.ndarray(seq_len)
+        pLDDT (AlphaFold-predicted confidence score); mirrors bfactor
+
+    dist_mat : np.ndarray(seq_len, seq_len)
+        alpha-carbon distance matrix
+
+    neigh_idx : list
+        list of neighbor indices for each residue
+
+    neigh_tensor: list
+        list of neighborhood tensors for each residue
+
+
+    Methods
+    -------
+
+    get_local_neighborhood
+        Gets the indices of neighbors for each residue (neigh_idx),
+        and calculates neighborhood tensors (neigh_tensor).
+
+    &#34;&#34;&#34;
+    def __init__(self, inp_obj, **kwargs):
+        &#34;&#34;&#34;
+        args
+        ----------
+        inp_obj : (str, Path, np.ndarray)
+            &gt; path (str, Path) to file:
+                  allowed filetypes:
+                      PDB / CIF file (.pdb, .ent, .cif)
+                      coordinate text file (.txt, .dat)
+                      coordinate numpy binary file (.npy)
+            &gt; coordinates (np.ndarray)
+
+        kwargs
+        ----------
+
+        max_bfactor : float : default = 0.0
+            if nonzero, excludes residues with zscore(bfactor) greater than max_bfactor
+
+        min_plddt : float : default = 0.0
+            if nonzero, excludes residues with pLDDT lower than min_plddt
+
+        neigh_cut : float : default = 13.0
+            cutoff radius used to determine neighborhood
+
+        chain : str : default = &#39;&#39;
+            if not &#39;&#39;, only parses coordinates for a specific chain
+
+        fix_pdb : bool : default = False
+            if True, uses the SEQRES data to assign residue indices;
+            neighborhoods of missing residues are stored as empty lists;
+            this facilitates comparison of PDB structures that are missing different sets of residues
+
+        delimiter : str : default = &#39; &#39;
+            delimiter for loading coordinates in text files;
+            passed to np.loadtxt
+
+        skip_rows : int : default = 0
+            number of rows to skip at the top of text files;
+            passed to np.loadtxt
+            
+        &#34;&#34;&#34;
+        # Parameters
+        self.max_bfactor = kwargs.get(&#39;max_bfactor&#39;, 0.0)
+        self.min_plddt = kwargs.get(&#39;min_plddt&#39;, 0.0)
+        self.neigh_cut = kwargs.get(&#39;neigh_cut&#39;, 13.0)
+        self.chain = kwargs.get(&#39;chain&#39;, &#39;&#39;)
+        self.fix_pdb =  kwargs.get(&#39;fix_pdb&#39;, False)
+        self.delimiter = kwargs.get(&#39;delimiter&#39;, &#39; &#39;)
+        self.skip_rows = kwargs.get(&#39;skip_rows&#39;, 0)
+
+        # Defaults
+        self.sequence = None
+        self.idx = None
+        self.plddt = None
+        self.bfactor = None
+        self.dist_mat = None
+        self.neigh_idx = []
+        self.neigh_tensor = []
+        self.seq_len = None         # Number of residues
+
+        # Load data
+        self._parse_input(inp_obj)
+        self.get_local_neighborhood()
+
+
+    def _parse_input(self, inp_obj):
+        &#34;&#34;&#34;
+        Parses a range of input object types (.pdb, .ent, .cif, .txt, .dat, .npy)
+
+        Extracts: coordinates, residue indices, amino-acid sequence, bfactor/pLDDT
+        &#34;&#34;&#34;
+
+        if isinstance(inp_obj, (str, Path)):
+            ext = Path(inp_obj).suffix
+
+            ### Read PDB / mmCIF file
+            if (ext in [&#39;.pdb&#39;, &#39;.cif&#39;, &#39;.ent&#39;]):
+                self._load_data_from_path(inp_obj, ext)
+
+            ### Read text coordinate file
+            elif (ext in [&#39;.txt&#39;, &#39;.dat&#39;]):
+                try:
+                    print(f&#34;WARNING! Ambiguity in file format {ext}. Attempting to read coordinates.&#34;)
+                    self.coord = np.loadtxt(inp_obj, delimiter=self.delimiter, skip_rows=self.skip_rows)
+                    self.idx = np.arange(len(self.coord))
+                except:
+                    raise Exception(&#34;Could not read coordinates from input file!&#34;)
+
+            ### Read nump binary coordinate file
+            elif (ext == &#39;.npy&#39;):
+                self.coord = np.load(inp_obj)
+                self.idx = np.arange(len(self.coord))
+
+        elif isinstance(inp_obj, np.ndarray):
+            self.coord = inp_obj
+            self.idx = np.arange(len(self.coord))
+
+        else:
+            raise Exception(f&#34;Input object type {type(inp_obj)} is not supported.&#34;)
+
+        if not isinstance(self.sequence, type(None)):
+            self.seq_len = len(self.sequence)
+        else:
+            self.seq_len = len(self.coord)
+
+
+    def _load_data_from_path(self, path, ext):
+        &#34;&#34;&#34;Parses data from a path, depending on the file type&#34;&#34;&#34;
+        if self.fix_pdb:
+            data = load_and_fix_pdb_data(path, self.chain)
+            # (indices in PDB files are inconsistent, so we reorder
+            #  the indices so that they start from zero)
+
+        else:
+            if ext in [&#34;.pdb&#34;, &#34;.ent&#34;]:
+                data = parse_pdb_coordinates(path, self.chain)
+            elif ext in [&#34;.cif&#34;]:
+                data = parse_mmcif_coordinates(path, self.chain)
+
+            # Reorder indices so that they start from zero
+            # (by default, AF-predicted structures start counting at one)
+            if data[1][0] != 0:
+                data[1] = data[1] - data[1][0]
+
+        self.coord_raw = data[0]
+        self.idx = data[1]
+        self.sequence = data[2]
+        self.bfactor = data[3]
+        self.plddt = data[3].copy()
+
+        # Fill in &#39;disordered&#39; (high bfactor, low plddt) with NaN values
+        self._update_nan_coords()
+
+
+    # Fill in &#39;disordered&#39; (high bfactor, low plddt) with NaN values
+    def _update_nan_coords(self):
+        &#34;&#34;&#34;Constructs a coordinate array that includes nan values for
+        missing residues and for residues excluded based on bfactor/pLDDT&#34;&#34;&#34;
+
+        self.coord = np.zeros((len(self.sequence), 3)) * np.nan
+        self.coord[self.idx] = self.coord_raw.copy()
+
+        bfactor = np.zeros(len(self.sequence)) * np.nan
+        bfactor[self.idx] = self.bfactor.copy()
+        self.bfactor = bfactor
+
+        if self.max_bfactor &gt; 0.0:
+            bfactor_zscore = (self.bfactor - np.nanmean(self.bfactor)) / np.nanstd(self.bfactor)
+            self.coord[(bfactor_zscore &gt; self.max_bfactor) | (np.isnan(self.bfactor))] = np.nan
+        elif self.min_plddt &gt; 0.0:
+            self.coord[self.plddt &lt;= self.min_plddt] = np.nan
+
+
+    def _get_dist_mat(self):
+        &#34;&#34;&#34;Calculates alpha-carbon distance matrix&#34;&#34;&#34;
+        self.dist_mat = cdist(self.coord, self.coord)
+    
+
+    def get_local_neighborhood(self):
+        &#34;&#34;&#34;Extracts local neighborhoods for each residue&#34;&#34;&#34;
+        if not isinstance(self.dist_mat, np.ndarray):
+            self._get_dist_mat()
+        self.neigh_idx = [np.where((d &gt; 0) &amp; (d &lt;= self.neigh_cut) &amp; (np.isfinite(d)))[0] for d in self.dist_mat]
+        self._calculate_neighbor_tensor()
+
+
+    def _calculate_neighbor_tensor(self):
+        &#34;&#34;&#34;Calculates the neighborhood tensor for each residue&#34;&#34;&#34;
+        self.neigh_tensor = []
+        for i, idx in enumerate(self.neigh_idx):
+            self.neigh_tensor.append(self.coord[idx] - self.coord[[i]])
+
+
+
+class AverageProtein:
+    &#34;&#34;&#34; AverageProtein object description:
+
+    The AverageProtein object accepts a protein structure as input (PDB file, CIF file, atomic coordinates),
+    and represents the protein conformation as a list of local neighborhoods per residue.
+
+    Attributes
+    ----------
+    seq_len : int
+        length of the protein sequence
+
+    num_repeat : int
+        number of proteins used to create an AverageProtein
+
+    sequence : np.ndarray(seq_len)
+        single-letter amino-acid sequence
+
+    coord : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, with nan values for missing residues
+        and for residues excluded based on bfactor/pLDDT
+        
+    coord_raw : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, exactly as read from file
+
+    bfactor : np.ndarray(seq_len)
+        Bfactor (temperature factor); mirrors plddt
+
+    plddt : np.ndarray(seq_len)
+        pLDDT (AlphaFold-predicted confidence score); mirrors bfactor
+
+    dist_mat : np.ndarray(seq_len, seq_len)
+        alpha-carbon distance matrix
+
+    neigh_idx : list
+        list of neighbor indices for each residue
+
+    neigh_tensor: list
+        list of average neighborhood tensors for each residue
+
+
+    Methods
+    -------
+
+    get_average_structure
+        Gets the indices of neighbors for each residue (neigh_idx),
+        and calculates neighborhood tensors (neigh_tensor).
+
+    recalculate_average_structure
+        Recalculates the average structure after changing parameters.
+
+    &#34;&#34;&#34;
+    def __init__(self, inp_obj, **kwargs):
+        &#34;&#34;&#34;
+        args
+        ----------
+        inp_obj : list of (Protein, str, Path, np.ndarray)
+            &gt; Protein objects
+            &gt; path (str, Path) to file:
+                  allowed filetypes:
+                      PDB / CIF file (.pdb, .ent, .cif)
+                      coordinate text file (.txt, .dat)
+                      coordinate numpy binary file (.npy)
+            &gt; coordinates (np.ndarray)
+
+        kwargs
+        ----------
+
+        max_bfactor : float : default = 0.0
+            if nonzero, excludes residues with zscore(bfactor) greater than max_bfactor
+
+        min_plddt : float : default = 0.0
+            if nonzero, excludes residues with pLDDT lower than min_plddt
+
+        neigh_cut : float : default = 13.0
+            cutoff radius used to determine neighborhood
+
+        chain : str : default = &#39;&#39;
+            if not &#39;&#39;, only parses coordinates for a specific chain
+
+        fix_pdb : bool : default = False
+            if True, uses the SEQRES data to assign residue indices;
+            neighborhoods of missing residues are stored as empty lists;
+            this facilitates comparison of PDB structures that are missing different sets of residues
+
+        delimiter : str : default = &#39; &#39;
+            delimiter for loading coordinates in text files;
+            passed to np.loadtxt
+
+        skip_rows : int : default = 0
+            number of rows to skip at the top of text files;
+            passed to np.loadtxt
+            
+        average_plddt : bool : False
+            average plddt across all Protein objects;
+            otherwise uses plddt of the first Protein object
+            
+        average_bfactor : bool : False
+            average bfactor across all Protein objects;
+            otherwise uses bfactor of the first Protein object
+            
+        average_dist_mat : bool : False
+            average dist_mat across all Protein objects;
+            otherwise uses dist_mat of the first Protein object
+            
+        &#34;&#34;&#34;
+        # Parameters
+        self.max_bfactor =      kwargs.get(&#39;max_bfactor&#39;, 0.0)
+        self.min_plddt =        kwargs.get(&#39;min_plddt&#39;, 70.0)
+        self.neigh_cut =        kwargs.get(&#39;neigh_cut&#39;, 13.0)
+        self.chain =            kwargs.get(&#39;chain&#39;, &#39;&#39;)
+        self.fix_pdb =  kwargs.get(&#39;fix_pdb&#39;, False)
+        self.delimiter = kwargs.get(&#39;delimiter&#39;, &#39; &#39;)
+        self.skip_rows = kwargs.get(&#39;skip_rows&#39;, 0)
+
+        self.average_plddt =    kwargs.get(&#39;average_plddt&#39;, False)
+        self.average_bfactor =  kwargs.get(&#39;average_bfactor&#39;, False)
+        self.average_dist_mat = kwargs.get(&#39;average_bfactor&#39;, False)
+
+        # Defaults
+        self.plddt = None
+        self.bfactor = None
+        self.sequence = None
+        self.dist_mat = None
+        self.neigh_idx = []
+        self.neigh_tensor = []
+        self.seq_len = None         # Number of residues
+        self.num_repeat = None      # Number of structures
+
+        # Load data
+        self._parse_input(inp_obj, **kwargs)
+        self.get_average_structure()
+
+
+    def _parse_input(self, inp_obj, **kwargs):
+        &#34;&#34;&#34;
+        Parses a list of objects
+
+        Parses a range of input object types (.pdb, .ent, .cif, .txt, .dat, .npy)
+
+        Objects in a list need to be the same type
+
+        Extracts: Protein objects
+        &#34;&#34;&#34;
+        self.proteins = []
+        # Ensure that input is a list or an array
+        if not isinstance(inp_obj, (list, np.ndarray)):
+            raise Exception(f&#34;Input object type {type(inp_obj)} is not supported. Acceptable types:&#34; + \
+                             &#34;\n\tA list of Protein objects&#34; + \
+                             &#34;\n\tA list of Protein paths to pdb / mmcif files&#34; + \
+                             &#34;\n\tA list of numpy arrays of atomic coordinates&#34;)
+
+        # Parse inputs to get a list of Protein objects
+        for item in inp_obj:
+            if isinstance(item, Protein):
+                self.proteins.append(item)
+
+            elif isinstance(item, (str, Path, np.ndarray)):
+                self.proteins.append(Protein(item, **kwargs))
+
+            else:
+                raise Exception(f&#34;Input object type {type(item)} is not supported.&#34;)
+
+        # Set pLDDT
+        if self.average_plddt:
+            try:
+                self.plddt = np.mean([protein.plddt for protein in self.proteins], axis=0)
+            except TypeError:
+                self.plddt = None
+        else:
+            self.plddt = self.proteins[0].plddt
+
+        # Set Bfactor
+        if self.average_bfactor:
+            try:
+                self.bfactor = np.mean([protein.bfactor for protein in self.proteins], axis=0)
+            except TypeError:
+                self.bfactor = None
+        else:
+            self.bfactor = self.proteins[0].bfactor
+
+        # Set Distance Matrix
+        if self.average_dist_mat:
+            self.dist_mat = np.mean([protein.dist_mat for protein in self.proteins], axis=0)
+        else:
+            self.dist_mat = self.proteins[0].dist_mat.copy()
+
+
+        self.sequence = self.proteins[0].sequence
+        self.seq_len = self.proteins[0].seq_len
+        self.num_repeat = len(self.proteins)
+
+
+    def get_average_structure(self):
+        &#34;&#34;&#34;Get averaged local neighborhoods&#34;&#34;&#34;
+        self._get_local_neighborhood()
+
+        # Only include neighbors for each residue that are neighbors in all structures
+        self._consolidate_neighbor_lists()
+        
+        # Rotate neighborhood tensors to arbitrary reference neighborhoods,
+        # then average over repeat structures
+        self._rotate_and_average_neighbor_tensors()
+
+
+    def _get_local_neighborhood(self):
+        &#34;&#34;&#34;Get local neighborhoods per residue&#34;&#34;&#34;
+        for protein in self.proteins:
+            # If not yet calculated, get the local neighborhood
+            if len(self.neigh_idx) == 0:
+                kwargs = {a:getattr(self, a) for a in [&#39;min_plddt&#39;, &#39;max_bfactor&#39;, &#39;neigh_cut&#39;]}
+                for k, v in kwargs.items():
+                    setattr(protein, k, v)
+                protein.get_local_neighborhood()
+
+
+    def _consolidate_neighbor_lists(self):
+        &#34;&#34;&#34;Exclude neighbors that are not present in all Protein objects&#34;&#34;&#34;
+        self.neigh_idx = []
+        for i in range(self.seq_len):
+            # Count how many times indices are included in neighbor lists
+            idx_count = Counter(j for protein in self.proteins for j in protein.neigh_idx[i])
+            # Only include indices that are in all neighbor lists
+            self.neigh_idx.append([j for j, count in idx_count.items() if count == self.num_repeat])
+
+
+    ### For each residue j, rotate all neighbourhoods to match the first one,
+    ### then average over repeat structures
+    def _rotate_and_average_neighbor_tensors(self):
+        &#34;&#34;&#34;Align neighborhood tensors by rotating to match the
+           neighborhood tensor of the first Protein object.&#34;&#34;&#34;
+        self.neigh_tensor = []
+        for i in range(self.seq_len):
+            # If no neighbors..
+            if not len(self.neigh_idx[i]):
+                self.neigh_tensor.append(np.empty((0,3)))
+                continue
+
+            for j in range(self.num_repeat):
+                # Only include the rows of the tensor that correspond to
+                # the consolidated neighbor list
+                idx = [i0 for i0, j0 in enumerate(self.proteins[j].neigh_idx[i]) if j0 in self.neigh_idx[i]]
+
+                if not j:
+                    # Do not rotate the first example for residue j
+                    # Initialize the list
+                    tensor = [self.proteins[j].neigh_tensor[i][idx]]
+
+                else:
+                    # Rotate tensor so that it matches the first (reference) tensor
+                    rotated_tensor = rotate_points(self.proteins[j].neigh_tensor[i][idx], tensor[0])
+                    tensor.append(rotated_tensor)
+            self.neigh_tensor.append(np.array(tensor).mean(axis=0))
+
+
+    def recalculate_average_structure(self):
+        &#34;&#34;&#34;Recalculate average structure after changing parameters&#34;&#34;&#34; 
+        for protein in self.proteins:
+            changed = np.zeros(3, bool)
+            for i, attr in enumerate([&#39;min_plddt&#39;, &#39;max_bfactor&#39;, &#39;neigh_cut&#39;]):
+                old, new = getattr(protein, attr), getattr(self, attr)
+                if old != new:
+                    setattr(protein, attr, new)
+                    changed[i] = True
+
+            # If nothing has changed, exit function
+            if np.all(changed == False):
+                return
+
+            # If &#34;min_plddt&#34; or &#34;max_bfactor&#34; have changed,
+            # recalculate the coords as NaN values may be different
+            if np.any(changed[:2] == True):
+                protein._update_nan_coords()
+                protein._get_dist_mat()
+
+            # Recalculate neighborhoods with updated neighbor cutoff
+            protein.get_local_neighborhood()
+
+        self._consolidate_neighbor_lists()
+        self._rotate_and_average_neighbor_tensors()
+
+    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="PDAnalysis.protein.AverageProtein"><code class="flex name class">
+<span>class <span class="ident">AverageProtein</span></span>
+<span>(</span><span>inp_obj, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>AverageProtein object description:</p>
+<p>The AverageProtein object accepts a protein structure as input (PDB file, CIF file, atomic coordinates),
+and represents the protein conformation as a list of local neighborhoods per residue.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>seq_len</code></strong> :&ensp;<code>int</code></dt>
+<dd>length of the protein sequence</dd>
+<dt><strong><code>num_repeat</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of proteins used to create an AverageProtein</dd>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>single-letter amino-acid sequence</dd>
+<dt><strong><code>coord</code></strong> :&ensp;<code>np.ndarray(seq_len, 3)</code></dt>
+<dd>xyz coordinates of alpha-carbons, with nan values for missing residues
+and for residues excluded based on bfactor/pLDDT</dd>
+<dt><strong><code>coord_raw</code></strong> :&ensp;<code>np.ndarray(seq_len, 3)</code></dt>
+<dd>xyz coordinates of alpha-carbons, exactly as read from file</dd>
+<dt><strong><code>bfactor</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>Bfactor (temperature factor); mirrors plddt</dd>
+<dt><strong><code>plddt</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>pLDDT (AlphaFold-predicted confidence score); mirrors bfactor</dd>
+<dt><strong><code>dist_mat</code></strong> :&ensp;<code>np.ndarray(seq_len, seq_len)</code></dt>
+<dd>alpha-carbon distance matrix</dd>
+<dt><strong><code>neigh_idx</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of neighbor indices for each residue</dd>
+<dt><strong><code>neigh_tensor</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of average neighborhood tensors for each residue</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>get_average_structure
+Gets the indices of neighbors for each residue (neigh_idx),
+and calculates neighborhood tensors (neigh_tensor).</p>
+<p>recalculate_average_structure
+Recalculates the average structure after changing parameters.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>inp_obj</code></strong> :&ensp;<code>list</code> of <code>(<a title="PDAnalysis.protein.Protein" href="#PDAnalysis.protein.Protein">Protein</a>, str, Path, np.ndarray)</code></dt>
+<dd>
+<blockquote>
+<p>Protein objects
+path (str, Path) to file:
+allowed filetypes:
+PDB / CIF file (.pdb, .ent, .cif)
+coordinate text file (.txt, .dat)
+coordinate numpy binary file (.npy)
+coordinates (np.ndarray)</p>
+</blockquote>
+</dd>
+</dl>
+<h2 id="kwargs">Kwargs</h2>
+<p>max_bfactor : float : default = 0.0
+if nonzero, excludes residues with zscore(bfactor) greater than max_bfactor</p>
+<p>min_plddt : float : default = 0.0
+if nonzero, excludes residues with pLDDT lower than min_plddt</p>
+<p>neigh_cut : float : default = 13.0
+cutoff radius used to determine neighborhood</p>
+<p>chain : str : default = ''
+if not '', only parses coordinates for a specific chain</p>
+<p>fix_pdb : bool : default = False
+if True, uses the SEQRES data to assign residue indices;
+neighborhoods of missing residues are stored as empty lists;
+this facilitates comparison of PDB structures that are missing different sets of residues</p>
+<p>delimiter : str : default = ' '
+delimiter for loading coordinates in text files;
+passed to np.loadtxt</p>
+<p>skip_rows : int : default = 0
+number of rows to skip at the top of text files;
+passed to np.loadtxt</p>
+<p>average_plddt : bool : False
+average plddt across all Protein objects;
+otherwise uses plddt of the first Protein object</p>
+<p>average_bfactor : bool : False
+average bfactor across all Protein objects;
+otherwise uses bfactor of the first Protein object</p>
+<p>average_dist_mat : bool : False
+average dist_mat across all Protein objects;
+otherwise uses dist_mat of the first Protein object</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AverageProtein:
+    &#34;&#34;&#34; AverageProtein object description:
+
+    The AverageProtein object accepts a protein structure as input (PDB file, CIF file, atomic coordinates),
+    and represents the protein conformation as a list of local neighborhoods per residue.
+
+    Attributes
+    ----------
+    seq_len : int
+        length of the protein sequence
+
+    num_repeat : int
+        number of proteins used to create an AverageProtein
+
+    sequence : np.ndarray(seq_len)
+        single-letter amino-acid sequence
+
+    coord : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, with nan values for missing residues
+        and for residues excluded based on bfactor/pLDDT
+        
+    coord_raw : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, exactly as read from file
+
+    bfactor : np.ndarray(seq_len)
+        Bfactor (temperature factor); mirrors plddt
+
+    plddt : np.ndarray(seq_len)
+        pLDDT (AlphaFold-predicted confidence score); mirrors bfactor
+
+    dist_mat : np.ndarray(seq_len, seq_len)
+        alpha-carbon distance matrix
+
+    neigh_idx : list
+        list of neighbor indices for each residue
+
+    neigh_tensor: list
+        list of average neighborhood tensors for each residue
+
+
+    Methods
+    -------
+
+    get_average_structure
+        Gets the indices of neighbors for each residue (neigh_idx),
+        and calculates neighborhood tensors (neigh_tensor).
+
+    recalculate_average_structure
+        Recalculates the average structure after changing parameters.
+
+    &#34;&#34;&#34;
+    def __init__(self, inp_obj, **kwargs):
+        &#34;&#34;&#34;
+        args
+        ----------
+        inp_obj : list of (Protein, str, Path, np.ndarray)
+            &gt; Protein objects
+            &gt; path (str, Path) to file:
+                  allowed filetypes:
+                      PDB / CIF file (.pdb, .ent, .cif)
+                      coordinate text file (.txt, .dat)
+                      coordinate numpy binary file (.npy)
+            &gt; coordinates (np.ndarray)
+
+        kwargs
+        ----------
+
+        max_bfactor : float : default = 0.0
+            if nonzero, excludes residues with zscore(bfactor) greater than max_bfactor
+
+        min_plddt : float : default = 0.0
+            if nonzero, excludes residues with pLDDT lower than min_plddt
+
+        neigh_cut : float : default = 13.0
+            cutoff radius used to determine neighborhood
+
+        chain : str : default = &#39;&#39;
+            if not &#39;&#39;, only parses coordinates for a specific chain
+
+        fix_pdb : bool : default = False
+            if True, uses the SEQRES data to assign residue indices;
+            neighborhoods of missing residues are stored as empty lists;
+            this facilitates comparison of PDB structures that are missing different sets of residues
+
+        delimiter : str : default = &#39; &#39;
+            delimiter for loading coordinates in text files;
+            passed to np.loadtxt
+
+        skip_rows : int : default = 0
+            number of rows to skip at the top of text files;
+            passed to np.loadtxt
+            
+        average_plddt : bool : False
+            average plddt across all Protein objects;
+            otherwise uses plddt of the first Protein object
+            
+        average_bfactor : bool : False
+            average bfactor across all Protein objects;
+            otherwise uses bfactor of the first Protein object
+            
+        average_dist_mat : bool : False
+            average dist_mat across all Protein objects;
+            otherwise uses dist_mat of the first Protein object
+            
+        &#34;&#34;&#34;
+        # Parameters
+        self.max_bfactor =      kwargs.get(&#39;max_bfactor&#39;, 0.0)
+        self.min_plddt =        kwargs.get(&#39;min_plddt&#39;, 70.0)
+        self.neigh_cut =        kwargs.get(&#39;neigh_cut&#39;, 13.0)
+        self.chain =            kwargs.get(&#39;chain&#39;, &#39;&#39;)
+        self.fix_pdb =  kwargs.get(&#39;fix_pdb&#39;, False)
+        self.delimiter = kwargs.get(&#39;delimiter&#39;, &#39; &#39;)
+        self.skip_rows = kwargs.get(&#39;skip_rows&#39;, 0)
+
+        self.average_plddt =    kwargs.get(&#39;average_plddt&#39;, False)
+        self.average_bfactor =  kwargs.get(&#39;average_bfactor&#39;, False)
+        self.average_dist_mat = kwargs.get(&#39;average_bfactor&#39;, False)
+
+        # Defaults
+        self.plddt = None
+        self.bfactor = None
+        self.sequence = None
+        self.dist_mat = None
+        self.neigh_idx = []
+        self.neigh_tensor = []
+        self.seq_len = None         # Number of residues
+        self.num_repeat = None      # Number of structures
+
+        # Load data
+        self._parse_input(inp_obj, **kwargs)
+        self.get_average_structure()
+
+
+    def _parse_input(self, inp_obj, **kwargs):
+        &#34;&#34;&#34;
+        Parses a list of objects
+
+        Parses a range of input object types (.pdb, .ent, .cif, .txt, .dat, .npy)
+
+        Objects in a list need to be the same type
+
+        Extracts: Protein objects
+        &#34;&#34;&#34;
+        self.proteins = []
+        # Ensure that input is a list or an array
+        if not isinstance(inp_obj, (list, np.ndarray)):
+            raise Exception(f&#34;Input object type {type(inp_obj)} is not supported. Acceptable types:&#34; + \
+                             &#34;\n\tA list of Protein objects&#34; + \
+                             &#34;\n\tA list of Protein paths to pdb / mmcif files&#34; + \
+                             &#34;\n\tA list of numpy arrays of atomic coordinates&#34;)
+
+        # Parse inputs to get a list of Protein objects
+        for item in inp_obj:
+            if isinstance(item, Protein):
+                self.proteins.append(item)
+
+            elif isinstance(item, (str, Path, np.ndarray)):
+                self.proteins.append(Protein(item, **kwargs))
+
+            else:
+                raise Exception(f&#34;Input object type {type(item)} is not supported.&#34;)
+
+        # Set pLDDT
+        if self.average_plddt:
+            try:
+                self.plddt = np.mean([protein.plddt for protein in self.proteins], axis=0)
+            except TypeError:
+                self.plddt = None
+        else:
+            self.plddt = self.proteins[0].plddt
+
+        # Set Bfactor
+        if self.average_bfactor:
+            try:
+                self.bfactor = np.mean([protein.bfactor for protein in self.proteins], axis=0)
+            except TypeError:
+                self.bfactor = None
+        else:
+            self.bfactor = self.proteins[0].bfactor
+
+        # Set Distance Matrix
+        if self.average_dist_mat:
+            self.dist_mat = np.mean([protein.dist_mat for protein in self.proteins], axis=0)
+        else:
+            self.dist_mat = self.proteins[0].dist_mat.copy()
+
+
+        self.sequence = self.proteins[0].sequence
+        self.seq_len = self.proteins[0].seq_len
+        self.num_repeat = len(self.proteins)
+
+
+    def get_average_structure(self):
+        &#34;&#34;&#34;Get averaged local neighborhoods&#34;&#34;&#34;
+        self._get_local_neighborhood()
+
+        # Only include neighbors for each residue that are neighbors in all structures
+        self._consolidate_neighbor_lists()
+        
+        # Rotate neighborhood tensors to arbitrary reference neighborhoods,
+        # then average over repeat structures
+        self._rotate_and_average_neighbor_tensors()
+
+
+    def _get_local_neighborhood(self):
+        &#34;&#34;&#34;Get local neighborhoods per residue&#34;&#34;&#34;
+        for protein in self.proteins:
+            # If not yet calculated, get the local neighborhood
+            if len(self.neigh_idx) == 0:
+                kwargs = {a:getattr(self, a) for a in [&#39;min_plddt&#39;, &#39;max_bfactor&#39;, &#39;neigh_cut&#39;]}
+                for k, v in kwargs.items():
+                    setattr(protein, k, v)
+                protein.get_local_neighborhood()
+
+
+    def _consolidate_neighbor_lists(self):
+        &#34;&#34;&#34;Exclude neighbors that are not present in all Protein objects&#34;&#34;&#34;
+        self.neigh_idx = []
+        for i in range(self.seq_len):
+            # Count how many times indices are included in neighbor lists
+            idx_count = Counter(j for protein in self.proteins for j in protein.neigh_idx[i])
+            # Only include indices that are in all neighbor lists
+            self.neigh_idx.append([j for j, count in idx_count.items() if count == self.num_repeat])
+
+
+    ### For each residue j, rotate all neighbourhoods to match the first one,
+    ### then average over repeat structures
+    def _rotate_and_average_neighbor_tensors(self):
+        &#34;&#34;&#34;Align neighborhood tensors by rotating to match the
+           neighborhood tensor of the first Protein object.&#34;&#34;&#34;
+        self.neigh_tensor = []
+        for i in range(self.seq_len):
+            # If no neighbors..
+            if not len(self.neigh_idx[i]):
+                self.neigh_tensor.append(np.empty((0,3)))
+                continue
+
+            for j in range(self.num_repeat):
+                # Only include the rows of the tensor that correspond to
+                # the consolidated neighbor list
+                idx = [i0 for i0, j0 in enumerate(self.proteins[j].neigh_idx[i]) if j0 in self.neigh_idx[i]]
+
+                if not j:
+                    # Do not rotate the first example for residue j
+                    # Initialize the list
+                    tensor = [self.proteins[j].neigh_tensor[i][idx]]
+
+                else:
+                    # Rotate tensor so that it matches the first (reference) tensor
+                    rotated_tensor = rotate_points(self.proteins[j].neigh_tensor[i][idx], tensor[0])
+                    tensor.append(rotated_tensor)
+            self.neigh_tensor.append(np.array(tensor).mean(axis=0))
+
+
+    def recalculate_average_structure(self):
+        &#34;&#34;&#34;Recalculate average structure after changing parameters&#34;&#34;&#34; 
+        for protein in self.proteins:
+            changed = np.zeros(3, bool)
+            for i, attr in enumerate([&#39;min_plddt&#39;, &#39;max_bfactor&#39;, &#39;neigh_cut&#39;]):
+                old, new = getattr(protein, attr), getattr(self, attr)
+                if old != new:
+                    setattr(protein, attr, new)
+                    changed[i] = True
+
+            # If nothing has changed, exit function
+            if np.all(changed == False):
+                return
+
+            # If &#34;min_plddt&#34; or &#34;max_bfactor&#34; have changed,
+            # recalculate the coords as NaN values may be different
+            if np.any(changed[:2] == True):
+                protein._update_nan_coords()
+                protein._get_dist_mat()
+
+            # Recalculate neighborhoods with updated neighbor cutoff
+            protein.get_local_neighborhood()
+
+        self._consolidate_neighbor_lists()
+        self._rotate_and_average_neighbor_tensors()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="PDAnalysis.protein.AverageProtein.get_average_structure"><code class="name flex">
+<span>def <span class="ident">get_average_structure</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get averaged local neighborhoods</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_average_structure(self):
+    &#34;&#34;&#34;Get averaged local neighborhoods&#34;&#34;&#34;
+    self._get_local_neighborhood()
+
+    # Only include neighbors for each residue that are neighbors in all structures
+    self._consolidate_neighbor_lists()
+    
+    # Rotate neighborhood tensors to arbitrary reference neighborhoods,
+    # then average over repeat structures
+    self._rotate_and_average_neighbor_tensors()</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.protein.AverageProtein.recalculate_average_structure"><code class="name flex">
+<span>def <span class="ident">recalculate_average_structure</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Recalculate average structure after changing parameters</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def recalculate_average_structure(self):
+    &#34;&#34;&#34;Recalculate average structure after changing parameters&#34;&#34;&#34; 
+    for protein in self.proteins:
+        changed = np.zeros(3, bool)
+        for i, attr in enumerate([&#39;min_plddt&#39;, &#39;max_bfactor&#39;, &#39;neigh_cut&#39;]):
+            old, new = getattr(protein, attr), getattr(self, attr)
+            if old != new:
+                setattr(protein, attr, new)
+                changed[i] = True
+
+        # If nothing has changed, exit function
+        if np.all(changed == False):
+            return
+
+        # If &#34;min_plddt&#34; or &#34;max_bfactor&#34; have changed,
+        # recalculate the coords as NaN values may be different
+        if np.any(changed[:2] == True):
+            protein._update_nan_coords()
+            protein._get_dist_mat()
+
+        # Recalculate neighborhoods with updated neighbor cutoff
+        protein.get_local_neighborhood()
+
+    self._consolidate_neighbor_lists()
+    self._rotate_and_average_neighbor_tensors()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="PDAnalysis.protein.Protein"><code class="flex name class">
+<span>class <span class="ident">Protein</span></span>
+<span>(</span><span>inp_obj, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protein object description:</p>
+<p>The Protein object accepts a protein structure as input (PDB file, CIF file, atomic coordinates),
+and represents the protein conformation as a list of local neighborhoods per residue.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>seq_len</code></strong> :&ensp;<code>int</code></dt>
+<dd>length of the protein sequence</dd>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>single-letter amino-acid sequence</dd>
+<dt><strong><code>coord</code></strong> :&ensp;<code>np.ndarray(seq_len, 3)</code></dt>
+<dd>xyz coordinates of alpha-carbons, with nan values for missing residues
+and for residues excluded based on bfactor/pLDDT</dd>
+<dt><strong><code>coord_raw</code></strong> :&ensp;<code>np.ndarray(seq_len, 3)</code></dt>
+<dd>xyz coordinates of alpha-carbons, exactly as read from file</dd>
+<dt><strong><code>idx</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>residue indices</dd>
+<dt><strong><code>bfactor</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>Bfactor (temperature factor); mirrors plddt</dd>
+<dt><strong><code>plddt</code></strong> :&ensp;<code>np.ndarray(seq_len)</code></dt>
+<dd>pLDDT (AlphaFold-predicted confidence score); mirrors bfactor</dd>
+<dt><strong><code>dist_mat</code></strong> :&ensp;<code>np.ndarray(seq_len, seq_len)</code></dt>
+<dd>alpha-carbon distance matrix</dd>
+<dt><strong><code>neigh_idx</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of neighbor indices for each residue</dd>
+<dt><strong><code>neigh_tensor</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of neighborhood tensors for each residue</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>get_local_neighborhood
+Gets the indices of neighbors for each residue (neigh_idx),
+and calculates neighborhood tensors (neigh_tensor).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>inp_obj</code></strong> :&ensp;<code>(str, Path, np.ndarray)</code></dt>
+<dd>
+<blockquote>
+<p>path (str, Path) to file:
+allowed filetypes:
+PDB / CIF file (.pdb, .ent, .cif)
+coordinate text file (.txt, .dat)
+coordinate numpy binary file (.npy)
+coordinates (np.ndarray)</p>
+</blockquote>
+</dd>
+</dl>
+<h2 id="kwargs">Kwargs</h2>
+<p>max_bfactor : float : default = 0.0
+if nonzero, excludes residues with zscore(bfactor) greater than max_bfactor</p>
+<p>min_plddt : float : default = 0.0
+if nonzero, excludes residues with pLDDT lower than min_plddt</p>
+<p>neigh_cut : float : default = 13.0
+cutoff radius used to determine neighborhood</p>
+<p>chain : str : default = ''
+if not '', only parses coordinates for a specific chain</p>
+<p>fix_pdb : bool : default = False
+if True, uses the SEQRES data to assign residue indices;
+neighborhoods of missing residues are stored as empty lists;
+this facilitates comparison of PDB structures that are missing different sets of residues</p>
+<p>delimiter : str : default = ' '
+delimiter for loading coordinates in text files;
+passed to np.loadtxt</p>
+<p>skip_rows : int : default = 0
+number of rows to skip at the top of text files;
+passed to np.loadtxt</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Protein:
+    &#34;&#34;&#34; Protein object description:
+
+    The Protein object accepts a protein structure as input (PDB file, CIF file, atomic coordinates),
+    and represents the protein conformation as a list of local neighborhoods per residue.
+
+    Attributes
+    ----------
+    seq_len : int
+        length of the protein sequence
+
+    sequence : np.ndarray(seq_len)
+        single-letter amino-acid sequence
+
+    coord : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, with nan values for missing residues
+        and for residues excluded based on bfactor/pLDDT
+        
+    coord_raw : np.ndarray(seq_len, 3)
+        xyz coordinates of alpha-carbons, exactly as read from file
+
+    idx : np.ndarray(seq_len)
+        residue indices
+
+    bfactor : np.ndarray(seq_len)
+        Bfactor (temperature factor); mirrors plddt
+
+    plddt : np.ndarray(seq_len)
+        pLDDT (AlphaFold-predicted confidence score); mirrors bfactor
+
+    dist_mat : np.ndarray(seq_len, seq_len)
+        alpha-carbon distance matrix
+
+    neigh_idx : list
+        list of neighbor indices for each residue
+
+    neigh_tensor: list
+        list of neighborhood tensors for each residue
+
+
+    Methods
+    -------
+
+    get_local_neighborhood
+        Gets the indices of neighbors for each residue (neigh_idx),
+        and calculates neighborhood tensors (neigh_tensor).
+
+    &#34;&#34;&#34;
+    def __init__(self, inp_obj, **kwargs):
+        &#34;&#34;&#34;
+        args
+        ----------
+        inp_obj : (str, Path, np.ndarray)
+            &gt; path (str, Path) to file:
+                  allowed filetypes:
+                      PDB / CIF file (.pdb, .ent, .cif)
+                      coordinate text file (.txt, .dat)
+                      coordinate numpy binary file (.npy)
+            &gt; coordinates (np.ndarray)
+
+        kwargs
+        ----------
+
+        max_bfactor : float : default = 0.0
+            if nonzero, excludes residues with zscore(bfactor) greater than max_bfactor
+
+        min_plddt : float : default = 0.0
+            if nonzero, excludes residues with pLDDT lower than min_plddt
+
+        neigh_cut : float : default = 13.0
+            cutoff radius used to determine neighborhood
+
+        chain : str : default = &#39;&#39;
+            if not &#39;&#39;, only parses coordinates for a specific chain
+
+        fix_pdb : bool : default = False
+            if True, uses the SEQRES data to assign residue indices;
+            neighborhoods of missing residues are stored as empty lists;
+            this facilitates comparison of PDB structures that are missing different sets of residues
+
+        delimiter : str : default = &#39; &#39;
+            delimiter for loading coordinates in text files;
+            passed to np.loadtxt
+
+        skip_rows : int : default = 0
+            number of rows to skip at the top of text files;
+            passed to np.loadtxt
+            
+        &#34;&#34;&#34;
+        # Parameters
+        self.max_bfactor = kwargs.get(&#39;max_bfactor&#39;, 0.0)
+        self.min_plddt = kwargs.get(&#39;min_plddt&#39;, 0.0)
+        self.neigh_cut = kwargs.get(&#39;neigh_cut&#39;, 13.0)
+        self.chain = kwargs.get(&#39;chain&#39;, &#39;&#39;)
+        self.fix_pdb =  kwargs.get(&#39;fix_pdb&#39;, False)
+        self.delimiter = kwargs.get(&#39;delimiter&#39;, &#39; &#39;)
+        self.skip_rows = kwargs.get(&#39;skip_rows&#39;, 0)
+
+        # Defaults
+        self.sequence = None
+        self.idx = None
+        self.plddt = None
+        self.bfactor = None
+        self.dist_mat = None
+        self.neigh_idx = []
+        self.neigh_tensor = []
+        self.seq_len = None         # Number of residues
+
+        # Load data
+        self._parse_input(inp_obj)
+        self.get_local_neighborhood()
+
+
+    def _parse_input(self, inp_obj):
+        &#34;&#34;&#34;
+        Parses a range of input object types (.pdb, .ent, .cif, .txt, .dat, .npy)
+
+        Extracts: coordinates, residue indices, amino-acid sequence, bfactor/pLDDT
+        &#34;&#34;&#34;
+
+        if isinstance(inp_obj, (str, Path)):
+            ext = Path(inp_obj).suffix
+
+            ### Read PDB / mmCIF file
+            if (ext in [&#39;.pdb&#39;, &#39;.cif&#39;, &#39;.ent&#39;]):
+                self._load_data_from_path(inp_obj, ext)
+
+            ### Read text coordinate file
+            elif (ext in [&#39;.txt&#39;, &#39;.dat&#39;]):
+                try:
+                    print(f&#34;WARNING! Ambiguity in file format {ext}. Attempting to read coordinates.&#34;)
+                    self.coord = np.loadtxt(inp_obj, delimiter=self.delimiter, skip_rows=self.skip_rows)
+                    self.idx = np.arange(len(self.coord))
+                except:
+                    raise Exception(&#34;Could not read coordinates from input file!&#34;)
+
+            ### Read nump binary coordinate file
+            elif (ext == &#39;.npy&#39;):
+                self.coord = np.load(inp_obj)
+                self.idx = np.arange(len(self.coord))
+
+        elif isinstance(inp_obj, np.ndarray):
+            self.coord = inp_obj
+            self.idx = np.arange(len(self.coord))
+
+        else:
+            raise Exception(f&#34;Input object type {type(inp_obj)} is not supported.&#34;)
+
+        if not isinstance(self.sequence, type(None)):
+            self.seq_len = len(self.sequence)
+        else:
+            self.seq_len = len(self.coord)
+
+
+    def _load_data_from_path(self, path, ext):
+        &#34;&#34;&#34;Parses data from a path, depending on the file type&#34;&#34;&#34;
+        if self.fix_pdb:
+            data = load_and_fix_pdb_data(path, self.chain)
+            # (indices in PDB files are inconsistent, so we reorder
+            #  the indices so that they start from zero)
+
+        else:
+            if ext in [&#34;.pdb&#34;, &#34;.ent&#34;]:
+                data = parse_pdb_coordinates(path, self.chain)
+            elif ext in [&#34;.cif&#34;]:
+                data = parse_mmcif_coordinates(path, self.chain)
+
+            # Reorder indices so that they start from zero
+            # (by default, AF-predicted structures start counting at one)
+            if data[1][0] != 0:
+                data[1] = data[1] - data[1][0]
+
+        self.coord_raw = data[0]
+        self.idx = data[1]
+        self.sequence = data[2]
+        self.bfactor = data[3]
+        self.plddt = data[3].copy()
+
+        # Fill in &#39;disordered&#39; (high bfactor, low plddt) with NaN values
+        self._update_nan_coords()
+
+
+    # Fill in &#39;disordered&#39; (high bfactor, low plddt) with NaN values
+    def _update_nan_coords(self):
+        &#34;&#34;&#34;Constructs a coordinate array that includes nan values for
+        missing residues and for residues excluded based on bfactor/pLDDT&#34;&#34;&#34;
+
+        self.coord = np.zeros((len(self.sequence), 3)) * np.nan
+        self.coord[self.idx] = self.coord_raw.copy()
+
+        bfactor = np.zeros(len(self.sequence)) * np.nan
+        bfactor[self.idx] = self.bfactor.copy()
+        self.bfactor = bfactor
+
+        if self.max_bfactor &gt; 0.0:
+            bfactor_zscore = (self.bfactor - np.nanmean(self.bfactor)) / np.nanstd(self.bfactor)
+            self.coord[(bfactor_zscore &gt; self.max_bfactor) | (np.isnan(self.bfactor))] = np.nan
+        elif self.min_plddt &gt; 0.0:
+            self.coord[self.plddt &lt;= self.min_plddt] = np.nan
+
+
+    def _get_dist_mat(self):
+        &#34;&#34;&#34;Calculates alpha-carbon distance matrix&#34;&#34;&#34;
+        self.dist_mat = cdist(self.coord, self.coord)
+    
+
+    def get_local_neighborhood(self):
+        &#34;&#34;&#34;Extracts local neighborhoods for each residue&#34;&#34;&#34;
+        if not isinstance(self.dist_mat, np.ndarray):
+            self._get_dist_mat()
+        self.neigh_idx = [np.where((d &gt; 0) &amp; (d &lt;= self.neigh_cut) &amp; (np.isfinite(d)))[0] for d in self.dist_mat]
+        self._calculate_neighbor_tensor()
+
+
+    def _calculate_neighbor_tensor(self):
+        &#34;&#34;&#34;Calculates the neighborhood tensor for each residue&#34;&#34;&#34;
+        self.neigh_tensor = []
+        for i, idx in enumerate(self.neigh_idx):
+            self.neigh_tensor.append(self.coord[idx] - self.coord[[i]])</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="PDAnalysis.protein.Protein.get_local_neighborhood"><code class="name flex">
+<span>def <span class="ident">get_local_neighborhood</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extracts local neighborhoods for each residue</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_local_neighborhood(self):
+    &#34;&#34;&#34;Extracts local neighborhoods for each residue&#34;&#34;&#34;
+    if not isinstance(self.dist_mat, np.ndarray):
+        self._get_dist_mat()
+    self.neigh_idx = [np.where((d &gt; 0) &amp; (d &lt;= self.neigh_cut) &amp; (np.isfinite(d)))[0] for d in self.dist_mat]
+    self._calculate_neighbor_tensor()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="PDAnalysis" href="index.html">PDAnalysis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="PDAnalysis.protein.AverageProtein" href="#PDAnalysis.protein.AverageProtein">AverageProtein</a></code></h4>
+<ul class="">
+<li><code><a title="PDAnalysis.protein.AverageProtein.get_average_structure" href="#PDAnalysis.protein.AverageProtein.get_average_structure">get_average_structure</a></code></li>
+<li><code><a title="PDAnalysis.protein.AverageProtein.recalculate_average_structure" href="#PDAnalysis.protein.AverageProtein.recalculate_average_structure">recalculate_average_structure</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="PDAnalysis.protein.Protein" href="#PDAnalysis.protein.Protein">Protein</a></code></h4>
+<ul class="">
+<li><code><a title="PDAnalysis.protein.Protein.get_local_neighborhood" href="#PDAnalysis.protein.Protein.get_local_neighborhood">get_local_neighborhood</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

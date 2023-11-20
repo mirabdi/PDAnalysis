@@ -1,0 +1,1576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>PDAnalysis.deformation API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>PDAnalysis.deformation</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from .protein import Protein, AverageProtein
+from .utils import rotate_points, get_shared_indices, get_mutation_position
+
+
+class Deformation:
+    &#34;&#34;&#34; Deformation object description:
+
+    The Deformation object takes two protein objects (Protein, AverageProtein),
+    and calculates a range of deformation metrics.
+
+    Methods
+    -------
+
+    Effective Strain : strain
+        mean relative change in distance between neighbors in two neighborhoods
+        [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+         &amp; Tlusty, T. (2023), &#39;AlphaFold2 can predict single-mutation effects&#39;, biorXiv]
+
+    Shear Strain : shear
+        magnitude of the off-diagonal components of the strain tensor
+        [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), “Colloquium: Proteins:
+         The physics of amorphous evolving matter,” Rev. Mod. Phys. 91, 031001]
+        
+    Non-Affine Strain : non_affine
+        non-linear component of strain, defined by the residual of the fit of the strain tensor
+        to two neighborhood tensors
+        [Falk, M L, and J. S. Langer (1998), &#39;Dynamics of viscoplastic deformation in
+         amorphous solids&#39;, Phys. Rev. E 57, 7192–7205]
+
+    Local Distance Difference (LDD) : ldd
+        L2 norm of the difference between distances between neighbors in two neighborhoods
+        [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+         &amp; Tlusty, T. (2023), &#39;AlphaFold2 can predict single-mutation effects&#39;, biorXiv]
+
+    Local Distance Difference Test (LDDT) : lddt
+        fraction of differences between distances between neighbors that are within some
+        set thresholds in two neighborhoods
+        [Mariani, Valerio, Marco Biasini, Alessandro Barbato, and Torsten Schwede (2013),
+         &#39;lDDT: a local superposition-free score for comparing protein structures and models
+         using distance difference tests&#39;, Bioinformatics 29 (21), 2722–2728]
+
+    Neighborhood Distance : neighborhood_dist
+        L2 norm of the difference between two neighborhood tensors
+        [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+         &amp; Tlusty, T. (2023), &#39;AlphaFold2 can predict single-mutation effects&#39;, biorXiv]
+
+    Root Mean Square Deviation (RMSD) : rmsd
+        L2 norm of the difference between two protein structures
+
+    Distance to Mutated Site : mut_dist
+        Distance (angstroms) of each residue to the nearest mutated site
+
+
+    Attributes
+    ----------
+
+    all_methods : list
+        list of all methods:
+            [&#39;mut_dist&#39;, &#39;strain&#39;, &#39;shear&#39;, &#39;non_affine&#39;, &#39;ldd&#39;,
+             &#39;lddt&#39;, &#39;neighborhood_dist&#39;, &#39;rmsd&#39;]
+
+    sub_pos : list(int)
+        list of sequence indices where sequences of protein_1 and protein_2 are different;
+        indices start from zero
+
+    sub_str : list(str)
+        sequence substitutions written in the format {amino_acid_1}{index}{amino_acid_2};
+        indices start from one (as is convention)
+
+    &#34;&#34;&#34;
+    def __init__(self, protein_1, protein_2, **kwargs):
+        &#34;&#34;&#34;
+        args
+        ----------
+        protein_1: (Protein, AverageProtein)
+        protein_2: (Protein, AverageProtein)
+
+
+        kwargs
+        ----------
+
+        method : (str, list, set, tuple, np.ndarray) : default = [&#34;strain&#34;]
+            method(s) to be used when calling self.run();
+            &#39;all&#39; results in all methods being used;
+            multiple methods can be passed as an iterable object
+
+        lddt_cutoffs : list : default = [0.5, 1, 2, 4]
+            specify a list of thresholds used to calculate LDDT
+
+        neigh_cut : float : default = 13.0
+            cutoff radius used to determine neighborhood;
+            can be used to update Protein and AverageProtein objects
+
+        force_cutoff : bool : default = False
+            recalculate Protein and AverageProtein neighborhoods if
+            Deformation.neigh_cut != Protein.neigh_cut
+
+        force_norm : bool : default = False
+            force a metric that is not normally normalized by the number
+            of neighbors to be normalized in this way
+
+        force_nonorm : bool : default = False
+            force a metric that is normally normalized by the number
+            of neighbors to not be normalized in this way
+
+        force_relative : bool : default = False
+            force a metric that is not normally normalized by neighbor
+            distance to be normalized in this way
+
+        force_absolute : bool : default = False
+            force a metric that is normally normalized by neighbor
+            distance to not be normalized in this way
+
+        force_nonorm : bool : default = False
+            force a metric that is normally normalized by the number
+            of neighbors to not be normalized in this way
+
+        verbose : bool : default = True
+            print a summary of the deformation calculation
+
+        &#34;&#34;&#34;
+        self.prot1 = protein_1
+        self.prot2 = protein_2
+        self.proteins = [self.prot1, self.prot2]
+        
+        self.default_method = [&#34;strain&#34;]
+        self.all_methods = [&#34;mut_dist&#34;, &#34;strain&#34;, &#34;shear&#34;, &#34;non_affine&#34;, &#34;ldd&#34;, &#34;lddt&#34;, &#34;neighborhood_dist&#34;, &#34;rmsd&#34;]
+        self.lddt_cutoffs = kwargs.get(&#34;lddt_cutoffs&#34;, [0.5, 1, 2, 4])
+        self.method = kwargs.get(&#39;method&#39;, self.default_method.copy())
+        self.neigh_cut = kwargs.get(&#39;neigh_cut&#39;, 13.0)
+
+        self.force_cutoff =  kwargs.get(&#39;force_cutoff&#39;, False)
+        self.force_norm =  kwargs.get(&#39;force_norm&#39;, False)
+        self.force_nonorm =  kwargs.get(&#39;force_nonorm&#39;, False)
+        self.force_relative =  kwargs.get(&#39;force_relative&#39;, False)
+        self.force_absolute =  kwargs.get(&#39;force_absolute&#39;, False)
+
+        self.verbose = kwargs.get(&#39;verbose&#39;, True)
+
+        self.sub_pos = None
+        self.sub_str = &#39;&#39;
+
+        self._parse_input()
+        self._parse_method()
+
+        if self.verbose:
+            self._print_inputs_summary()
+
+
+    def _print_inputs_summary(self):
+        &#34;&#34;&#34;Print summary of the deformation calculation&#34;&#34;&#34;
+        print(f&#34;Comparing {self.prot1} with {self.prot2}.&#34;)
+        print(f&#34;Sequence length :: {self.prot1.seq_len}&#34;)
+
+        nmiss1 = sum([len(i) == 0 for i in self.prot1.neigh_idx])
+        nmiss2 = sum([len(i) == 0 for i in self.prot2.neigh_idx])
+        print(f&#34;Number of residues excluded due to missing coordinates, or due to low pLDDT&#34; + \
+              f&#34; / high B-factor ::\n\tProtA, {nmiss1}\n\tProtB, {nmiss2}&#34;)
+
+        print(f&#34;Amino acid substitutions :: {&#39; &#39;.join(self.sub_str)}&#34;)
+        print(f&#34;Methods to run :: {&#39; &#39;.join(self.method)}&#34;)
+
+
+    def _parse_input(self):
+        &#34;&#34;&#34;
+        Accepts protein (Protein, AverageProtein) objects as input.
+
+        Checks protein objects for consistency in neighborhood cutoff radii,
+        protein size, and checks sequences for differences (mutations).
+        &#34;&#34;&#34;
+        # Check input types
+        for prot in self.proteins:
+            if not isinstance(prot, (AverageProtein, Protein)):
+                raise Exception(f&#34;Input object type {type(prot)} is not supported.&#34;)
+            
+        # Check that neighbor cutoff definitions are consistent.
+        # This method also loads neighborhoods if they are not loaded already.
+        self._check_neighborhoods()
+
+        # Check that protein coordinate arrays are the same length
+        l1 = len(self.prot1.neigh_idx)
+        l2 = len(self.prot2.neigh_idx)
+        if l1 != l2:
+            raise Exception(&#34;Protein coordinate arrays are not the same length: &#34; + \
+                  f&#34;Protein A has {l1} residues, while &#34; + \
+                  f&#34;Protein B has {l2} residues.\n&#34; + \
+                  &#34;If using PDB files with missing coordinates, use the --pdb_fill_missing_nan option.&#34;)
+
+        try:
+            self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
+            self.sub_str = self._get_substitution_strings()
+        except AttributeError as E:
+            raise AttributeError(&#34;Sequence is not defined for Protein object&#34;)
+
+
+    def _get_substitution_strings(self):
+        &#34;&#34;&#34;Get conventional representation of mutation as a string&#34;&#34;&#34;
+        return [f&#34;{self.prot1.sequence[i]}{i+1}{self.prot2.sequence[i]}&#34; for i in self.sub_pos]
+
+
+    def _update_protein_neighborhood(self, prot, neigh_cut):
+        &#34;&#34;&#34;Check Protein neighbood and recalculate if neigh_cut is wrong&#34;&#34;&#34;
+        # If not calculated yet... calculate 
+        if len(prot.neigh_idx) == 0:
+            prot.neigh_cut = neigh_cut
+            prot.get_local_neighborhood()
+
+        # If neigh cut is wrong... calculate 
+        elif prot.neigh_cut != neigh_cut:
+            print(f&#34;Recalculating Protein with new neighbor cutoff = {neigh_cut}&#34;)
+            prot.neigh_cut = neigh_cut
+            prot.get_local_neighborhood()
+
+
+    def _update_averageProtein_neighborhood(self, prot, neigh_cut):
+        &#34;&#34;&#34;Check AverageProtein neighbood and recalculate if neigh_cut is wrong&#34;&#34;&#34;
+        # If not calculated yet... calculate 
+        if len(prot.neigh_idx) == 0:
+            prot.neigh_cut = neigh_cut
+            prot.get_average_structure()
+
+        # If neigh cut is wrong... calculate 
+        elif prot.neigh_cut != neigh_cut:
+            print(f&#34;Recalculating AverageProtein with new neighbor cutoff = {neigh_cut}&#34;)
+            prot.neigh_cut = neigh_cut
+            prot.recalculate_average_structure()
+
+
+    # Check for consistency in the use of neighbor cutoffs
+    def _check_neighborhoods(self):
+        &#34;&#34;&#34;
+        Run some consistency checks on the two (Protein, AverageProtein) objects.
+
+        Recalculate neighborhoods if parameters (neigh_cut, min_plddt, max_bfactor) have changed.
+        &#34;&#34;&#34;
+        neigh_cut = [prot.neigh_cut for prot in self.proteins]
+
+        # Check for consistency between Protein objects.
+        # If they are inconsistent, either force them to use Deformation.neigh_cutoff,
+        # or exit
+        if neigh_cut[0] != neigh_cut[1]:
+            if self.force_cutoff:
+                for prot in self.proteins:
+                    if isinstance(prot, Protein):
+                        self._update_protein_neighborhood(prot, self.neigh_cut)
+                    if isinstance(prot, AverageProtein):
+                        self._update_averageProtein_neighborhood(prot, self.neigh_cut)
+            else:
+                raise Exception(&#34;AverageProtein / Protein objects were created with different neighbor cutoffs!&#34; + \
+                                &#34;\n\tYou need to use the same neighbor cutoff for each structure,&#34; + \
+                                &#34;\n\tor to automatically recalculate neighborhoods using Deformation.neigh_cutoff,&#34; +\
+                                &#34; use Deformation(..., force_cutoff=True)&#34;)
+            return
+
+        # If not &#34;force_cutoff&#34;, then ensure Deformation.neigh_cutoff equals that of the Protein objects
+        if not self.force_cutoff:
+            if self.neigh_cut != neigh_cut[0]:
+                self.neigh_cut = neigh_cut[0]
+                print(f&#34;WARNING! Resetting neighbour cutoff to {self.neigh_cut}, since this &#34; + \
+                       &#34;value was used for the AverageProtein structure.&#34; + \
+                       &#34;\n\tTo override this, use Deformation(..., force_cutoff=True)&#34;)
+
+        for i, prot in enumerate(self.proteins):
+            if isinstance(prot, Protein):
+                self._update_protein_neighborhood(prot, self.neigh_cut)
+            if isinstance(prot, AverageProtein):
+                self._update_averageProtein_neighborhood(prot, self.neigh_cut)
+            if self.force_cutoff:
+                for i, prot in enumerate(self.proteins):
+                    prot.neigh_cut = self.neigh_cut
+                    prot.recalculate_average_structure()
+            else:
+                self.neigh_cut = neigh_cut[0]
+
+    
+    # Parse method, and ensure methods are acceptable
+    def _parse_method(self):
+        &#34;&#34;&#34;Parse method into the appropriate format&#34;&#34;&#34;
+        if isinstance(self.method, str):
+            self.method = [self.method]
+
+        if isinstance(self.method, (list, np.ndarray, set, tuple)):
+            if len(self.method) == 1:
+                if self.method[0] == &#39;all&#39;:
+                    self.method = self.all_methods.copy()
+
+            else:
+                method_list = []
+                for method in self.method:
+                    if method in self.all_methods:
+                        method_list.append(method)
+                    else:
+                        print(f&#34;WARNING! {method} is not an accepted method&#34;)
+                self.method = method_list
+        else:
+            self.method = []
+
+        if len(self.method) == 0:
+            raise Exception(&#34;No acceptable method found!&#34; + \
+            f&#34;\nChoose one out of: all, {&#39;, &#39;.join(self.all_methods)}&#34;)
+            
+
+    # Set method, and run through parse to check method validity
+    def set_method(self, value):
+        &#34;&#34;&#34;Set the method(s) to be used by self.run()
+            &gt; (str, list, set, tuple, np.ndarray)
+                &gt; &#39;all&#39; results in all methods being used;
+                &gt; multiple methods can be passed as an iterable object
+            &gt; list of all methods:
+                &gt; &#39;mut_dist&#39;
+                &gt; &#39;strain&#39;
+                &gt; &#39;shear&#39;
+                &gt; &#39;non_affine&#39;
+                &gt; &#39;ldd&#39;
+                &gt; &#39;lddt&#39;
+                &gt; &#39;neighborhood_dist&#39;
+                &gt; &#39;rmsd&#39;
+        &#34;&#34;&#34;
+        self.method = value
+        self._parse_method()
+
+
+    def save_output(self, path_out):
+        &#34;&#34;&#34;Save outputs to CSV file&#34;&#34;&#34;
+        # Load any deformation that was calculated
+        deform = {}
+        for m in self.all_methods:
+            if hasattr(self, m):
+                if m != &#39;rmsd&#39;:
+                    deform[m] = getattr(self, m)
+                else:
+                    deform[m] = self.rmsd_per_residue
+
+        # Only save output if deformation was calculated
+        if not len(deform):
+            raise Exception(&#34;ERROR! Cannot save output if there is none!&#34;)
+
+        # Add sequence indices, residue names
+        else:
+            type_names = [&#39;residue_index&#39;, &#39;protA_resname&#39;, &#39;protB_resname&#39;]
+            res_data = [np.arange(len(self.prot1.sequence)) + 1, self.prot1.sequence, self.prot2.sequence]
+            output = {k: d for k, d in zip(type_names, res_data) if not isinstance(d, type(None))}
+            ########################################
+            ### NEED TO ADD NUMBER OF NEIGHBORS
+            ########################################
+
+            output.update(deform)
+    
+            pd.DataFrame(output).to_csv(path_out, index=False)
+
+            
+    def run(self):
+        &#34;&#34;&#34;
+        Runs through all of the methods in self.method.
+
+        The output of each method, {m}, is stored in self.{m} (e.g. self.strain);
+        RMSD is stored as self.rmsd (whole protein), and as RMSD per residue, self.rmsd_per_residue
+        &#34;&#34;&#34;
+        # Calculate deformation based on the specified method
+        for method in self.method:
+            self._run_analysis(method)
+
+
+    def _run_analysis(self, method):
+        &#34;&#34;&#34;Run the analysis code for a particular method&#34;&#34;&#34;
+        analyses = {&#39;mut_dist&#39;: self.calculate_dist_from_mutation,
+                    &#39;strain&#39;: self.calculate_strain,
+                    &#39;shear&#39;: self.calculate_shear,
+                    &#39;non_affine&#39;: self.calculate_non_affine,
+                    &#39;ldd&#39;: self.calculate_ldd,
+                    &#39;lddt&#39;: self.calculate_lddt,
+                    &#39;neighborhood_dist&#39;: self.calculate_neighborhood_dist,
+                    &#39;rmsd&#39;: self.calculate_rmsd}
+        analyses[method]()
+
+
+    def _get_shared_indices(self):
+        &#34;&#34;&#34;Get shared indices between two neighborhoods&#34;&#34;&#34;
+        self.shared_indices = []
+        for i in range(self.prot1.seq_len):
+            # If no data for residue, shared indices is empty
+            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
+                self.shared_indices.append(([], []))
+            else:
+                self.shared_indices.append(get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i]))
+
+
+    # Calculate distance from closest mutation
+    def calculate_dist_from_mutation(self):
+        &#34;&#34;&#34;Calcualte distance from the nearest mutated residue&#34;&#34;&#34;
+        # If none differ, then return np.nan
+        if not len(self.sub_pos):
+            print(&#34;WARNING! Trying to calculate distance from mutation, while comparing identical sequences&#34;)
+            return np.zeros(self.prot1.seq_len) * np.nan
+        
+        # Calculate mindist using the full array (inc. nan)
+        mut_dist1 = self.prot1.dist_mat[:,self.sub_pos]
+        mut_dist2 = self.prot2.dist_mat[:,self.sub_pos]
+
+        # Average the distance across both structures,
+        # and get the minimum distance per residue to a mutated position
+        self.mut_dist = np.nanmin(0.5 * (mut_dist1 + mut_dist2), axis=1)
+
+
+    def _calculate_deformation(self, deformation_method):
+        &#34;&#34;&#34;Find shared residue indices between two neighborhoods
+        and calculate deformation per residue&#34;&#34;&#34;
+        deformation = np.zeros(self.prot1.seq_len, float) * np.nan
+        if not hasattr(self, &#34;shared_indices&#34;):
+            self._get_shared_indices()
+
+        kwargs = {arg: getattr(self, arg) for arg in [&#34;force_relative&#34;, &#34;force_norm&#34;, &#34;force_absolute&#34;, &#34;force_nonorm&#34;]}
+        for i in range(self.prot1.seq_len):
+            # Get shared indices
+            i1, i2 = self.shared_indices[i]
+
+            # If no shared indices, leave np.nan
+            if not len(i1):
+                continue
+
+            deformation[i] = deformation_method(self.prot1.neigh_tensor[i][i1], self.prot2.neigh_tensor[i][i2], **kwargs)
+
+        return deformation
+
+
+    def _calculate_lddt_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate LDDT given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Get local distance vectors
+        v1 = np.linalg.norm(neigh_tensor1, axis=1)
+        v2 = np.linalg.norm(neigh_tensor2, axis=1)
+
+        # Get local distance difference vector
+        dv = v2 - v1
+
+        return np.sum([np.sum(dv&lt;=cut) for cut in self.lddt_cutoffs]) / (len(self.lddt_cutoffs) * len(dv))
+
+    def calculate_lddt(self):
+        &#34;&#34;&#34;Calculate LDDT&#34;&#34;&#34;
+        self.lddt = self._calculate_deformation(self._calculate_lddt_residue)
+
+
+    def _calculate_ldd_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate LDD given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Get local distance vectors
+        v1 = np.linalg.norm(neigh_tensor1, axis=1)
+        v2 = np.linalg.norm(neigh_tensor2, axis=1)
+
+        # Get local distance difference vector
+        dv = v2 - v1
+
+        if force_relative:
+            # Normalize LDD by distance
+            dv = dv / v1
+
+        # Calculate local distance difference 
+        if force_norm:
+            # Normalize LDD by number of neighbors
+            return np.linalg.norm(dv) / len(i1)
+        else:
+            return np.linalg.norm(dv)
+
+
+    def calculate_ldd(self):
+        &#34;&#34;&#34;Calculate LDD&#34;&#34;&#34;
+        self.ldd = self._calculate_deformation(self._calculate_ldd_residue)
+
+
+    def _calculate_nd_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate neighborhood distance given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Rotate neighbourhood tensor and calculate Euclidean distance
+        nd = np.linalg.norm(rotate_points(neigh_tensor2, neigh_tensor1) - neigh_tensor1)
+        if self.force_norm:
+            return nd / len(i1)
+        else:
+            return nd
+
+
+    def calculate_neighborhood_dist(self):
+        &#34;&#34;&#34;Calculate neighborhood_distance&#34;&#34;&#34;
+        self.neighbor_distance = self._calculate_deformation(self._calculate_nd_residue)
+
+
+    def _calculate_shear_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate shear strain given a pair of neighborhood tensors&#34;&#34;&#34;
+        u1 = neigh_tensor1
+        u2 = neigh_tensor2
+        try:
+            duu = u2 @ u2.T - u1 @ u1.T
+            uu = np.linalg.inv(u1.T @ u1) 
+            C = 0.5 * (uu @ u1.T @ duu @ u1 @ uu)
+            return 0.5 * np.sum(np.diag(C@C) - np.diag(C)**2)
+        except Exception as e:
+            print(e)
+            return np.nan
+
+
+    def calculate_shear(self):
+        &#34;&#34;&#34;Calculate shear strain&#34;&#34;&#34;
+        self.shear = self._calculate_deformation(self._calculate_shear_residue)
+
+
+    def _calculate_strain_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate effective strain given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Rotate neighbourhood tensor and calculate Euclidean distance
+        nt3 = rotate_points(neigh_tensor2, neigh_tensor1)
+        if not self.force_absolute:
+            # Divide by length to get strain
+            es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1) / np.linalg.norm(neigh_tensor1, axis=1))
+        else:
+            es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1))
+
+        if not self.force_nonorm:
+            # Normalize ES by number of neighbors
+            es /= len(neigh_tensor1)
+
+        return es
+
+
+    def calculate_strain(self):
+        &#34;&#34;&#34;Calculate effective strain&#34;&#34;&#34;
+        self.strain = self._calculate_deformation(self._calculate_strain_residue)
+
+
+    def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate non-affine strain given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Find the deformation gradient tensor, F
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)
+        if not self.force_nonorm:
+            return np.nansum(residuals)
+        else:
+            return np.nansum(residuals) / len(neigh_tensor1)
+
+
+    def calculate_non_affine(self):
+        &#34;&#34;&#34;Calculate non-affine strain&#34;&#34;&#34;
+        self.non_affine = self._calculate_deformation(self._calculate_non_affine_residue)
+
+
+    #######################################################
+    ### Root-Mean-Square Deviation
+    ### Superimpose structures and calculate RMSD
+    def calculate_rmsd(self):
+        &#34;&#34;&#34;
+        Calculate RMSD
+
+        Cannot calculate RMSD with averaged neighborhoods,
+        so if an AverageProtein object is passsed, we simply
+        take the first Protein object and use it to calculate RMSD.
+        &#34;&#34;&#34;
+        coords = []
+        for prot in self.proteins:
+            if isinstance(prot, Protein):
+                coords.append(prot.coord)
+            elif isinstance(prot, AverageProtein):
+                coords.append(prot.proteins[0].coord)
+                print(&#34;WARNING! Trying to calculate RMSD with an AverageProtein object. &#34; + \
+                      &#34;Since this is not possible, an embedded Protein object is used instead.&#34;)
+        c1, c2 = coords
+
+        # Remove NAN values
+        idx = ~np.any(np.isnan(c1) | np.isnan(c2), axis=1)
+        c1, c2 = c1[idx], c2[idx]
+
+        c1 = c1 - np.mean(c1, axis=0).reshape(1, 3)
+        c2 = c2 - np.mean(c2, axis=0).reshape(1, 3)
+        c3 = rotate_points(c2, c1)
+
+        sd = np.sum((c1 - c3)**2, axis=1)
+        self.rmsd_per_residue = np.sqrt(sd)
+        self.rmsd = np.sqrt(np.mean(sd))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="PDAnalysis.deformation.Deformation"><code class="flex name class">
+<span>class <span class="ident">Deformation</span></span>
+<span>(</span><span>protein_1, protein_2, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deformation object description:</p>
+<p>The Deformation object takes two protein objects (Protein, AverageProtein),
+and calculates a range of deformation metrics.</p>
+<h2 id="methods">Methods</h2>
+<p>Effective Strain : strain
+mean relative change in distance between neighbors in two neighborhoods
+[McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+&amp; Tlusty, T. (2023), 'AlphaFold2 can predict single-mutation effects', biorXiv]</p>
+<p>Shear Strain : shear
+magnitude of the off-diagonal components of the strain tensor
+[Eckmann, J P, J. Rougemont, and T. Tlusty (2019), “Colloquium: Proteins:
+The physics of amorphous evolving matter,” Rev. Mod. Phys. 91, 031001]</p>
+<p>Non-Affine Strain : non_affine
+non-linear component of strain, defined by the residual of the fit of the strain tensor
+to two neighborhood tensors
+[Falk, M L, and J. S. Langer (1998), 'Dynamics of viscoplastic deformation in
+amorphous solids', Phys. Rev. E 57, 7192–7205]</p>
+<p>Local Distance Difference (LDD) : ldd
+L2 norm of the difference between distances between neighbors in two neighborhoods
+[McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+&amp; Tlusty, T. (2023), 'AlphaFold2 can predict single-mutation effects', biorXiv]</p>
+<p>Local Distance Difference Test (LDDT) : lddt
+fraction of differences between distances between neighbors that are within some
+set thresholds in two neighborhoods
+[Mariani, Valerio, Marco Biasini, Alessandro Barbato, and Torsten Schwede (2013),
+'lDDT: a local superposition-free score for comparing protein structures and models
+using distance difference tests', Bioinformatics 29 (21), 2722–2728]</p>
+<p>Neighborhood Distance : neighborhood_dist
+L2 norm of the difference between two neighborhood tensors
+[McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+&amp; Tlusty, T. (2023), 'AlphaFold2 can predict single-mutation effects', biorXiv]</p>
+<p>Root Mean Square Deviation (RMSD) : rmsd
+L2 norm of the difference between two protein structures</p>
+<p>Distance to Mutated Site : mut_dist
+Distance (angstroms) of each residue to the nearest mutated site</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>all_methods</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of all methods:
+['mut_dist', 'strain', 'shear', 'non_affine', 'ldd',
+'lddt', 'neighborhood_dist', 'rmsd']</dd>
+<dt><strong><code>sub_pos</code></strong> :&ensp;<code>list(int)</code></dt>
+<dd>list of sequence indices where sequences of protein_1 and protein_2 are different;
+indices start from zero</dd>
+<dt><strong><code>sub_str</code></strong> :&ensp;<code>list(str)</code></dt>
+<dd>sequence substitutions written in the format {amino_acid_1}{index}{amino_acid_2};
+indices start from one (as is convention)</dd>
+</dl>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>protein_1</code></strong> :&ensp;<code>(Protein, AverageProtein)</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>protein_2</code></strong> :&ensp;<code>(Protein, AverageProtein)</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="kwargs">Kwargs</h2>
+<p>method : (str, list, set, tuple, np.ndarray) : default = ["strain"]
+method(s) to be used when calling self.run();
+'all' results in all methods being used;
+multiple methods can be passed as an iterable object</p>
+<p>lddt_cutoffs : list : default = [0.5, 1, 2, 4]
+specify a list of thresholds used to calculate LDDT</p>
+<p>neigh_cut : float : default = 13.0
+cutoff radius used to determine neighborhood;
+can be used to update Protein and AverageProtein objects</p>
+<p>force_cutoff : bool : default = False
+recalculate Protein and AverageProtein neighborhoods if
+Deformation.neigh_cut != Protein.neigh_cut</p>
+<p>force_norm : bool : default = False
+force a metric that is not normally normalized by the number
+of neighbors to be normalized in this way</p>
+<p>force_nonorm : bool : default = False
+force a metric that is normally normalized by the number
+of neighbors to not be normalized in this way</p>
+<p>force_relative : bool : default = False
+force a metric that is not normally normalized by neighbor
+distance to be normalized in this way</p>
+<p>force_absolute : bool : default = False
+force a metric that is normally normalized by neighbor
+distance to not be normalized in this way</p>
+<p>force_nonorm : bool : default = False
+force a metric that is normally normalized by the number
+of neighbors to not be normalized in this way</p>
+<p>verbose : bool : default = True
+print a summary of the deformation calculation</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Deformation:
+    &#34;&#34;&#34; Deformation object description:
+
+    The Deformation object takes two protein objects (Protein, AverageProtein),
+    and calculates a range of deformation metrics.
+
+    Methods
+    -------
+
+    Effective Strain : strain
+        mean relative change in distance between neighbors in two neighborhoods
+        [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+         &amp; Tlusty, T. (2023), &#39;AlphaFold2 can predict single-mutation effects&#39;, biorXiv]
+
+    Shear Strain : shear
+        magnitude of the off-diagonal components of the strain tensor
+        [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), “Colloquium: Proteins:
+         The physics of amorphous evolving matter,” Rev. Mod. Phys. 91, 031001]
+        
+    Non-Affine Strain : non_affine
+        non-linear component of strain, defined by the residual of the fit of the strain tensor
+        to two neighborhood tensors
+        [Falk, M L, and J. S. Langer (1998), &#39;Dynamics of viscoplastic deformation in
+         amorphous solids&#39;, Phys. Rev. E 57, 7192–7205]
+
+    Local Distance Difference (LDD) : ldd
+        L2 norm of the difference between distances between neighbors in two neighborhoods
+        [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+         &amp; Tlusty, T. (2023), &#39;AlphaFold2 can predict single-mutation effects&#39;, biorXiv]
+
+    Local Distance Difference Test (LDDT) : lddt
+        fraction of differences between distances between neighbors that are within some
+        set thresholds in two neighborhoods
+        [Mariani, Valerio, Marco Biasini, Alessandro Barbato, and Torsten Schwede (2013),
+         &#39;lDDT: a local superposition-free score for comparing protein structures and models
+         using distance difference tests&#39;, Bioinformatics 29 (21), 2722–2728]
+
+    Neighborhood Distance : neighborhood_dist
+        L2 norm of the difference between two neighborhood tensors
+        [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A.,
+         &amp; Tlusty, T. (2023), &#39;AlphaFold2 can predict single-mutation effects&#39;, biorXiv]
+
+    Root Mean Square Deviation (RMSD) : rmsd
+        L2 norm of the difference between two protein structures
+
+    Distance to Mutated Site : mut_dist
+        Distance (angstroms) of each residue to the nearest mutated site
+
+
+    Attributes
+    ----------
+
+    all_methods : list
+        list of all methods:
+            [&#39;mut_dist&#39;, &#39;strain&#39;, &#39;shear&#39;, &#39;non_affine&#39;, &#39;ldd&#39;,
+             &#39;lddt&#39;, &#39;neighborhood_dist&#39;, &#39;rmsd&#39;]
+
+    sub_pos : list(int)
+        list of sequence indices where sequences of protein_1 and protein_2 are different;
+        indices start from zero
+
+    sub_str : list(str)
+        sequence substitutions written in the format {amino_acid_1}{index}{amino_acid_2};
+        indices start from one (as is convention)
+
+    &#34;&#34;&#34;
+    def __init__(self, protein_1, protein_2, **kwargs):
+        &#34;&#34;&#34;
+        args
+        ----------
+        protein_1: (Protein, AverageProtein)
+        protein_2: (Protein, AverageProtein)
+
+
+        kwargs
+        ----------
+
+        method : (str, list, set, tuple, np.ndarray) : default = [&#34;strain&#34;]
+            method(s) to be used when calling self.run();
+            &#39;all&#39; results in all methods being used;
+            multiple methods can be passed as an iterable object
+
+        lddt_cutoffs : list : default = [0.5, 1, 2, 4]
+            specify a list of thresholds used to calculate LDDT
+
+        neigh_cut : float : default = 13.0
+            cutoff radius used to determine neighborhood;
+            can be used to update Protein and AverageProtein objects
+
+        force_cutoff : bool : default = False
+            recalculate Protein and AverageProtein neighborhoods if
+            Deformation.neigh_cut != Protein.neigh_cut
+
+        force_norm : bool : default = False
+            force a metric that is not normally normalized by the number
+            of neighbors to be normalized in this way
+
+        force_nonorm : bool : default = False
+            force a metric that is normally normalized by the number
+            of neighbors to not be normalized in this way
+
+        force_relative : bool : default = False
+            force a metric that is not normally normalized by neighbor
+            distance to be normalized in this way
+
+        force_absolute : bool : default = False
+            force a metric that is normally normalized by neighbor
+            distance to not be normalized in this way
+
+        force_nonorm : bool : default = False
+            force a metric that is normally normalized by the number
+            of neighbors to not be normalized in this way
+
+        verbose : bool : default = True
+            print a summary of the deformation calculation
+
+        &#34;&#34;&#34;
+        self.prot1 = protein_1
+        self.prot2 = protein_2
+        self.proteins = [self.prot1, self.prot2]
+        
+        self.default_method = [&#34;strain&#34;]
+        self.all_methods = [&#34;mut_dist&#34;, &#34;strain&#34;, &#34;shear&#34;, &#34;non_affine&#34;, &#34;ldd&#34;, &#34;lddt&#34;, &#34;neighborhood_dist&#34;, &#34;rmsd&#34;]
+        self.lddt_cutoffs = kwargs.get(&#34;lddt_cutoffs&#34;, [0.5, 1, 2, 4])
+        self.method = kwargs.get(&#39;method&#39;, self.default_method.copy())
+        self.neigh_cut = kwargs.get(&#39;neigh_cut&#39;, 13.0)
+
+        self.force_cutoff =  kwargs.get(&#39;force_cutoff&#39;, False)
+        self.force_norm =  kwargs.get(&#39;force_norm&#39;, False)
+        self.force_nonorm =  kwargs.get(&#39;force_nonorm&#39;, False)
+        self.force_relative =  kwargs.get(&#39;force_relative&#39;, False)
+        self.force_absolute =  kwargs.get(&#39;force_absolute&#39;, False)
+
+        self.verbose = kwargs.get(&#39;verbose&#39;, True)
+
+        self.sub_pos = None
+        self.sub_str = &#39;&#39;
+
+        self._parse_input()
+        self._parse_method()
+
+        if self.verbose:
+            self._print_inputs_summary()
+
+
+    def _print_inputs_summary(self):
+        &#34;&#34;&#34;Print summary of the deformation calculation&#34;&#34;&#34;
+        print(f&#34;Comparing {self.prot1} with {self.prot2}.&#34;)
+        print(f&#34;Sequence length :: {self.prot1.seq_len}&#34;)
+
+        nmiss1 = sum([len(i) == 0 for i in self.prot1.neigh_idx])
+        nmiss2 = sum([len(i) == 0 for i in self.prot2.neigh_idx])
+        print(f&#34;Number of residues excluded due to missing coordinates, or due to low pLDDT&#34; + \
+              f&#34; / high B-factor ::\n\tProtA, {nmiss1}\n\tProtB, {nmiss2}&#34;)
+
+        print(f&#34;Amino acid substitutions :: {&#39; &#39;.join(self.sub_str)}&#34;)
+        print(f&#34;Methods to run :: {&#39; &#39;.join(self.method)}&#34;)
+
+
+    def _parse_input(self):
+        &#34;&#34;&#34;
+        Accepts protein (Protein, AverageProtein) objects as input.
+
+        Checks protein objects for consistency in neighborhood cutoff radii,
+        protein size, and checks sequences for differences (mutations).
+        &#34;&#34;&#34;
+        # Check input types
+        for prot in self.proteins:
+            if not isinstance(prot, (AverageProtein, Protein)):
+                raise Exception(f&#34;Input object type {type(prot)} is not supported.&#34;)
+            
+        # Check that neighbor cutoff definitions are consistent.
+        # This method also loads neighborhoods if they are not loaded already.
+        self._check_neighborhoods()
+
+        # Check that protein coordinate arrays are the same length
+        l1 = len(self.prot1.neigh_idx)
+        l2 = len(self.prot2.neigh_idx)
+        if l1 != l2:
+            raise Exception(&#34;Protein coordinate arrays are not the same length: &#34; + \
+                  f&#34;Protein A has {l1} residues, while &#34; + \
+                  f&#34;Protein B has {l2} residues.\n&#34; + \
+                  &#34;If using PDB files with missing coordinates, use the --pdb_fill_missing_nan option.&#34;)
+
+        try:
+            self.sub_pos = get_mutation_position(self.prot1.sequence, self.prot2.sequence)
+            self.sub_str = self._get_substitution_strings()
+        except AttributeError as E:
+            raise AttributeError(&#34;Sequence is not defined for Protein object&#34;)
+
+
+    def _get_substitution_strings(self):
+        &#34;&#34;&#34;Get conventional representation of mutation as a string&#34;&#34;&#34;
+        return [f&#34;{self.prot1.sequence[i]}{i+1}{self.prot2.sequence[i]}&#34; for i in self.sub_pos]
+
+
+    def _update_protein_neighborhood(self, prot, neigh_cut):
+        &#34;&#34;&#34;Check Protein neighbood and recalculate if neigh_cut is wrong&#34;&#34;&#34;
+        # If not calculated yet... calculate 
+        if len(prot.neigh_idx) == 0:
+            prot.neigh_cut = neigh_cut
+            prot.get_local_neighborhood()
+
+        # If neigh cut is wrong... calculate 
+        elif prot.neigh_cut != neigh_cut:
+            print(f&#34;Recalculating Protein with new neighbor cutoff = {neigh_cut}&#34;)
+            prot.neigh_cut = neigh_cut
+            prot.get_local_neighborhood()
+
+
+    def _update_averageProtein_neighborhood(self, prot, neigh_cut):
+        &#34;&#34;&#34;Check AverageProtein neighbood and recalculate if neigh_cut is wrong&#34;&#34;&#34;
+        # If not calculated yet... calculate 
+        if len(prot.neigh_idx) == 0:
+            prot.neigh_cut = neigh_cut
+            prot.get_average_structure()
+
+        # If neigh cut is wrong... calculate 
+        elif prot.neigh_cut != neigh_cut:
+            print(f&#34;Recalculating AverageProtein with new neighbor cutoff = {neigh_cut}&#34;)
+            prot.neigh_cut = neigh_cut
+            prot.recalculate_average_structure()
+
+
+    # Check for consistency in the use of neighbor cutoffs
+    def _check_neighborhoods(self):
+        &#34;&#34;&#34;
+        Run some consistency checks on the two (Protein, AverageProtein) objects.
+
+        Recalculate neighborhoods if parameters (neigh_cut, min_plddt, max_bfactor) have changed.
+        &#34;&#34;&#34;
+        neigh_cut = [prot.neigh_cut for prot in self.proteins]
+
+        # Check for consistency between Protein objects.
+        # If they are inconsistent, either force them to use Deformation.neigh_cutoff,
+        # or exit
+        if neigh_cut[0] != neigh_cut[1]:
+            if self.force_cutoff:
+                for prot in self.proteins:
+                    if isinstance(prot, Protein):
+                        self._update_protein_neighborhood(prot, self.neigh_cut)
+                    if isinstance(prot, AverageProtein):
+                        self._update_averageProtein_neighborhood(prot, self.neigh_cut)
+            else:
+                raise Exception(&#34;AverageProtein / Protein objects were created with different neighbor cutoffs!&#34; + \
+                                &#34;\n\tYou need to use the same neighbor cutoff for each structure,&#34; + \
+                                &#34;\n\tor to automatically recalculate neighborhoods using Deformation.neigh_cutoff,&#34; +\
+                                &#34; use Deformation(..., force_cutoff=True)&#34;)
+            return
+
+        # If not &#34;force_cutoff&#34;, then ensure Deformation.neigh_cutoff equals that of the Protein objects
+        if not self.force_cutoff:
+            if self.neigh_cut != neigh_cut[0]:
+                self.neigh_cut = neigh_cut[0]
+                print(f&#34;WARNING! Resetting neighbour cutoff to {self.neigh_cut}, since this &#34; + \
+                       &#34;value was used for the AverageProtein structure.&#34; + \
+                       &#34;\n\tTo override this, use Deformation(..., force_cutoff=True)&#34;)
+
+        for i, prot in enumerate(self.proteins):
+            if isinstance(prot, Protein):
+                self._update_protein_neighborhood(prot, self.neigh_cut)
+            if isinstance(prot, AverageProtein):
+                self._update_averageProtein_neighborhood(prot, self.neigh_cut)
+            if self.force_cutoff:
+                for i, prot in enumerate(self.proteins):
+                    prot.neigh_cut = self.neigh_cut
+                    prot.recalculate_average_structure()
+            else:
+                self.neigh_cut = neigh_cut[0]
+
+    
+    # Parse method, and ensure methods are acceptable
+    def _parse_method(self):
+        &#34;&#34;&#34;Parse method into the appropriate format&#34;&#34;&#34;
+        if isinstance(self.method, str):
+            self.method = [self.method]
+
+        if isinstance(self.method, (list, np.ndarray, set, tuple)):
+            if len(self.method) == 1:
+                if self.method[0] == &#39;all&#39;:
+                    self.method = self.all_methods.copy()
+
+            else:
+                method_list = []
+                for method in self.method:
+                    if method in self.all_methods:
+                        method_list.append(method)
+                    else:
+                        print(f&#34;WARNING! {method} is not an accepted method&#34;)
+                self.method = method_list
+        else:
+            self.method = []
+
+        if len(self.method) == 0:
+            raise Exception(&#34;No acceptable method found!&#34; + \
+            f&#34;\nChoose one out of: all, {&#39;, &#39;.join(self.all_methods)}&#34;)
+            
+
+    # Set method, and run through parse to check method validity
+    def set_method(self, value):
+        &#34;&#34;&#34;Set the method(s) to be used by self.run()
+            &gt; (str, list, set, tuple, np.ndarray)
+                &gt; &#39;all&#39; results in all methods being used;
+                &gt; multiple methods can be passed as an iterable object
+            &gt; list of all methods:
+                &gt; &#39;mut_dist&#39;
+                &gt; &#39;strain&#39;
+                &gt; &#39;shear&#39;
+                &gt; &#39;non_affine&#39;
+                &gt; &#39;ldd&#39;
+                &gt; &#39;lddt&#39;
+                &gt; &#39;neighborhood_dist&#39;
+                &gt; &#39;rmsd&#39;
+        &#34;&#34;&#34;
+        self.method = value
+        self._parse_method()
+
+
+    def save_output(self, path_out):
+        &#34;&#34;&#34;Save outputs to CSV file&#34;&#34;&#34;
+        # Load any deformation that was calculated
+        deform = {}
+        for m in self.all_methods:
+            if hasattr(self, m):
+                if m != &#39;rmsd&#39;:
+                    deform[m] = getattr(self, m)
+                else:
+                    deform[m] = self.rmsd_per_residue
+
+        # Only save output if deformation was calculated
+        if not len(deform):
+            raise Exception(&#34;ERROR! Cannot save output if there is none!&#34;)
+
+        # Add sequence indices, residue names
+        else:
+            type_names = [&#39;residue_index&#39;, &#39;protA_resname&#39;, &#39;protB_resname&#39;]
+            res_data = [np.arange(len(self.prot1.sequence)) + 1, self.prot1.sequence, self.prot2.sequence]
+            output = {k: d for k, d in zip(type_names, res_data) if not isinstance(d, type(None))}
+            ########################################
+            ### NEED TO ADD NUMBER OF NEIGHBORS
+            ########################################
+
+            output.update(deform)
+    
+            pd.DataFrame(output).to_csv(path_out, index=False)
+
+            
+    def run(self):
+        &#34;&#34;&#34;
+        Runs through all of the methods in self.method.
+
+        The output of each method, {m}, is stored in self.{m} (e.g. self.strain);
+        RMSD is stored as self.rmsd (whole protein), and as RMSD per residue, self.rmsd_per_residue
+        &#34;&#34;&#34;
+        # Calculate deformation based on the specified method
+        for method in self.method:
+            self._run_analysis(method)
+
+
+    def _run_analysis(self, method):
+        &#34;&#34;&#34;Run the analysis code for a particular method&#34;&#34;&#34;
+        analyses = {&#39;mut_dist&#39;: self.calculate_dist_from_mutation,
+                    &#39;strain&#39;: self.calculate_strain,
+                    &#39;shear&#39;: self.calculate_shear,
+                    &#39;non_affine&#39;: self.calculate_non_affine,
+                    &#39;ldd&#39;: self.calculate_ldd,
+                    &#39;lddt&#39;: self.calculate_lddt,
+                    &#39;neighborhood_dist&#39;: self.calculate_neighborhood_dist,
+                    &#39;rmsd&#39;: self.calculate_rmsd}
+        analyses[method]()
+
+
+    def _get_shared_indices(self):
+        &#34;&#34;&#34;Get shared indices between two neighborhoods&#34;&#34;&#34;
+        self.shared_indices = []
+        for i in range(self.prot1.seq_len):
+            # If no data for residue, shared indices is empty
+            if (not len(self.prot1.neigh_idx[i])) | (not len(self.prot2.neigh_idx[i])):
+                self.shared_indices.append(([], []))
+            else:
+                self.shared_indices.append(get_shared_indices(self.prot1.neigh_idx[i], self.prot2.neigh_idx[i]))
+
+
+    # Calculate distance from closest mutation
+    def calculate_dist_from_mutation(self):
+        &#34;&#34;&#34;Calcualte distance from the nearest mutated residue&#34;&#34;&#34;
+        # If none differ, then return np.nan
+        if not len(self.sub_pos):
+            print(&#34;WARNING! Trying to calculate distance from mutation, while comparing identical sequences&#34;)
+            return np.zeros(self.prot1.seq_len) * np.nan
+        
+        # Calculate mindist using the full array (inc. nan)
+        mut_dist1 = self.prot1.dist_mat[:,self.sub_pos]
+        mut_dist2 = self.prot2.dist_mat[:,self.sub_pos]
+
+        # Average the distance across both structures,
+        # and get the minimum distance per residue to a mutated position
+        self.mut_dist = np.nanmin(0.5 * (mut_dist1 + mut_dist2), axis=1)
+
+
+    def _calculate_deformation(self, deformation_method):
+        &#34;&#34;&#34;Find shared residue indices between two neighborhoods
+        and calculate deformation per residue&#34;&#34;&#34;
+        deformation = np.zeros(self.prot1.seq_len, float) * np.nan
+        if not hasattr(self, &#34;shared_indices&#34;):
+            self._get_shared_indices()
+
+        kwargs = {arg: getattr(self, arg) for arg in [&#34;force_relative&#34;, &#34;force_norm&#34;, &#34;force_absolute&#34;, &#34;force_nonorm&#34;]}
+        for i in range(self.prot1.seq_len):
+            # Get shared indices
+            i1, i2 = self.shared_indices[i]
+
+            # If no shared indices, leave np.nan
+            if not len(i1):
+                continue
+
+            deformation[i] = deformation_method(self.prot1.neigh_tensor[i][i1], self.prot2.neigh_tensor[i][i2], **kwargs)
+
+        return deformation
+
+
+    def _calculate_lddt_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate LDDT given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Get local distance vectors
+        v1 = np.linalg.norm(neigh_tensor1, axis=1)
+        v2 = np.linalg.norm(neigh_tensor2, axis=1)
+
+        # Get local distance difference vector
+        dv = v2 - v1
+
+        return np.sum([np.sum(dv&lt;=cut) for cut in self.lddt_cutoffs]) / (len(self.lddt_cutoffs) * len(dv))
+
+    def calculate_lddt(self):
+        &#34;&#34;&#34;Calculate LDDT&#34;&#34;&#34;
+        self.lddt = self._calculate_deformation(self._calculate_lddt_residue)
+
+
+    def _calculate_ldd_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate LDD given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Get local distance vectors
+        v1 = np.linalg.norm(neigh_tensor1, axis=1)
+        v2 = np.linalg.norm(neigh_tensor2, axis=1)
+
+        # Get local distance difference vector
+        dv = v2 - v1
+
+        if force_relative:
+            # Normalize LDD by distance
+            dv = dv / v1
+
+        # Calculate local distance difference 
+        if force_norm:
+            # Normalize LDD by number of neighbors
+            return np.linalg.norm(dv) / len(i1)
+        else:
+            return np.linalg.norm(dv)
+
+
+    def calculate_ldd(self):
+        &#34;&#34;&#34;Calculate LDD&#34;&#34;&#34;
+        self.ldd = self._calculate_deformation(self._calculate_ldd_residue)
+
+
+    def _calculate_nd_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate neighborhood distance given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Rotate neighbourhood tensor and calculate Euclidean distance
+        nd = np.linalg.norm(rotate_points(neigh_tensor2, neigh_tensor1) - neigh_tensor1)
+        if self.force_norm:
+            return nd / len(i1)
+        else:
+            return nd
+
+
+    def calculate_neighborhood_dist(self):
+        &#34;&#34;&#34;Calculate neighborhood_distance&#34;&#34;&#34;
+        self.neighbor_distance = self._calculate_deformation(self._calculate_nd_residue)
+
+
+    def _calculate_shear_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate shear strain given a pair of neighborhood tensors&#34;&#34;&#34;
+        u1 = neigh_tensor1
+        u2 = neigh_tensor2
+        try:
+            duu = u2 @ u2.T - u1 @ u1.T
+            uu = np.linalg.inv(u1.T @ u1) 
+            C = 0.5 * (uu @ u1.T @ duu @ u1 @ uu)
+            return 0.5 * np.sum(np.diag(C@C) - np.diag(C)**2)
+        except Exception as e:
+            print(e)
+            return np.nan
+
+
+    def calculate_shear(self):
+        &#34;&#34;&#34;Calculate shear strain&#34;&#34;&#34;
+        self.shear = self._calculate_deformation(self._calculate_shear_residue)
+
+
+    def _calculate_strain_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate effective strain given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Rotate neighbourhood tensor and calculate Euclidean distance
+        nt3 = rotate_points(neigh_tensor2, neigh_tensor1)
+        if not self.force_absolute:
+            # Divide by length to get strain
+            es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1) / np.linalg.norm(neigh_tensor1, axis=1))
+        else:
+            es = np.sum(np.linalg.norm(nt3 - neigh_tensor1, axis=1))
+
+        if not self.force_nonorm:
+            # Normalize ES by number of neighbors
+            es /= len(neigh_tensor1)
+
+        return es
+
+
+    def calculate_strain(self):
+        &#34;&#34;&#34;Calculate effective strain&#34;&#34;&#34;
+        self.strain = self._calculate_deformation(self._calculate_strain_residue)
+
+
+    def _calculate_non_affine_residue(self, neigh_tensor1, neigh_tensor2, **kwargs):
+        &#34;&#34;&#34;Calculate non-affine strain given a pair of neighborhood tensors&#34;&#34;&#34;
+        # Find the deformation gradient tensor, F
+        F, residuals = np.linalg.lstsq(neigh_tensor1, neigh_tensor2)
+        if not self.force_nonorm:
+            return np.nansum(residuals)
+        else:
+            return np.nansum(residuals) / len(neigh_tensor1)
+
+
+    def calculate_non_affine(self):
+        &#34;&#34;&#34;Calculate non-affine strain&#34;&#34;&#34;
+        self.non_affine = self._calculate_deformation(self._calculate_non_affine_residue)
+
+
+    #######################################################
+    ### Root-Mean-Square Deviation
+    ### Superimpose structures and calculate RMSD
+    def calculate_rmsd(self):
+        &#34;&#34;&#34;
+        Calculate RMSD
+
+        Cannot calculate RMSD with averaged neighborhoods,
+        so if an AverageProtein object is passsed, we simply
+        take the first Protein object and use it to calculate RMSD.
+        &#34;&#34;&#34;
+        coords = []
+        for prot in self.proteins:
+            if isinstance(prot, Protein):
+                coords.append(prot.coord)
+            elif isinstance(prot, AverageProtein):
+                coords.append(prot.proteins[0].coord)
+                print(&#34;WARNING! Trying to calculate RMSD with an AverageProtein object. &#34; + \
+                      &#34;Since this is not possible, an embedded Protein object is used instead.&#34;)
+        c1, c2 = coords
+
+        # Remove NAN values
+        idx = ~np.any(np.isnan(c1) | np.isnan(c2), axis=1)
+        c1, c2 = c1[idx], c2[idx]
+
+        c1 = c1 - np.mean(c1, axis=0).reshape(1, 3)
+        c2 = c2 - np.mean(c2, axis=0).reshape(1, 3)
+        c3 = rotate_points(c2, c1)
+
+        sd = np.sum((c1 - c3)**2, axis=1)
+        self.rmsd_per_residue = np.sqrt(sd)
+        self.rmsd = np.sqrt(np.mean(sd))</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="PDAnalysis.deformation.Deformation.calculate_dist_from_mutation"><code class="name flex">
+<span>def <span class="ident">calculate_dist_from_mutation</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calcualte distance from the nearest mutated residue</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_dist_from_mutation(self):
+    &#34;&#34;&#34;Calcualte distance from the nearest mutated residue&#34;&#34;&#34;
+    # If none differ, then return np.nan
+    if not len(self.sub_pos):
+        print(&#34;WARNING! Trying to calculate distance from mutation, while comparing identical sequences&#34;)
+        return np.zeros(self.prot1.seq_len) * np.nan
+    
+    # Calculate mindist using the full array (inc. nan)
+    mut_dist1 = self.prot1.dist_mat[:,self.sub_pos]
+    mut_dist2 = self.prot2.dist_mat[:,self.sub_pos]
+
+    # Average the distance across both structures,
+    # and get the minimum distance per residue to a mutated position
+    self.mut_dist = np.nanmin(0.5 * (mut_dist1 + mut_dist2), axis=1)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_ldd"><code class="name flex">
+<span>def <span class="ident">calculate_ldd</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate LDD</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_ldd(self):
+    &#34;&#34;&#34;Calculate LDD&#34;&#34;&#34;
+    self.ldd = self._calculate_deformation(self._calculate_ldd_residue)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_lddt"><code class="name flex">
+<span>def <span class="ident">calculate_lddt</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate LDDT</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_lddt(self):
+    &#34;&#34;&#34;Calculate LDDT&#34;&#34;&#34;
+    self.lddt = self._calculate_deformation(self._calculate_lddt_residue)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_neighborhood_dist"><code class="name flex">
+<span>def <span class="ident">calculate_neighborhood_dist</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate neighborhood_distance</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_neighborhood_dist(self):
+    &#34;&#34;&#34;Calculate neighborhood_distance&#34;&#34;&#34;
+    self.neighbor_distance = self._calculate_deformation(self._calculate_nd_residue)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_non_affine"><code class="name flex">
+<span>def <span class="ident">calculate_non_affine</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate non-affine strain</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_non_affine(self):
+    &#34;&#34;&#34;Calculate non-affine strain&#34;&#34;&#34;
+    self.non_affine = self._calculate_deformation(self._calculate_non_affine_residue)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_rmsd"><code class="name flex">
+<span>def <span class="ident">calculate_rmsd</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate RMSD</p>
+<p>Cannot calculate RMSD with averaged neighborhoods,
+so if an AverageProtein object is passsed, we simply
+take the first Protein object and use it to calculate RMSD.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_rmsd(self):
+    &#34;&#34;&#34;
+    Calculate RMSD
+
+    Cannot calculate RMSD with averaged neighborhoods,
+    so if an AverageProtein object is passsed, we simply
+    take the first Protein object and use it to calculate RMSD.
+    &#34;&#34;&#34;
+    coords = []
+    for prot in self.proteins:
+        if isinstance(prot, Protein):
+            coords.append(prot.coord)
+        elif isinstance(prot, AverageProtein):
+            coords.append(prot.proteins[0].coord)
+            print(&#34;WARNING! Trying to calculate RMSD with an AverageProtein object. &#34; + \
+                  &#34;Since this is not possible, an embedded Protein object is used instead.&#34;)
+    c1, c2 = coords
+
+    # Remove NAN values
+    idx = ~np.any(np.isnan(c1) | np.isnan(c2), axis=1)
+    c1, c2 = c1[idx], c2[idx]
+
+    c1 = c1 - np.mean(c1, axis=0).reshape(1, 3)
+    c2 = c2 - np.mean(c2, axis=0).reshape(1, 3)
+    c3 = rotate_points(c2, c1)
+
+    sd = np.sum((c1 - c3)**2, axis=1)
+    self.rmsd_per_residue = np.sqrt(sd)
+    self.rmsd = np.sqrt(np.mean(sd))</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_shear"><code class="name flex">
+<span>def <span class="ident">calculate_shear</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate shear strain</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_shear(self):
+    &#34;&#34;&#34;Calculate shear strain&#34;&#34;&#34;
+    self.shear = self._calculate_deformation(self._calculate_shear_residue)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.calculate_strain"><code class="name flex">
+<span>def <span class="ident">calculate_strain</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate effective strain</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_strain(self):
+    &#34;&#34;&#34;Calculate effective strain&#34;&#34;&#34;
+    self.strain = self._calculate_deformation(self._calculate_strain_residue)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Runs through all of the methods in self.method.</p>
+<p>The output of each method, {m}, is stored in self.{m} (e.g. self.strain);
+RMSD is stored as self.rmsd (whole protein), and as RMSD per residue, self.rmsd_per_residue</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    &#34;&#34;&#34;
+    Runs through all of the methods in self.method.
+
+    The output of each method, {m}, is stored in self.{m} (e.g. self.strain);
+    RMSD is stored as self.rmsd (whole protein), and as RMSD per residue, self.rmsd_per_residue
+    &#34;&#34;&#34;
+    # Calculate deformation based on the specified method
+    for method in self.method:
+        self._run_analysis(method)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.save_output"><code class="name flex">
+<span>def <span class="ident">save_output</span></span>(<span>self, path_out)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save outputs to CSV file</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_output(self, path_out):
+    &#34;&#34;&#34;Save outputs to CSV file&#34;&#34;&#34;
+    # Load any deformation that was calculated
+    deform = {}
+    for m in self.all_methods:
+        if hasattr(self, m):
+            if m != &#39;rmsd&#39;:
+                deform[m] = getattr(self, m)
+            else:
+                deform[m] = self.rmsd_per_residue
+
+    # Only save output if deformation was calculated
+    if not len(deform):
+        raise Exception(&#34;ERROR! Cannot save output if there is none!&#34;)
+
+    # Add sequence indices, residue names
+    else:
+        type_names = [&#39;residue_index&#39;, &#39;protA_resname&#39;, &#39;protB_resname&#39;]
+        res_data = [np.arange(len(self.prot1.sequence)) + 1, self.prot1.sequence, self.prot2.sequence]
+        output = {k: d for k, d in zip(type_names, res_data) if not isinstance(d, type(None))}
+        ########################################
+        ### NEED TO ADD NUMBER OF NEIGHBORS
+        ########################################
+
+        output.update(deform)
+
+        pd.DataFrame(output).to_csv(path_out, index=False)</code></pre>
+</details>
+</dd>
+<dt id="PDAnalysis.deformation.Deformation.set_method"><code class="name flex">
+<span>def <span class="ident">set_method</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the method(s) to be used by self.run()</p>
+<blockquote>
+<p>(str, list, set, tuple, np.ndarray)
+&gt; 'all' results in all methods being used;
+&gt; multiple methods can be passed as an iterable object
+list of all methods:
+&gt; 'mut_dist'
+&gt; 'strain'
+&gt; 'shear'
+&gt; 'non_affine'
+&gt; 'ldd'
+&gt; 'lddt'
+&gt; 'neighborhood_dist'
+&gt; 'rmsd'</p>
+</blockquote></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_method(self, value):
+    &#34;&#34;&#34;Set the method(s) to be used by self.run()
+        &gt; (str, list, set, tuple, np.ndarray)
+            &gt; &#39;all&#39; results in all methods being used;
+            &gt; multiple methods can be passed as an iterable object
+        &gt; list of all methods:
+            &gt; &#39;mut_dist&#39;
+            &gt; &#39;strain&#39;
+            &gt; &#39;shear&#39;
+            &gt; &#39;non_affine&#39;
+            &gt; &#39;ldd&#39;
+            &gt; &#39;lddt&#39;
+            &gt; &#39;neighborhood_dist&#39;
+            &gt; &#39;rmsd&#39;
+    &#34;&#34;&#34;
+    self.method = value
+    self._parse_method()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="PDAnalysis" href="index.html">PDAnalysis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="PDAnalysis.deformation.Deformation" href="#PDAnalysis.deformation.Deformation">Deformation</a></code></h4>
+<ul class="">
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_dist_from_mutation" href="#PDAnalysis.deformation.Deformation.calculate_dist_from_mutation">calculate_dist_from_mutation</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_ldd" href="#PDAnalysis.deformation.Deformation.calculate_ldd">calculate_ldd</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_lddt" href="#PDAnalysis.deformation.Deformation.calculate_lddt">calculate_lddt</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_neighborhood_dist" href="#PDAnalysis.deformation.Deformation.calculate_neighborhood_dist">calculate_neighborhood_dist</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_non_affine" href="#PDAnalysis.deformation.Deformation.calculate_non_affine">calculate_non_affine</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_rmsd" href="#PDAnalysis.deformation.Deformation.calculate_rmsd">calculate_rmsd</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_shear" href="#PDAnalysis.deformation.Deformation.calculate_shear">calculate_shear</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.calculate_strain" href="#PDAnalysis.deformation.Deformation.calculate_strain">calculate_strain</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.run" href="#PDAnalysis.deformation.Deformation.run">run</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.save_output" href="#PDAnalysis.deformation.Deformation.save_output">save_output</a></code></li>
+<li><code><a title="PDAnalysis.deformation.Deformation.set_method" href="#PDAnalysis.deformation.Deformation.set_method">set_method</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
