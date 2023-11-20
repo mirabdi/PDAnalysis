@@ -70,7 +70,7 @@ if __name__ == "__main__":
     }
 
     setup(name='PDAnalysis',
-          version="0.0.2",
+          version="0.0.3",
           description='Software for analysing deformation between protein structures.',
           long_description=LONG_DESCRIPTION,
           long_description_content_type='text/markdown',
