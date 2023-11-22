@@ -119,7 +119,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## Acknowledgments
 
-* If you use PDAnalysis in your work, please cite [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A., & Tlusty, T. (2023), AlphaFold2 can predict single-mutation effects, Phys. Rev. Lett. 131 (21)]([https://www.biorxiv.org/content/10.1101/2022.04.14.488301v5](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.131.218401)).
+* If you use PDAnalysis in your work, please cite [McBride, J. M., Polev, K., Abdirasulov, A., Reinharz, V., Grzybowski, B. A., & Tlusty, T. (2023), AlphaFold2 can predict single-mutation effects, Phys. Rev. Lett. 131 (21)](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.131.218401).
 * If using LDDT, please cite [Mariani, Valerio, Marco Biasini, Alessandro Barbato, and
 Torsten Schwede (2013), lDDT: a local superposition-free score for comparing protein structures and models using distance difference tests, Bioinformatics 29 (21), 2722–2728](https://arxiv.org/abs/https://academic.oup.com/bioinformatics/article-pdf/29/21/2722/18533347/btt473.pdf).
 * The code for Shear Strain was provided by Jacques Rougemont. If using this method, please cite [Eckmann, J P, J. Rougemont, and T. Tlusty (2019), Colloquium: Proteins: The physics of amorphous evolving matter, Rev. Mod. Phys. 91, 031001](https://journals.aps.org/rmp/abstract/10.1103/RevModPhys.91.031001).
