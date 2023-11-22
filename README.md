@@ -5,7 +5,7 @@ Python package for calculating deformation between protein structures.
 Code is still actively being developed, but should work for most cases. If you encounter any problems, either post an [Issue](https://github.com/mirabdi/af2-analysis-code/issues) or send an email to [John McBride](mailto:jmmcbride@protonmail.com).
 
 
-Documentation for PDAnalysis can be found [here](https://pdanalysis.readthedocs.io/en/latest/)
+Documentation for PDAnalysis can be found [here](https://pdanalysis.readthedocs.io/en/stable/)
 
 ## Description
 
